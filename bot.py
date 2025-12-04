@@ -1,0 +1,592 @@
+"""
+Telegram бот для управления дедлайнами.
+
+Основные команды:
+- /start - регистрация пользователя
+- /help - справка
+- /register - привязка email/ника к Telegram аккаунту
+- /my_deadlines - показать личные дедлайны
+- /subscribe - подписка/отписка от уведомлений
+"""
+
+import asyncio
+import logging
+import os
+import sys
+from datetime import UTC, datetime
+
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from aiogram import Bot, Dispatcher, Router
+from aiogram.filters import Command
+from aiogram.types import Message
+from dotenv import load_dotenv
+
+from db import init_db
+from notifications import check_and_notify_deadlines
+from services import (
+    format_deadline,
+    get_or_create_user,
+    get_user_by_telegram_id,
+    get_user_deadlines,
+    get_user_subscription,
+    toggle_subscription,
+    update_user_email,
+)
+from sync_deadlines import sync_all_deadlines, sync_user_deadlines
+
+# Настройка логирования
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+)
+logger = logging.getLogger(__name__)
+
+# Загружаем переменные окружения
+load_dotenv()
+
+# Получаем токен бота
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+if not TELEGRAM_BOT_TOKEN:
+    logger.error("TELEGRAM_BOT_TOKEN не задан в переменных окружения!")
+    sys.exit(1)
+
+# Получаем интервал обновления из переменных окружения (по умолчанию 30 минут)
+UPDATE_INTERVAL_MINUTES = int(os.getenv("UPDATE_INTERVAL_MINUTES", "30"))
+
+# Инициализация бота и диспетчера
+bot = Bot(token=TELEGRAM_BOT_TOKEN)
+dp = Dispatcher()
+router = Router()
+
+# Инициализация планировщика
+scheduler = AsyncIOScheduler()
+
+
+def escape_markdown(text: str) -> str:
+    """
+    Экранировать специальные символы Markdown в тексте.
+    
+    Args:
+        text: Текст для экранирования
+        
+    Returns:
+        Экранированный текст
+    """
+    # Символы, которые нужно экранировать в Markdown
+    special_chars = ['_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!']
+    for char in special_chars:
+        text = text.replace(char, '\\' + char)
+    return text
+
+
+@router.message(Command("start"))
+async def cmd_start(message: Message) -> None:
+    """Обработчик команды /start - регистрация пользователя."""
+    try:
+        user = get_or_create_user(
+            telegram_id=message.from_user.id,
+            username=message.from_user.username,
+        )
+
+        user_info = []
+        if user.email:
+            user_info.append(f"📧 Email: {user.email}")
+        if user.username:
+            user_info.append(f"👤 Ник: {user.username}")
+
+        user_info_str = " (" + ", ".join(user_info) + ")" if user_info else ""
+
+        # Определяем статус регистрации
+        if user.username:
+            status_text = f"Статус: зарегистрирован{user_info_str}"
+        else:
+            status_text = "Статус: зарегистрирован (требуется привязать ник для получения дедлайнов)"
+
+        welcome_text = (
+            f"👋 Привет, {message.from_user.first_name or 'пользователь'}!\n\n"
+            f"Я бот для управления дедлайнами из Yonote.\n\n"
+            f"Твой ID в системе: {user.id}\n"
+            f"Telegram ID: {user.telegram_id}\n"
+            f"{status_text}\n\n"
+        )
+
+        welcome_text += (
+            "Доступные команды:\n"
+            "/help - справка по командам\n"
+            "/register - привязать ник\n"
+            "/logout - отписаться от уведомлений и сбросить данные\n"
+            "/my_deadlines - показать мои дедлайны\n"
+            "/subscribe - управление подписками"
+        )
+
+        await message.answer(welcome_text)
+        logger.info(f"Пользователь {user.telegram_id} зарегистрирован/обновлён")
+    except Exception as e:
+        logger.error(f"Ошибка при регистрации пользователя: {e}", exc_info=True)
+        await message.answer("❌ Произошла ошибка при регистрации. Попробуйте позже.")
+
+
+@router.message(Command("help"))
+async def cmd_help(message: Message) -> None:
+    """Обработчик команды /help - справка."""
+    help_text = (
+        "📚 *Справка по командам бота*\n\n"
+        "*/start* - Регистрация в системе\n"
+        "*/help* - Показать эту справку\n"
+        "*/register* - Привязать ник к аккаунту\n"
+        "   Использование: `/register username`\n"
+        "*/logout* - Отписаться от уведомлений и сбросить данные\n"
+        "*/my_deadlines* - Показать все ваши дедлайны\n"
+        "*/sync* - Синхронизировать дедлайны из Yonote вручную\n"
+        "*/subscribe* - Включить/выключить уведомления о дедлайнах\n\n"
+        "💡 *Совет*: После регистрации привяжите ваш ник, "
+        "чтобы получать персональные дедлайны. Используйте /sync для немедленной синхронизации."
+    )
+    await message.answer(help_text, parse_mode="Markdown")
+
+
+@router.message(Command("register"))
+async def cmd_register(message: Message) -> None:
+    """Обработчик команды /register - привязка ника."""
+    try:
+        # Получаем аргументы команды
+        command_args = message.text.split(maxsplit=1) if message.text else []
+        if len(command_args) < 2:
+            await message.answer(
+                "❌ Укажите ник для привязки.\n\n"
+                "Пример:\n"
+                "`/register username`",
+                parse_mode="Markdown",
+            )
+            return
+
+        # Прячем @ если пользователь ввел его
+        identifier = command_args[1].strip().lstrip('@')
+
+        user = get_user_by_telegram_id(message.from_user.id)
+        if not user:
+            await message.answer(
+                "❌ Вы не зарегистрированы. Сначала выполните команду /start"
+            )
+            return
+
+        # Сохраняем в username
+        user.username = identifier
+        from db import SessionLocal
+
+        session = SessionLocal()
+        try:
+            session.add(user)
+            session.commit()
+            await message.answer(
+                f"✅ Ник успешно привязан: {identifier}\n\n"
+                f"Теперь вы будете получать дедлайны, связанные с этим ником."
+            )
+            logger.info(f"Пользователь {user.telegram_id} привязал ник: {identifier}")
+        finally:
+            session.close()
+
+    except Exception as e:
+        logger.error(f"Ошибка при регистрации ника: {e}", exc_info=True)
+        await message.answer("❌ Произошла ошибка. Попробуйте позже.")
+
+
+@router.message(Command("my_deadlines"))
+async def cmd_my_deadlines(message: Message) -> None:
+    """Обработчик команды /my_deadlines - показать дедлайны пользователя."""
+    try:
+        user = get_user_by_telegram_id(message.from_user.id)
+        if not user:
+            await message.answer(
+                "❌ Вы не зарегистрированы. Сначала выполните команду /start"
+            )
+            return
+
+        # Проверяем, что пользователь зарегистрировал ник для Yonote
+        if not user.username:
+            await message.answer(
+                "❌ Вы не зарегистрировали ник для получения дедлайнов.\n\n"
+                "💡 Используйте команду `/register your_yonote_nickname`, "
+                "чтобы привязать ваш ник из Yonote и получить доступ к дедлайнам.",
+                parse_mode="Markdown"
+            )
+            return
+
+        # Автоматически синхронизируем дедлайны перед отображением (чтобы показать самые свежие данные)
+        try:
+            from sync_deadlines import sync_user_deadlines
+            created, updated = await sync_user_deadlines(user)
+            logger.info(f"Автоматическая синхронизация для пользователя {user.id}: создано {created}, обновлено {updated}")
+        except Exception as sync_error:
+            logger.error(f"Ошибка при авто-синхронизации: {sync_error}", exc_info=True)
+            # Продолжаем работу даже если автосинхронизация не удалась, чтобы показать имеющиеся данные
+
+        deadlines = get_user_deadlines(user.id, status="active", only_future=True, include_no_date=True)
+
+        # Дополнительная фильтрация прошедших дедлайнов на уровне Python
+        # (на случай, если в БД есть проблемы с часовыми поясами)
+        now = datetime.now(UTC)
+        filtered_deadlines = []
+        for d in deadlines:
+            # Включаем дедлайны без даты (они уже отфильтрованы в get_user_deadlines если нужно)
+            if d.due_date is None:
+                filtered_deadlines.append(d)  # Добавляем дедлайны без даты
+                continue
+
+            # Убеждаемся, что дата имеет timezone (если нет - добавляем UTC)
+            due_date = d.due_date
+            if due_date.tzinfo is None:
+                due_date = due_date.replace(tzinfo=UTC)
+                logger.debug(f"Дедлайн '{d.title}' без timezone - добавлен UTC")
+
+            if due_date < now:
+                logger.info(f"Дедлайн '{d.title}' прошел ({due_date} < {now}) - пропускаем")
+                continue
+            filtered_deadlines.append(d)
+        deadlines = filtered_deadlines
+
+        if not deadlines:
+            user_info = []
+            if user.email:
+                user_info.append(f"📧 Email: {user.email}")
+            if user.username:
+                user_info.append(f"👤 Ник: {user.username}")
+
+            info_text = "\n".join(user_info) if user_info else "не задан"
+
+            await message.answer(
+                "📭 У вас пока нет активных дедлайнов.\n\n"
+                f"Ваш идентификатор: {info_text}\n\n"
+                "💡 Попробуйте:\n"
+                "• Использовать команду /sync для ручной синхронизации\n"
+                "• Убедиться, что в Yonote есть дедлайны для вашего аккаунта\n\n"
+                "Дедлайны также автоматически синхронизируются каждые 30 минут."
+            )
+            return
+
+        # Формируем сообщение с дедлайнами
+        response_lines = [f"📋 *Ваши дедлайны ({len(deadlines)}):*\n"]
+
+        for i, deadline in enumerate(deadlines, 1):
+            # Экранируем заголовок дедлайна
+            escaped_title = escape_markdown(deadline.title)
+            response_lines.append(f"\n*{i}. {escaped_title}*")
+            if deadline.due_date:
+                due_date_str = deadline.due_date.strftime("%d.%m.%Y %H:%M")
+                response_lines.append(f"⏰ {due_date_str}")
+            if deadline.description:
+                desc = deadline.description[:100] + "..." if len(deadline.description) > 100 else deadline.description
+                escaped_desc = escape_markdown(desc)
+                response_lines.append(f"📝 {escaped_desc}")
+
+        # Добавляем информацию внизу того же сообщения
+        user_nick = user.username or user.email or "не указан"
+        escaped_nick = escape_markdown(user_nick)
+
+        # Определяем, есть ли дедлайны с датой и какие даты ближайшие
+        deadlines_with_date = [d for d in deadlines if d.due_date]
+
+        response_lines.append("\n" + "─" * 20)
+        response_lines.append(f"👤 *Ник:* {escaped_nick}")
+
+        if deadlines_with_date:
+            # Показываем ближайший дедлайн с датой
+            nearest_deadline = min(deadlines_with_date, key=lambda d: d.due_date)
+            due_date_str = nearest_deadline.due_date.strftime("%d.%m.%Y %H:%M")
+            response_lines.append(f"📅 *Ближайший дедлайн:* {due_date_str}")
+        else:
+            response_lines.append(f"📅 *Дедлайн:* нет точной даты")
+
+        response_lines.append(f"🎵 *Песня:* -")
+        response_lines.append("")
+        response_lines.append("⚠️ Если что-то не успеваете — пишите админам")
+
+        response_text = "\n".join(response_lines)
+
+        # Telegram имеет лимит на длину сообщения (4096 символов)
+        if len(response_text) > 4000:
+            # Разбиваем на несколько сообщений, но стараемся сохранить footer в последнем
+            chunk = []
+            chunk_length = 0
+            footer_lines = response_lines[-5:]  # Последние 5 строк (разделитель + информация)
+            main_lines = response_lines[:-5]   # Основной список дедлайнов
+            
+            # Сначала отправляем основной список
+            for line in main_lines:
+                line_length = len(line) + 1
+                if chunk_length + line_length > 3800:  # Оставляем место для footer
+                    await message.answer("\n".join(chunk), parse_mode="Markdown")
+                    chunk = [line]
+                    chunk_length = line_length
+                else:
+                    chunk.append(line)
+                    chunk_length += line_length
+            
+            # Добавляем footer к последнему chunk или отправляем отдельно
+            footer_text = "\n".join(footer_lines)
+            if chunk_length + len(footer_text) < 4000:
+                chunk.extend(footer_lines)
+                await message.answer("\n".join(chunk), parse_mode="Markdown")
+            else:
+                if chunk:
+                    await message.answer("\n".join(chunk), parse_mode="Markdown")
+                await message.answer(footer_text, parse_mode="Markdown")
+        else:
+            await message.answer(response_text, parse_mode="Markdown")
+
+        logger.info(f"Пользователь {user.telegram_id} запросил список дедлайнов: {len(deadlines)} шт.")
+
+    except Exception as e:
+        logger.error(f"Ошибка при получении дедлайнов: {e}", exc_info=True)
+        await message.answer("❌ Произошла ошибка при получении дедлайнов. Попробуйте позже.")
+
+
+@router.message(Command("subscribe"))
+async def cmd_subscribe(message: Message) -> None:
+    """Обработчик команды /subscribe - управление подписками."""
+    try:
+        user = get_user_by_telegram_id(message.from_user.id)
+        if not user:
+            await message.answer(
+                "❌ Вы не зарегистрированы. Сначала выполните команду /start"
+            )
+            return
+
+        # Проверяем, что пользователь зарегистрировал ник для Yonote
+        if not user.username:
+            await message.answer(
+                "❌ Вы не зарегистрировали ник для получения дедлайнов.\n\n"
+                "💡 Используйте команду `/register your_yonote_nickname`, "
+                "чтобы привязать ваш ник из Yonote и получить доступ к уведомлениям.",
+                parse_mode="Markdown"
+            )
+            return
+
+        subscription = toggle_subscription(user.id, notification_type="telegram")
+
+        if subscription.active:
+            status_text = "✅ Уведомления включены"
+            action_text = "Вы будете получать уведомления о приближающихся дедлайнах."
+        else:
+            status_text = "🔕 Уведомления выключены"
+            action_text = "Вы больше не будете получать уведомления."
+
+        await message.answer(
+            f"{status_text}\n\n{action_text}\n\n"
+            f"Используйте команду /subscribe снова, чтобы изменить настройки."
+        )
+
+        logger.info(
+            f"Пользователь {user.telegram_id} {'включил' if subscription.active else 'выключил'} подписку"
+        )
+
+    except Exception as e:
+        logger.error(f"Ошибка при изменении подписки: {e}", exc_info=True)
+        await message.answer("❌ Произошла ошибка. Попробуйте позже.")
+
+
+@router.message(Command("logout"))
+async def cmd_logout(message: Message) -> None:
+    """Обработчик команды /logout - удаление данных пользователя."""
+    try:
+        user = get_user_by_telegram_id(message.from_user.id)
+        if not user:
+            await message.answer(
+                "❌ Вы не зарегистрированы. Нечего удалять."
+            )
+            return
+
+        user_info = []
+        if user.email:
+            user_info.append(f"📧 Email: {user.email}")
+        if user.username:
+            user_info.append(f"👤 Ник: {user.username}")
+
+        user_info_str = ", ".join(user_info)
+        if user_info_str:
+            user_info_str = f" ({user_info_str})"
+
+        # Удаляем пользователя из базы (каскадно удалятся дедлайны и подписки)
+        from services import delete_user
+        success = delete_user(user.id)
+
+        if success:
+            await message.answer(
+                f"✅ Вы успешно отписались от уведомлений и сбросили данные{user_info_str}.\n\n"
+                f"Все ваши данные были удалены из системы."
+            )
+            logger.info(f"Пользователь {user.telegram_id} вышел из системы")
+        else:
+            await message.answer("❌ Произошла ошибка при удалении данных.")
+            logger.error(f"Ошибка при удалении пользователя {user.telegram_id}")
+
+    except Exception as e:
+        logger.error(f"Ошибка при выходе из системы: {e}", exc_info=True)
+        await message.answer("❌ Произошла ошибка. Попробуйте позже.")
+
+
+@router.message(Command("sync"))
+async def cmd_sync(message: Message) -> None:
+    """Обработчик команды /sync - ручная синхронизация дедлайнов."""
+    try:
+        user = get_user_by_telegram_id(message.from_user.id)
+        if not user:
+            await message.answer(
+                "❌ Вы не зарегистрированы. Сначала выполните команду /start"
+            )
+            return
+
+        # Проверяем, что пользователь зарегистрировал ник для Yonote
+        if not user.username:
+            await message.answer(
+                "❌ Вы не зарегистрировали ник для получения дедлайнов.\n\n"
+                "💡 Используйте команду `/register your_yonote_nickname`, "
+                "чтобы привязать ваш ник из Yonote и синхронизировать дедлайны.",
+                parse_mode="Markdown"
+            )
+            return
+
+        await message.answer("🔄 Начинаю синхронизацию дедлайнов из Yonote...")
+
+        # Синхронизируем дедлайны для текущего пользователя
+        created, updated = await sync_user_deadlines(user)
+
+        result_text = (
+            f"✅ Синхронизация завершена!\n\n"
+            f"📊 Статистика:\n"
+            f"• Создано новых дедлайнов: {created}\n"
+            f"• Обновлено дедлайнов: {updated}\n\n"
+        )
+
+        if created == 0 and updated == 0:
+            result_text += (
+                "💡 Если дедлайны не появились, проверьте:\n"
+                "• Есть ли дедлайны в Yonote для вашего аккаунта\n"
+                "• Настройки YONOTE_CALENDAR_ID в .env"
+            )
+
+        await message.answer(result_text)
+        logger.info(
+            f"Пользователь {user.telegram_id} выполнил ручную синхронизацию: "
+            f"создано {created}, обновлено {updated}"
+        )
+
+    except Exception as e:
+        logger.error(f"Ошибка при синхронизации: {e}", exc_info=True)
+        await message.answer(
+            f"❌ Ошибка при синхронизации: {e}\n\n"
+            "Проверьте логи бота для подробностей."
+        )
+
+
+@router.message()
+async def handle_unknown(message: Message) -> None:
+    """Обработчик неизвестных сообщений."""
+    await message.answer(
+        "❓ Неизвестная команда.\n\n"
+        "Используйте /help для просмотра доступных команд."
+    )
+
+
+async def scheduled_sync() -> None:
+    """Периодическая синхронизация дедлайнов из Yonote."""
+    try:
+        logger.info("Начало синхронизации дедлайнов из Yonote...")
+        stats = await sync_all_deadlines()
+        logger.info(
+            f"Синхронизация завершена: пользователей {stats['total_users']}, "
+            f"создано {stats['created']}, обновлено {stats['updated']}"
+        )
+    except Exception as e:
+        logger.error(f"Ошибка при синхронизации дедлайнов: {e}", exc_info=True)
+
+
+async def scheduled_notifications() -> None:
+    """Периодическая проверка и отправка уведомлений."""
+    try:
+        logger.info("Начало проверки уведомлений...")
+        stats = await check_and_notify_deadlines(bot)
+        logger.info(
+            f"Проверка уведомлений завершена: "
+            f"пользователей уведомлено {stats['users_notified']}, "
+            f"отправлено уведомлений {stats['notifications_sent']}"
+        )
+    except Exception as e:
+        logger.error(f"Ошибка при проверке уведомлений: {e}", exc_info=True)
+
+
+async def scheduled_clean_expired() -> None:
+    """Периодическая очистка просроченных дедлайнов."""
+    try:
+        logger.info("Начало очистки просроченных дедлайнов...")
+        from services import delete_expired_deadlines
+        count = delete_expired_deadlines()
+        logger.info(f"Очистка завершена: удалено {count} дедлайнов")
+    except Exception as e:
+        logger.error(f"Ошибка при очистке просроченных дедлайнов: {e}", exc_info=True)
+
+
+async def main() -> None:
+    """Главная функция запуска бота."""
+    # Инициализируем БД
+    logger.info("Инициализация базы данных...")
+    init_db()
+    logger.info("База данных инициализирована")
+
+    # Регистрируем роутер
+    dp.include_router(router)
+
+    # Настраиваем планировщик
+    # Синхронизация дедлайнов каждые UPDATE_INTERVAL_MINUTES минут
+    scheduler.add_job(
+        scheduled_sync,
+        "interval",
+        minutes=UPDATE_INTERVAL_MINUTES,
+        id="sync_deadlines",
+        name="Синхронизация дедлайнов из Yonote",
+        replace_existing=True,
+    )
+
+    # Проверка уведомлений каждый час
+    scheduler.add_job(
+        scheduled_notifications,
+        "interval",
+        hours=1,
+        id="check_notifications",
+        name="Проверка и отправка уведомлений",
+        replace_existing=True,
+    )
+
+    # Очистка просроченных дедлайнов раз в день
+    scheduler.add_job(
+        scheduled_clean_expired,
+        "interval",
+        hours=24,
+        id="clean_expired",
+        name="Очистка просроченных дедлайнов",
+        replace_existing=True,
+    )
+
+    # Запускаем планировщик
+    scheduler.start()
+    logger.info(f"Планировщик запущен: синхронизация каждые {UPDATE_INTERVAL_MINUTES} мин, уведомления каждый час, очистка просроченных раз в день")
+
+    # Запускаем бота
+    logger.info("Запуск бота...")
+    try:
+        await dp.start_polling(bot)
+    finally:
+        # Останавливаем планировщик при завершении
+        scheduler.shutdown()
+        logger.info("Планировщик остановлен")
+
+
+if __name__ == "__main__":
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        logger.info("Бот остановлен пользователем")
+    except Exception as e:
+        logger.error(f"Критическая ошибка: {e}", exc_info=True)
+        sys.exit(1)
+
