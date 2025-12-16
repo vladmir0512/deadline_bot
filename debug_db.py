@@ -2,11 +2,31 @@
 """
 Debug script to check database contents and user deadlines
 """
+import os
 import sqlite3
 from datetime import datetime
+from pathlib import Path
 
 def debug_database():
-    conn = sqlite3.connect("deadlines.db")
+    # Получаем путь к БД из переменной окружения или используем значение по умолчанию
+    db_url = os.getenv("DATABASE_URL")
+    
+    if not db_url:
+        # По умолчанию используем ../data/моя_база.db
+        default_db_path = Path(__file__).parent.parent / "data" / "моя_база.db"
+        db_path = str(default_db_path.resolve())
+    elif db_url.startswith("sqlite:///"):
+        db_path = db_url.replace("sqlite:///", "")
+        # Если это относительный путь, преобразуем в абсолютный
+        if not os.path.isabs(db_path):
+            db_path = str(Path(db_path).resolve())
+        # В Windows пути могут содержать обратные слеши, оставляем как есть для sqlite3.connect
+    else:
+        print(f"[ERROR] Неподдерживаемый формат БД: {db_url}")
+        return
+    
+    print(f"[INFO] Подключение к БД: {db_path}")
+    conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
     
     print("=== USERS ===")
