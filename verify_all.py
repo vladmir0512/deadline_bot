@@ -28,10 +28,10 @@ def check_database_connection() -> bool:
 
         with engine.connect() as conn:
             conn.execute(text("SELECT 1"))
-        print("✓ Подключение к БД успешно")
+        print("[OK] Подключение к БД успешно")
         return True
     except Exception as e:
-        print(f"✗ Ошибка подключения к БД: {e}")
+        print(f"[ERROR] Ошибка подключения к БД: {e}")
         return False
 
 
@@ -48,14 +48,14 @@ def check_database_tables() -> bool:
 
         missing = required_tables - set(tables)
         if missing:
-            print(f"✗ Отсутствуют таблицы: {missing}")
+            print(f"[ERROR] Отсутствуют таблицы: {missing}")
             print("  Попробуйте запустить: python init_db.py")
             return False
 
-        print(f"✓ Все таблицы на месте: {', '.join(required_tables)}")
+        print(f"[OK] Все таблицы на месте: {', '.join(required_tables)}")
         return True
     except Exception as e:
-        print(f"✗ Ошибка проверки таблиц: {e}")
+        print(f"[ERROR] Ошибка проверки таблиц: {e}")
         return False
 
 
@@ -65,6 +65,10 @@ def check_database_operations() -> bool:
     print("3. Проверка операций с БД (CRUD)...")
     session = SessionLocal()
     try:
+        # На всякий случай чистим старого тестового пользователя по telegram_id
+        session.query(User).filter_by(telegram_id=999999999).delete()
+        session.commit()
+
         # Создание пользователя
         test_user = User(
             telegram_id=999999999,
@@ -74,7 +78,7 @@ def check_database_operations() -> bool:
         session.add(test_user)
         session.commit()
         session.refresh(test_user)
-        print(f"✓ Пользователь создан: id={test_user.id}, telegram_id={test_user.telegram_id}")
+        print(f"[OK] Пользователь создан: id={test_user.id}, telegram_id={test_user.telegram_id}")
 
         # Создание дедлайна
         test_deadline = Deadline(
@@ -88,7 +92,7 @@ def check_database_operations() -> bool:
         session.add(test_deadline)
         session.commit()
         session.refresh(test_deadline)
-        print(f"✓ Дедлайн создан: id={test_deadline.id}, title={test_deadline.title}")
+        print(f"[OK] Дедлайн создан: id={test_deadline.id}, title={test_deadline.title}")
 
         # Создание подписки
         test_subscription = Subscription(
@@ -99,7 +103,7 @@ def check_database_operations() -> bool:
         session.add(test_subscription)
         session.commit()
         session.refresh(test_subscription)
-        print(f"✓ Подписка создана: id={test_subscription.id}, type={test_subscription.notification_type}")
+        print(f"[OK] Подписка создана: id={test_subscription.id}, type={test_subscription.notification_type}")
 
         # Чтение данных
         loaded_user = session.query(User).filter_by(id=test_user.id).first()
@@ -110,25 +114,25 @@ def check_database_operations() -> bool:
         assert len(loaded_deadlines) > 0, "Дедлайны не найдены"
         assert len(loaded_subscriptions) > 0, "Подписки не найдены"
 
-        print(f"✓ Данные успешно прочитаны: {len(loaded_deadlines)} дедлайнов, {len(loaded_subscriptions)} подписок")
+        print(f"[OK] Данные успешно прочитаны: {len(loaded_deadlines)} дедлайнов, {len(loaded_subscriptions)} подписок")
 
         # Обновление данных
         test_deadline.status = DeadlineStatus.COMPLETED
         session.commit()
         session.refresh(test_deadline)
         assert test_deadline.status == DeadlineStatus.COMPLETED, "Обновление не сработало"
-        print("✓ Обновление данных работает")
+        print("[OK] Обновление данных работает")
 
         # Удаление тестовых данных
         session.delete(test_deadline)
         session.delete(test_subscription)
         session.delete(test_user)
         session.commit()
-        print("✓ Тестовые данные удалены")
+        print("[OK] Тестовые данные удалены")
 
         return True
     except Exception as e:
-        print(f"✗ Ошибка операций с БД: {e}")
+        print(f"[ERROR] Ошибка операций с БД: {e}")
         import traceback
 
         traceback.print_exc()
@@ -149,7 +153,7 @@ def check_models_structure() -> bool:
         assert hasattr(User, "email"), "User должен иметь поле email"
         assert hasattr(User, "deadlines"), "User должен иметь связь deadlines"
         assert hasattr(User, "subscriptions"), "User должен иметь связь subscriptions"
-        print("✓ Модель User корректна")
+        print("[OK] Модель User корректна")
 
         # Проверка Deadline
         assert hasattr(Deadline, "user_id"), "Deadline должен иметь поле user_id"
@@ -157,23 +161,23 @@ def check_models_structure() -> bool:
         assert hasattr(Deadline, "due_date"), "Deadline должен иметь поле due_date"
         assert hasattr(Deadline, "status"), "Deadline должен иметь поле status"
         assert hasattr(Deadline, "source"), "Deadline должен иметь поле source"
-        print("✓ Модель Deadline корректна")
+        print("[OK] Модель Deadline корректна")
 
         # Проверка Subscription
         assert hasattr(Subscription, "user_id"), "Subscription должен иметь поле user_id"
         assert hasattr(Subscription, "notification_type"), "Subscription должен иметь поле notification_type"
         assert hasattr(Subscription, "active"), "Subscription должен иметь поле active"
-        print("✓ Модель Subscription корректна")
+        print("[OK] Модель Subscription корректна")
 
         # Проверка DeadlineStatus
         assert DeadlineStatus.ACTIVE == "active", "DeadlineStatus.ACTIVE должен быть 'active'"
         assert DeadlineStatus.COMPLETED == "completed", "DeadlineStatus.COMPLETED должен быть 'completed'"
         assert DeadlineStatus.CANCELED == "canceled", "DeadlineStatus.CANCELED должен быть 'canceled'"
-        print("✓ DeadlineStatus корректна")
+        print("[OK] DeadlineStatus корректна")
 
         return True
     except Exception as e:
-        print(f"✗ Ошибка проверки моделей: {e}")
+        print(f"[ERROR] Ошибка проверки моделей: {e}")
         return False
 
 
@@ -185,7 +189,7 @@ def check_yonote_client_config() -> bool:
         from yonote_client import YonoteClient, YonoteClientError
 
         # Проверка импорта
-        print("✓ Модуль yonote_client импортирован успешно")
+        print("[OK] Модуль yonote_client импортирован успешно")
 
         # Проверка переменных окружения
         api_key = os.getenv("YONOTE_API_KEY")
@@ -203,7 +207,7 @@ def check_yonote_client_config() -> bool:
         # Попытка создать клиент
         try:
             client = YonoteClient()
-            print("✓ YonoteClient создан успешно")
+            print("[OK] YonoteClient создан успешно")
         except YonoteClientError as e:
             print(f"  ⚠ Не удалось создать YonoteClient: {e}")
             print("  (Это нормально, если API ключ неверный или не настроен)")
@@ -211,10 +215,10 @@ def check_yonote_client_config() -> bool:
 
         return True
     except ImportError as e:
-        print(f"✗ Ошибка импорта yonote_client: {e}")
+        print(f"[ERROR] Ошибка импорта yonote_client: {e}")
         return False
     except Exception as e:
-        print(f"✗ Ошибка проверки Yonote клиента: {e}")
+        print(f"[ERROR] Ошибка проверки Yonote клиента: {e}")
         return False
 
 
@@ -229,9 +233,9 @@ def check_environment_variables() -> bool:
 
         # Проверка наличия .env файла
         if os.path.exists(".env"):
-            print("✓ Файл .env найден")
+            print("[OK] Файл .env найден")
         else:
-            print("  ⚠ Файл .env не найден (можно создать вручную)")
+            print("[WARN] Файл .env не найден (можно создать вручную)")
 
         # Проверка важных переменных
         database_url = os.getenv("DATABASE_URL", "sqlite:///deadlines.db")
@@ -245,7 +249,7 @@ def check_environment_variables() -> bool:
 
         return True
     except Exception as e:
-        print(f"✗ Ошибка проверки переменных окружения: {e}")
+        print(f"[ERROR] Ошибка проверки переменных окружения: {e}")
         return False
 
 
@@ -255,17 +259,17 @@ def check_dependencies() -> bool:
     print("7. Проверка зависимостей...")
     try:
         import aiogram
-        print(f"✓ aiogram {aiogram.__version__}")
+        print(f"[OK] aiogram {aiogram.__version__}")
 
         import sqlalchemy
-        print(f"✓ SQLAlchemy {sqlalchemy.__version__}")
+        print(f"[OK] SQLAlchemy {sqlalchemy.__version__}")
 
         import aiohttp
-        print(f"✓ aiohttp {aiohttp.__version__}")
+        print(f"[OK] aiohttp {aiohttp.__version__}")
 
         from dotenv import load_dotenv
 
-        print("✓ python-dotenv")
+        print("[OK] python-dotenv")
 
         return True
     except ImportError as e:
@@ -285,9 +289,9 @@ def main() -> None:
     # Инициализация БД перед проверками
     try:
         init_db()
-        print("✓ База данных инициализирована")
+        print("[OK] База данных инициализирована")
     except Exception as e:
-        print(f"⚠ Предупреждение при инициализации БД: {e}")
+        print(f"[WARN] Предупреждение при инициализации БД: {e}")
 
     # Выполнение проверок
     results.append(("Зависимости", check_dependencies()))
@@ -307,7 +311,7 @@ def main() -> None:
     total = len(results)
 
     for name, result in results:
-        status = "✓ ПРОЙДЕНО" if result else "✗ ОШИБКА"
+        status = "[OK] ПРОЙДЕНО" if result else "[ERROR] ОШИБКА"
         print(f"{status}: {name}")
 
     print("\n" + "=" * 60)
@@ -315,10 +319,10 @@ def main() -> None:
     print("=" * 60)
 
     if passed == total:
-        print("\n🎉 Все проверки пройдены успешно!")
+        print("\n[OK] Все проверки пройдены успешно!")
         sys.exit(0)
     else:
-        print("\n⚠ Некоторые проверки не пройдены. Проверьте ошибки выше.")
+        print("\n[WARN] Некоторые проверки не пройдены. Проверьте ошибки выше.")
         sys.exit(1)
 
 

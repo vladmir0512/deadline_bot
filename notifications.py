@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import logging
-from datetime import UTC, datetime, timedelta
+from datetime import UTC, datetime, timedelta, timezone
 
 from aiogram import Bot
 
@@ -14,6 +14,9 @@ from models import Deadline, DeadlineStatus, Subscription
 from services import format_deadline, get_user_deadlines
 
 logger = logging.getLogger(__name__)
+
+# Настройка часового пояса (GMT+3, Moscow)
+MOSCOW_TZ = timezone(timedelta(hours=3))
 
 # Время для фильтрации дедлайнов
 NOTIFICATION_WINDOWS = {
@@ -45,8 +48,13 @@ def get_deadlines_in_window(
         if not deadline.due_date:
             continue
 
+        # Убеждаемся, что дата дедлайна имеет timezone
+        due_date = deadline.due_date
+        if due_date.tzinfo is None:
+            due_date = due_date.replace(tzinfo=UTC)
+
         # Проверяем, что дедлайн в будущем и в пределах окна
-        if now <= deadline.due_date <= window_end:
+        if now <= due_date <= window_end:
             result.append(deadline)
 
     return result
@@ -67,7 +75,13 @@ def get_deadlines_tomorrow(deadlines: list[Deadline]) -> list[Deadline]:
     for deadline in deadlines:
         if not deadline.due_date:
             continue
-        if tomorrow_start <= deadline.due_date < tomorrow_end:
+
+        # Убеждаемся, что дата дедлайна имеет timezone
+        due_date = deadline.due_date
+        if due_date.tzinfo is None:
+            due_date = due_date.replace(tzinfo=UTC)
+
+        if tomorrow_start <= due_date < tomorrow_end:
             result.append(deadline)
 
     return result
@@ -76,6 +90,71 @@ def get_deadlines_tomorrow(deadlines: list[Deadline]) -> list[Deadline]:
 def get_deadlines_this_week(deadlines: list[Deadline]) -> list[Deadline]:
     """Получить дедлайны в течение недели."""
     return get_deadlines_in_window(deadlines, window_days=7)
+
+
+def get_deadlines_at_halfway(deadlines: list[Deadline]) -> list[Deadline]:
+    """
+    Получить дедлайны, для которых наступила половина срока или уже прошла, но уведомление не было отправлено.
+
+    Половина срока = середина между created_at и due_date.
+    """
+    now = datetime.now(UTC)
+    result = []
+
+    for deadline in deadlines:
+        if not deadline.due_date or not deadline.created_at:
+            continue
+
+        # Убеждаемся, что даты имеют timezone
+        due_date = deadline.due_date
+        created_at = deadline.created_at
+
+        if due_date.tzinfo is None:
+            due_date = due_date.replace(tzinfo=UTC)
+        if created_at.tzinfo is None:
+            created_at = created_at.replace(tzinfo=UTC)
+
+        # Проверяем, что дедлайн еще не прошел
+        if due_date <= now:
+            continue
+
+        # Вычисляем половину срока
+        total_duration = due_date - created_at
+        halfway_point = created_at + (total_duration / 2)
+
+        # Проверяем, наступила ли половина срока
+        time_diff = (now - halfway_point).total_seconds()
+
+        # Окно для отправки уведомления:
+        # 1. От 30 минут до половины до 3 часов после половины (основное окно)
+        # 2. ИЛИ дедлайн уже прошел половину срока И уведомление никогда не отправлялось
+        in_main_window = -1800 <= time_diff <= 10800  # От 30 минут до половины до 3 часов после
+        past_halfway_no_notification = time_diff > 0 and not deadline.last_notified_at
+
+        if in_main_window or past_halfway_no_notification:
+            result.append(deadline)
+            # Конвертируем времена в Moscow timezone для логирования
+            created_moscow = created_at.astimezone(MOSCOW_TZ)
+            due_moscow = due_date.astimezone(MOSCOW_TZ)
+            halfway_moscow = halfway_point.astimezone(MOSCOW_TZ)
+            now_moscow = now.astimezone(MOSCOW_TZ)
+
+            # Определяем метод расчета для логирования
+            total_hours = total_duration.total_seconds() / 3600
+            calculation_method = "от времени создания" if total_hours <= 720 else "от текущего времени"
+
+            logger.info(
+                f"Дедлайн '{deadline.title}' на половине срока: "
+                f"создан {created_moscow.strftime('%Y-%m-%d %H:%M MSK')}, "
+                f"дедлайн {due_moscow.strftime('%Y-%m-%d %H:%M MSK')}, "
+                f"половина {halfway_moscow.strftime('%Y-%m-%d %H:%M MSK')} ({calculation_method}), "
+                f"сейчас {now_moscow.strftime('%Y-%m-%d %H:%M MSK')}, "
+                f"разница {time_diff/3600:.1f} часов, "
+                f"общая длительность {total_duration.days} дней {total_duration.seconds//3600} часов, "
+                f"причина: {'основное окно' if in_main_window else 'прошла половина, нет уведомления'}"
+            )
+
+    return result
 
 
 def should_send_notification(deadline: Deadline, notification_type: str) -> bool:
@@ -93,7 +172,12 @@ def should_send_notification(deadline: Deadline, notification_type: str) -> bool
         return True
 
     now = datetime.now(UTC)
-    last_notified = deadline.last_notified_at
+    # Приводим last_notified к timezone-aware, чтобы не падать на разнице naive/aware
+    last_notified = (
+        deadline.last_notified_at
+        if deadline.last_notified_at.tzinfo is not None
+        else deadline.last_notified_at.replace(tzinfo=UTC)
+    )
 
     # Для дедлайнов на сегодня - отправляем не чаще раза в час
     if notification_type == "today":
@@ -102,6 +186,20 @@ def should_send_notification(deadline: Deadline, notification_type: str) -> bool
     # Для дедлайнов на завтра - отправляем не чаще раза в 6 часов
     if notification_type == "tomorrow":
         return (now - last_notified).total_seconds() >= 21600
+
+    # Для уведомления о половине срока - отправляем только один раз
+    if notification_type == "halfway":
+        # Проверяем, не отправляли ли уже уведомление о половине срока
+        # Если отправляли менее 24 часов назад, не отправляем снова
+        # (чтобы гарантировать, что уведомление отправится хотя бы один раз)
+        time_since_last = (now - last_notified).total_seconds()
+        should_send = time_since_last >= 86400  # 24 часа
+        if not should_send:
+            logger.debug(
+                f"Пропуск уведомления о половине срока для дедлайна {deadline.id}: "
+                f"последнее уведомление было {time_since_last/3600:.1f} часов назад"
+            )
+        return should_send
 
     # Для остальных - отправляем не чаще раза в день
     return (now - last_notified).days >= 1
@@ -139,6 +237,7 @@ async def send_deadline_notification(
             "approaching": "⏰",
             "today": "🔴",
             "tomorrow": "🟡",
+            "halfway": "⏳",
         }
         emoji = emoji_map.get(notification_type, "⏰")
 
@@ -146,6 +245,8 @@ async def send_deadline_notification(
             header = f"{emoji} *Дедлайн сегодня!*"
         elif notification_type == "tomorrow":
             header = f"{emoji} *Дедлайн завтра*"
+        elif notification_type == "halfway":
+            header = f"{emoji} *Прошла половина срока до дедлайна*"
         else:
             header = f"{emoji} *Приближается дедлайн*"
 
@@ -197,24 +298,44 @@ async def check_and_notify_deadlines(bot: Bot) -> dict[str, int]:
             if not user:
                 continue
 
-            # Получаем активные дедлайны пользователя
-            deadlines = get_user_deadlines(user.id, status=DeadlineStatus.ACTIVE)
+            # Получаем активные дедлайны пользователя (включая будущие)
+            deadlines = get_user_deadlines(user.id, status=DeadlineStatus.ACTIVE, only_future=True)
 
             if not deadlines:
                 continue
 
-            # Проверяем дедлайны на сегодня
+            # Проверяем дедлайны на сегодня (высший приоритет)
             today_deadlines = get_deadlines_today(deadlines)
             for deadline in today_deadlines:
                 if await send_deadline_notification(bot, user.telegram_id, deadline, "today"):
                     notifications_sent += 1
 
-            # Проверяем дедлайны на завтра (только если нет дедлайнов на сегодня)
+            # Проверяем дедлайны на завтра (если нет дедлайнов на сегодня)
             if not today_deadlines:
                 tomorrow_deadlines = get_deadlines_tomorrow(deadlines)
                 for deadline in tomorrow_deadlines:
                     if await send_deadline_notification(bot, user.telegram_id, deadline, "tomorrow"):
                         notifications_sent += 1
+
+            # Проверяем дедлайны на половине срока (независимо от других проверок)
+            # Это важное уведомление, которое должно отправляться отдельно
+            halfway_deadlines = get_deadlines_at_halfway(deadlines)
+            logger.debug(
+                f"Проверка половины срока для пользователя {user.telegram_id}: "
+                f"найдено {len(halfway_deadlines)} дедлайнов на половине срока"
+            )
+            for deadline in halfway_deadlines:
+                if await send_deadline_notification(bot, user.telegram_id, deadline, "halfway"):
+                    notifications_sent += 1
+                    logger.info(
+                        f"✅ Отправлено уведомление о половине срока для дедлайна '{deadline.title}' "
+                        f"пользователю {user.telegram_id}"
+                    )
+                else:
+                    logger.debug(
+                        f"Пропущено уведомление о половине срока для дедлайна '{deadline.title}' "
+                        f"(уже отправляли недавно)"
+                    )
 
             # Проверяем дедлайны в течение недели (только если нет дедлайнов на сегодня/завтра)
             if not today_deadlines and not tomorrow_deadlines:
@@ -241,6 +362,76 @@ async def check_and_notify_deadlines(bot: Bot) -> dict[str, int]:
     except Exception as e:
         logger.error(f"Ошибка при проверке уведомлений: {e}", exc_info=True)
         return {"users_notified": 0, "notifications_sent": 0}
+    finally:
+        session.close()
+
+
+async def send_message_to_all_subscribers(
+    bot: Bot,
+    message_text: str,
+    parse_mode: str | None = "Markdown",
+) -> dict[str, int]:
+    """
+    Отправить сообщение всем пользователям с активными подписками.
+
+    Args:
+        bot: Экземпляр бота
+        message_text: Текст сообщения для отправки
+        parse_mode: Режим парсинга (Markdown, HTML или None)
+
+    Returns:
+        Словарь со статистикой: {"total_subscribers": ..., "sent": ..., "failed": ...}
+    """
+    session = SessionLocal()
+    sent_count = 0
+    failed_count = 0
+    total_subscribers = 0
+
+    try:
+        # Получаем всех пользователей с активными подписками
+        active_subscriptions = (
+            session.query(Subscription)
+            .filter_by(notification_type="telegram", active=True)
+            .all()
+        )
+
+        total_subscribers = len(active_subscriptions)
+        logger.info(f"Отправка сообщения {total_subscribers} подписанным пользователям")
+
+        for subscription in active_subscriptions:
+            user = subscription.user
+            if not user:
+                continue
+
+            try:
+                await bot.send_message(
+                    chat_id=user.telegram_id,
+                    text=message_text,
+                    parse_mode=parse_mode,
+                )
+                sent_count += 1
+                logger.debug(f"Сообщение отправлено пользователю {user.telegram_id}")
+            except Exception as e:
+                failed_count += 1
+                logger.error(
+                    f"Ошибка при отправке сообщения пользователю {user.telegram_id}: {e}",
+                    exc_info=True,
+                )
+
+        logger.info(
+            f"Рассылка завершена: всего {total_subscribers}, "
+            f"отправлено {sent_count}, ошибок {failed_count}"
+        )
+
+        return {
+            "total_subscribers": total_subscribers,
+            "sent": sent_count,
+            "failed": failed_count,
+        }
+
+    except Exception as e:
+        logger.error(f"Ошибка при рассылке сообщений: {e}", exc_info=True)
+        return {"total_subscribers": 0, "sent": 0, "failed": 0}
     finally:
         session.close()
 
