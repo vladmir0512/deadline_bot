@@ -139,7 +139,9 @@ curl http://localhost:8080/health
 
 ### 📚 Подробные инструкции
 
-- **[UBUNTU_DEPLOYMENT.md](UBUNTU_DEPLOYMENT.md)** - Полное пошаговое руководство по развертыванию на Ubuntu Server
+- **[RUSSIAN_DEPLOYMENT.md](RUSSIAN_DEPLOYMENT.md)** - Развертывание в России (Yandex Cloud, VK Cloud, etc.)
+- **[RAILWAY_DEPLOYMENT.md](RAILWAY_DEPLOYMENT.md)** - Быстрое развертывание на Railway
+- **[UBUNTU_DEPLOYMENT.md](UBUNTU_DEPLOYMENT.md)** - Полное руководство по развертыванию на Ubuntu Server
 - **[DEPLOYMENT.md](DEPLOYMENT.md)** - Общие инструкции по развертыванию на различных платформах
 - **[RELEASE_PROCESS.md](RELEASE_PROCESS.md)** - Процесс выпуска новых версий и управление релизами
 - **[CHANGELOG.md](CHANGELOG.md)** - История изменений и версий
