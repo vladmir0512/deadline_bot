@@ -45,8 +45,9 @@ TELEGRAM_BOT_TOKEN=ваш_токен_бота
 YONOTE_API_KEY=ваш_ключ_api
 YONOTE_CALENDAR_ID=id_календаря
 YONOTE_TIMEZONE=Europe/Moscow  # Опционально
-DATABASE_URL=sqlite:///deadlines.db
+DATABASE_URL=sqlite:///../data/моя_база.db  # По умолчанию: ../data/моя_база.db
 UPDATE_INTERVAL_MINUTES=30
+TELEGRAM_ADMIN_IDS=123456789,987654321  # ID администраторов через запятую (опционально)
 ```
 
 **Примечание:** Бот использует CSV экспорт API для получения наиболее точных данных о назначенных пользователях. Все указанные в дедлайне люди извлекаются автоматически по именам/UUID.

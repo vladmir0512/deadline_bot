@@ -11,7 +11,7 @@ from sqlalchemy.orm import Session
 
 from db import SessionLocal
 from models import Deadline, DeadlineStatus, User
-from yonote_client import YonoteDeadline, fetch_user_deadlines
+from scripts.yonote_client import YonoteDeadline, fetch_user_deadlines
 
 logger = logging.getLogger(__name__)
 
@@ -150,24 +150,55 @@ async def sync_user_deadlines(user: User) -> tuple[int, int]:
 
         # Синхронизируем каждый дедлайн
         for yonote_deadline in yonote_deadlines:
-            existing = (
-                session.query(Deadline)
-                .filter_by(
+            # Сначала пробуем найти по source_id, если он есть
+            existing = None
+            if hasattr(yonote_deadline, 'id') and yonote_deadline.id:
+                existing = session.query(Deadline).filter_by(
+                    user_id=user.id,
+                    source="yonote",
+                    source_id=yonote_deadline.id,
+                ).first()
+
+            # Если не нашли по source_id, ищем по названию (для обратной совместимости)
+            if not existing:
+                existing = session.query(Deadline).filter_by(
                     user_id=user.id,
                     source="yonote",
                     title=yonote_deadline.title,
-                )
-                .first()
-            )
+                ).first()
 
             if existing:
-                # Обновляем существующий
-                existing.description = yonote_deadline.description
-                existing.due_date = yonote_deadline.due_date
-                existing.updated_at = datetime.now(UTC)
-                updated_count += 1
+                # Обновляем существующий дедлайн
+                has_changes = False
+
+                # Обновляем source_id, если его нет
+                if not existing.source_id and hasattr(yonote_deadline, 'id') and yonote_deadline.id:
+                    existing.source_id = yonote_deadline.id
+                    has_changes = True
+
+                # Обновляем другие поля
+                if existing.due_date != yonote_deadline.due_date:
+                    logger.info(f"Дедлайн '{yonote_deadline.title}': дата изменена с {existing.due_date} на {yonote_deadline.due_date}")
+                    existing.due_date = yonote_deadline.due_date
+                    has_changes = True
+
+                if existing.title != yonote_deadline.title:
+                    logger.info(f"Дедлайн '{existing.title}': название изменено на '{yonote_deadline.title}'")
+                    existing.title = yonote_deadline.title
+                    has_changes = True
+
+                if existing.description != yonote_deadline.description:
+                    existing.description = yonote_deadline.description
+                    has_changes = True
+
+                if has_changes:
+                    existing.updated_at = datetime.now(UTC)
+                    updated_count += 1
+                    logger.info(f"[OK] Обновлён дедлайн: {yonote_deadline.title} (ID: {yonote_deadline.id})")
+                else:
+                    logger.debug(f"Дедлайн уже актуален: {yonote_deadline.title}")
             else:
-                # Создаём новый
+                # Создаём новый дедлайн
                 deadline = Deadline(
                     user_id=user.id,
                     title=yonote_deadline.title,
@@ -175,9 +206,13 @@ async def sync_user_deadlines(user: User) -> tuple[int, int]:
                     due_date=yonote_deadline.due_date,
                     status=DeadlineStatus.ACTIVE,
                     source="yonote",
+                    source_id=yonote_deadline.id if hasattr(yonote_deadline, 'id') else None,
+                    created_at=datetime.now(UTC),
+                    updated_at=datetime.now(UTC),
                 )
                 session.add(deadline)
                 created_count += 1
+                logger.info(f"[OK] Создан новый дедлайн: {yonote_deadline.title} (ID: {yonote_deadline.id})")
 
         session.commit()
 
@@ -214,7 +249,7 @@ async def sync_all_deadlines() -> dict[str, int]:
         for user in users:
             # Пропускаем пользователей, которые не зарегистрировали ник
             if not user.username:
-                logger.info(f"Пользователь {user.id} не имеет зарегистрированного ника. Пропускаем синхронизацию.")
+                logger.info(f"Пропускаем пользователя {user.id}: не зарегистрирован ник")(f"Пользователь {user.id} не имеет зарегистрированного ника. Пропускаем синхронизацию.")
                 continue
 
             created, updated = await sync_user_deadlines(user)

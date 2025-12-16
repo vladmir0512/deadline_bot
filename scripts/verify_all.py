@@ -15,6 +15,9 @@ import os
 import sys
 from datetime import UTC, datetime, timedelta
 
+# Добавляем корневую директорию проекта в путь для импорта
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from db import SessionLocal, init_db, engine
 from models import Deadline, Subscription, User, DeadlineStatus
 
@@ -22,7 +25,7 @@ from models import Deadline, Subscription, User, DeadlineStatus
 def check_database_connection() -> bool:
     """Проверка подключения к БД."""
     print("=" * 60)
-    print("1. Проверка подключения к БД...")
+    print("3. Проверка подключения к БД...")
     try:
         from sqlalchemy import text
 
@@ -38,7 +41,7 @@ def check_database_connection() -> bool:
 def check_database_tables() -> bool:
     """Проверка наличия всех таблиц."""
     print("\n" + "=" * 60)
-    print("2. Проверка таблиц БД...")
+    print("4. Проверка таблиц БД...")
     try:
         from sqlalchemy import inspect
 
@@ -62,7 +65,7 @@ def check_database_tables() -> bool:
 def check_database_operations() -> bool:
     """Проверка CRUD операций с БД."""
     print("\n" + "=" * 60)
-    print("3. Проверка операций с БД (CRUD)...")
+    print("5. Проверка операций с БД (CRUD)...")
     session = SessionLocal()
     try:
         # На всякий случай чистим старого тестового пользователя по telegram_id
@@ -145,7 +148,7 @@ def check_database_operations() -> bool:
 def check_models_structure() -> bool:
     """Проверка структуры моделей."""
     print("\n" + "=" * 60)
-    print("4. Проверка структуры моделей...")
+    print("6. Проверка структуры моделей...")
     try:
         # Проверка User
         assert hasattr(User, "telegram_id"), "User должен иметь поле telegram_id"
@@ -184,9 +187,9 @@ def check_models_structure() -> bool:
 def check_yonote_client_config() -> bool:
     """Проверка конфигурации Yonote клиента."""
     print("\n" + "=" * 60)
-    print("5. Проверка конфигурации Yonote клиента...")
+    print("7. Проверка конфигурации Yonote клиента...")
     try:
-        from yonote_client import YonoteClient, YonoteClientError
+        from scripts.yonote_client import YonoteClient, YonoteClientError
 
         # Проверка импорта
         print("[OK] Модуль yonote_client импортирован успешно")
@@ -225,20 +228,23 @@ def check_yonote_client_config() -> bool:
 def check_environment_variables() -> bool:
     """Проверка переменных окружения."""
     print("\n" + "=" * 60)
-    print("6. Проверка переменных окружения...")
+    print("2. Проверка переменных окружения...")
     try:
         from dotenv import load_dotenv
 
-        load_dotenv()
+        # Ищем .env файл в директории выше
+        parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        env_path = os.path.join(parent_dir, ".env")
+        load_dotenv(env_path)
 
         # Проверка наличия .env файла
-        if os.path.exists(".env"):
+        if os.path.exists(env_path):
             print("[OK] Файл .env найден")
         else:
             print("[WARN] Файл .env не найден (можно создать вручную)")
 
         # Проверка важных переменных
-        database_url = os.getenv("DATABASE_URL", "sqlite:///deadlines.db")
+        database_url = os.getenv("DATABASE_URL", "sqlite:///../deadlines.db")
         print(f"  DATABASE_URL: {database_url}")
 
         telegram_token = os.getenv("TELEGRAM_BOT_TOKEN")
@@ -256,7 +262,7 @@ def check_environment_variables() -> bool:
 def check_dependencies() -> bool:
     """Проверка установленных зависимостей."""
     print("\n" + "=" * 60)
-    print("7. Проверка зависимостей...")
+    print("1. Проверка зависимостей...")
     try:
         import aiogram
         print(f"[OK] aiogram {aiogram.__version__}")
@@ -298,8 +304,8 @@ def main() -> None:
     results.append(("Переменные окружения", check_environment_variables()))
     results.append(("Подключение к БД", check_database_connection()))
     results.append(("Таблицы БД", check_database_tables()))
-    results.append(("Структура моделей", check_models_structure()))
     results.append(("Операции с БД", check_database_operations()))
+    results.append(("Структура моделей", check_models_structure()))
     results.append(("Yonote клиент", check_yonote_client_config()))
 
     # Итоговый отчёт

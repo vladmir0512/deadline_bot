@@ -13,7 +13,7 @@ import asyncio
 import logging
 import os
 import sys
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timezone, timedelta
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from aiogram import Bot, Dispatcher, Router
@@ -22,9 +22,14 @@ from aiogram.types import Message
 from dotenv import load_dotenv
 
 from db import init_db
-from notifications import check_and_notify_deadlines
+from notifications import (
+    check_and_notify_deadlines,
+    get_deadlines_at_halfway,
+    send_message_to_all_subscribers,
+)
 from services import (
     format_deadline,
+    get_all_subscribed_users,
     get_or_create_user,
     get_user_by_telegram_id,
     get_user_deadlines,
@@ -32,7 +37,7 @@ from services import (
     toggle_subscription,
     update_user_email,
 )
-from sync_deadlines import sync_all_deadlines, sync_user_deadlines
+from scripts.sync_deadlines import sync_all_deadlines, sync_user_deadlines
 
 # Настройка логирования
 logging.basicConfig(
@@ -53,6 +58,20 @@ if not TELEGRAM_BOT_TOKEN:
 # Получаем интервал обновления из переменных окружения (по умолчанию 30 минут)
 UPDATE_INTERVAL_MINUTES = int(os.getenv("UPDATE_INTERVAL_MINUTES", "30"))
 
+# Получаем список ID администраторов из переменных окружения
+# Формат: "123456789,987654321" (через запятую)
+ADMIN_IDS_STR = os.getenv("TELEGRAM_ADMIN_IDS", "")
+ADMIN_IDS = set()
+if ADMIN_IDS_STR:
+    try:
+        ADMIN_IDS = {int(admin_id.strip()) for admin_id in ADMIN_IDS_STR.split(",") if admin_id.strip()}
+        logger.info(f"Загружено {len(ADMIN_IDS)} администраторов")
+    except ValueError as e:
+        logger.warning(f"Ошибка при парсинге TELEGRAM_ADMIN_IDS: {e}")
+
+# Настройка часового пояса (GMT+3, Moscow)
+MOSCOW_TZ = timezone(timedelta(hours=3))
+
 # Инициализация бота и диспетчера
 bot = Bot(token=TELEGRAM_BOT_TOKEN)
 dp = Dispatcher()
@@ -60,6 +79,48 @@ router = Router()
 
 # Инициализация планировщика
 scheduler = AsyncIOScheduler()
+
+
+def is_admin(telegram_id: int) -> bool:
+    """
+    Проверить, является ли пользователь администратором.
+
+    Args:
+        telegram_id: Telegram ID пользователя
+
+    Returns:
+        True если пользователь администратор, False в противном случае
+    """
+    return telegram_id in ADMIN_IDS
+
+
+def get_current_time_moscow() -> datetime:
+    """
+    Получить текущее время в московском часовом поясе.
+
+    Returns:
+        datetime в часовом поясе Moscow (GMT+3)
+    """
+    return datetime.now(MOSCOW_TZ)
+
+
+def format_datetime_moscow(dt: datetime) -> str:
+    """
+    Форматировать дату и время в московском часовом поясе.
+
+    Args:
+        dt: datetime объект (может быть naive или с timezone)
+
+    Returns:
+        Отформатированная строка в Moscow timezone
+    """
+    if dt.tzinfo is None:
+        # Если naive datetime, предполагаем UTC и конвертируем
+        dt = dt.replace(tzinfo=UTC)
+
+    # Конвертируем в Moscow timezone
+    moscow_time = dt.astimezone(MOSCOW_TZ)
+    return moscow_time.strftime("%d.%m.%Y %H:%M")
 
 
 def escape_markdown(text: str) -> str:
@@ -138,7 +199,12 @@ async def cmd_help(message: Message) -> None:
         "*/logout* - Отписаться от уведомлений и сбросить данные\n"
         "*/my_deadlines* - Показать все ваши дедлайны\n"
         "*/sync* - Синхронизировать дедлайны из Yonote вручную\n"
-        "*/subscribe* - Включить/выключить уведомления о дедлайнах\n\n"
+        "*/subscribe* - Включить/выключить уведомления о дедлайнах\n"
+        "*/broadcast* - Отправить сообщение всем подписанным (только для администраторов)\n"
+        "   Использование: `/broadcast текст сообщения`\n"
+        "*/subscribers* - Показать список всех подписанных (только для администраторов)\n"
+        "*/test_halfway* - Проверить напоминания за половину срока (только для администраторов)\n"
+        "*/check_notifications* - Ручная проверка и отправка уведомлений (только для администраторов)\n\n"
         "💡 *Совет*: После регистрации привяжите ваш ник, "
         "чтобы получать персональные дедлайны. Используйте /sync для немедленной синхронизации."
     )
@@ -214,7 +280,7 @@ async def cmd_my_deadlines(message: Message) -> None:
 
         # Автоматически синхронизируем дедлайны перед отображением (чтобы показать самые свежие данные)
         try:
-            from sync_deadlines import sync_user_deadlines
+            from scripts.sync_deadlines import sync_user_deadlines
             created, updated = await sync_user_deadlines(user)
             logger.info(f"Автоматическая синхронизация для пользователя {user.id}: создано {created}, обновлено {updated}")
         except Exception as sync_error:
@@ -451,11 +517,16 @@ async def cmd_sync(message: Message) -> None:
         # Синхронизируем дедлайны для текущего пользователя
         created, updated = await sync_user_deadlines(user)
 
+        # После синхронизации проверяем уведомления
+        logger.info(f"Проверка уведомлений после ручной синхронизации для пользователя {user.id}")
+        notification_stats = await check_and_notify_deadlines(bot)
+
         result_text = (
             f"✅ Синхронизация завершена!\n\n"
             f"📊 Статистика:\n"
             f"• Создано новых дедлайнов: {created}\n"
-            f"• Обновлено дедлайнов: {updated}\n\n"
+            f"• Обновлено дедлайнов: {updated}\n"
+            f"• Уведомлений отправлено: {notification_stats['notifications_sent']}\n\n"
         )
 
         if created == 0 and updated == 0:
@@ -479,6 +550,350 @@ async def cmd_sync(message: Message) -> None:
         )
 
 
+@router.message(Command("broadcast"))
+async def cmd_broadcast(message: Message) -> None:
+    """Обработчик команды /broadcast - отправить сообщение всем подписанным (только для администраторов)."""
+    # Проверяем права администратора
+    if not message.from_user or not is_admin(message.from_user.id):
+        await message.answer(
+            "❌ У вас нет прав для выполнения этой команды.\n\n"
+            "Эта команда доступна только администраторам."
+        )
+        logger.warning(
+            f"Пользователь {message.from_user.id if message.from_user else 'unknown'} "
+            f"попытался выполнить команду /broadcast без прав администратора"
+        )
+        return
+
+    try:
+        # Получаем текст сообщения после команды
+        command_args = message.text.split(maxsplit=1) if message.text else []
+        if len(command_args) < 2:
+            await message.answer(
+                "❌ Укажите текст сообщения для рассылки.\n\n"
+                "Пример:\n"
+                "`/broadcast Важное объявление для всех!`",
+                parse_mode="Markdown",
+            )
+            return
+
+        broadcast_text = command_args[1].strip()
+
+        await message.answer("🔄 Начинаю рассылку сообщения всем подписанным...")
+
+        # Отправляем сообщение всем подписанным
+        stats = await send_message_to_all_subscribers(bot, broadcast_text)
+
+        result_text = (
+            f"✅ Рассылка завершена!\n\n"
+            f"📊 Статистика:\n"
+            f"• Всего подписанных: {stats['total_subscribers']}\n"
+            f"• Отправлено успешно: {stats['sent']}\n"
+            f"• Ошибок: {stats['failed']}"
+        )
+
+        await message.answer(result_text)
+        logger.info(
+            f"Пользователь {message.from_user.id} выполнил рассылку: "
+            f"отправлено {stats['sent']} из {stats['total_subscribers']}"
+        )
+
+    except Exception as e:
+        logger.error(f"Ошибка при рассылке: {e}", exc_info=True)
+        await message.answer(
+            f"❌ Ошибка при рассылке: {e}\n\n"
+            "Проверьте логи бота для подробностей."
+        )
+
+
+@router.message(Command("subscribers"))
+async def cmd_subscribers(message: Message) -> None:
+    """Обработчик команды /subscribers - показать список всех подписанных (только для администраторов)."""
+    # Проверяем права администратора
+    if not message.from_user or not is_admin(message.from_user.id):
+        await message.answer(
+            "❌ У вас нет прав для выполнения этой команды.\n\n"
+            "Эта команда доступна только администраторам."
+        )
+        logger.warning(
+            f"Пользователь {message.from_user.id if message.from_user else 'unknown'} "
+            f"попытался выполнить команду /subscribers без прав администратора"
+        )
+        return
+
+    try:
+        # Получаем всех подписанных пользователей
+        subscribed_users = get_all_subscribed_users(notification_type="telegram")
+
+        if not subscribed_users:
+            await message.answer("📭 Нет подписанных пользователей.")
+            return
+
+        # Формируем список подписанных
+        lines = [f"👥 *Список подписанных пользователей* ({len(subscribed_users)}):\n"]
+
+        for idx, (user, subscription) in enumerate(subscribed_users, 1):
+            username_display = escape_markdown(user.username) if user.username else "не указан"
+            telegram_id = user.telegram_id
+            created_at = subscription.created_at.strftime("%d.%m.%Y %H:%M") if subscription.created_at else "неизвестно"
+
+            user_info = (
+                f"{idx}\\. *Ник:* {username_display}\n"
+                f"   Telegram ID: `{telegram_id}`\n"
+                f"   Подписка создана: {created_at}"
+            )
+            lines.append(user_info)
+
+        # Разбиваем на части, если сообщение слишком длинное
+        full_text = "\n\n".join(lines)
+        max_length = 4096  # Лимит Telegram
+
+        if len(full_text) <= max_length:
+            await message.answer(full_text, parse_mode="Markdown")
+        else:
+            # Отправляем частями
+            current_text = lines[0] + "\n\n"
+            for line in lines[1:]:
+                if len(current_text + line + "\n\n") > max_length:
+                    await message.answer(current_text, parse_mode="Markdown")
+                    current_text = line + "\n\n"
+                else:
+                    current_text += line + "\n\n"
+
+            if current_text.strip():
+                await message.answer(current_text, parse_mode="Markdown")
+
+        logger.info(
+            f"Администратор {message.from_user.id} запросил список подписанных: "
+            f"найдено {len(subscribed_users)} пользователей"
+        )
+
+    except Exception as e:
+        logger.error(f"Ошибка при получении списка подписанных: {e}", exc_info=True)
+        await message.answer(
+            f"❌ Ошибка при получении списка подписанных: {e}\n\n"
+            "Проверьте логи бота для подробностей."
+        )
+
+
+@router.message(Command("test_halfway"))
+async def cmd_test_halfway(message: Message) -> None:
+    """Обработчик команды /test_halfway - проверить напоминания за половину срока (только для администраторов)."""
+    # Проверяем права администратора
+    if not message.from_user or not is_admin(message.from_user.id):
+        await message.answer(
+            "❌ У вас нет прав для выполнения этой команды.\n\n"
+            "Эта команда доступна только администраторам."
+        )
+        logger.warning(
+            f"Пользователь {message.from_user.id if message.from_user else 'unknown'} "
+            f"попытался выполнить команду /test_halfway без прав администратора"
+        )
+        return
+
+    try:
+        user = get_user_by_telegram_id(message.from_user.id)
+        if not user:
+            await message.answer("❌ Пользователь не найден. Используйте /start для регистрации.")
+            return
+
+        # Проверяем, что пользователь зарегистрировал ник для Yonote
+        if not user.username:
+            await message.answer(
+                "❌ Вы не зарегистрировали ник для получения дедлайнов.\n\n"
+                "💡 Используйте команду `/register your_yonote_nickname`, "
+                "чтобы привязать ваш ник из Yonote и синхронизировать дедлайны.",
+                parse_mode="Markdown"
+            )
+            return
+
+        # Сначала синхронизируем дедлайны из Yonote
+        await message.answer("🔄 Синхронизирую дедлайны из Yonote...")
+        try:
+            created, updated = await sync_user_deadlines(user)
+            sync_message = f"✅ Синхронизация завершена: создано {created}, обновлено {updated}"
+            logger.info(f"Синхронизация для /test_halfway: создано {created}, обновлено {updated}")
+        except Exception as e:
+            sync_message = f"⚠️ Ошибка при синхронизации: {e}"
+            logger.error(f"Ошибка при синхронизации в /test_halfway: {e}", exc_info=True)
+
+        # Получаем все активные дедлайны пользователя
+        from services import get_user_deadlines
+        from models import DeadlineStatus
+
+        deadlines = get_user_deadlines(user.id, status=DeadlineStatus.ACTIVE, only_future=True)
+
+        if not deadlines:
+            await message.answer(
+                f"{sync_message}\n\n"
+                "📭 У вас нет активных дедлайнов для проверки.\n\n"
+                "Создайте дедлайн или синхронизируйте их из Yonote с помощью /sync."
+            )
+            return
+
+        # Проверяем, какие дедлайны на половине срока
+        halfway_deadlines = get_deadlines_at_halfway(deadlines)
+
+        now = get_current_time_moscow()
+        lines = [
+            f"⏳ *Проверка напоминаний за половину срока*\n",
+            f"{sync_message}\n",
+            f"Текущее время: {now.strftime('%d.%m.%Y %H:%M:%S (MSK)')}\n",
+            f"Всего активных дедлайнов: {len(deadlines)}\n",
+            f"На половине срока: {len(halfway_deadlines)}\n",
+            f"\n📊 *Как рассчитывается половина срока:*\n",
+            f"• Половина = время создания + (дедлайн - время создания) ÷ 2\n",
+            f"• Пример: создан 08:00, дедлайн 12:00 → половина в 10:00\n",
+            f"• Уведомление: за 30 мин до половины до 3 часов после неё\n",
+            f"• Разница отрицательная = половина ещё впереди\n",
+            f"• Разница положительная = половина уже прошла\n",
+        ]
+
+        if halfway_deadlines:
+            lines.append("*Дедлайны на половине срока:*\n")
+            for deadline in halfway_deadlines:
+                created = deadline.created_at
+                due = deadline.due_date
+                if created and due:
+                    # Убеждаемся, что даты имеют timezone
+                    if created.tzinfo is None:
+                        created = created.replace(tzinfo=UTC)
+                    if due.tzinfo is None:
+                        due = due.replace(tzinfo=UTC)
+
+                    total_duration = due - created
+                    halfway_point = created + (total_duration / 2)
+                    diff_hours = (now - halfway_point).total_seconds() / 3600
+
+                    # Дополнительная информация для отладки
+                    total_hours = total_duration.total_seconds() / 3600
+
+                    # Определяем статус по разнице
+                    if diff_hours < -0.5:
+                        time_status = "половина ещё не наступила"
+                    elif diff_hours <= 3.0:
+                        time_status = "половина в окне уведомлений"
+                    else:
+                        time_status = "половина уже прошла"
+
+                    total_days = total_duration.days
+                    total_minutes = total_duration.seconds // 60
+
+                    title_escaped = escape_markdown(deadline.title)
+                    lines.append(
+                        f"• *{title_escaped}*\n"
+                        f"  Создан: {format_datetime_moscow(created)}\n"
+                        f"  Дедлайн: {format_datetime_moscow(due)}\n"
+                        f"  Половина: {format_datetime_moscow(halfway_point)}\n"
+                        f"  Длительность: {total_days}д {total_minutes//60:02d}:{total_minutes%60:02d}\n"
+                        f"  Статус: {time_status} (разница: {diff_hours:.2f} ч от половины)\n"
+                    )
+        else:
+            lines.append("\n*Детали по всем дедлайнам:*\n")
+            for deadline in deadlines[:10]:  # Показываем первые 10
+                created = deadline.created_at
+                due = deadline.due_date
+                if created and due:
+                    # Убеждаемся, что даты имеют timezone
+                    if created.tzinfo is None:
+                        created = created.replace(tzinfo=UTC)
+                    if due.tzinfo is None:
+                        due = due.replace(tzinfo=UTC)
+
+                    total_duration = due - created
+                    halfway_point = created + (total_duration / 2)
+                    diff_hours = (now - halfway_point).total_seconds() / 3600
+
+                    # Проверяем, в окне ли половина срока
+                    in_window = -0.5 <= diff_hours <= 3.0  # От 30 минут до до 3 часов после
+                    status = "✅ На половине" if in_window else "⏸️ Не на половине"
+
+                    # Определяем статус по разнице
+                    if diff_hours < -0.5:
+                        time_status = "ещё рано"
+                    elif diff_hours <= 3.0:
+                        time_status = "в окне уведомлений"
+                    else:
+                        time_status = "уже прошло"
+
+                    # Дополнительная информация для понимания
+                    total_hours = total_duration.total_seconds() / 3600
+                    total_days = total_duration.days
+                    total_minutes = total_duration.seconds // 60
+
+                    title_escaped = escape_markdown(deadline.title)
+                    lines.append(
+                        f"• *{title_escaped}*: {status}\n"
+                        f"  Создан: {format_datetime_moscow(created)}\n"
+                        f"  Дедлайн: {format_datetime_moscow(due)}\n"
+                        f"  Половина: {format_datetime_moscow(halfway_point)}\n"
+                        f"  Длительность: {total_days}д {total_minutes//60:02d}:{total_minutes%60:02d}, разница: {diff_hours:.2f} ч ({time_status})\n"
+                    )
+
+        if len(deadlines) > 5:  # Показываем максимум 5 дедлайнов для читаемости
+            lines.append(f"\n... и ещё {len(deadlines) - 5} дедлайнов")
+        elif not halfway_deadlines and not deadlines:
+            lines.append("\nℹ️ У вас нет дедлайнов для анализа.")
+
+        result_text = "\n".join(lines)
+        await message.answer(result_text, parse_mode="Markdown")
+
+        logger.info(
+            f"Администратор {message.from_user.id} проверил напоминания за половину срока: "
+            f"найдено {len(halfway_deadlines)} из {len(deadlines)} дедлайнов"
+        )
+
+    except Exception as e:
+        logger.error(f"Ошибка при проверке напоминаний за половину срока: {e}", exc_info=True)
+        await message.answer(
+            f"❌ Ошибка при проверке: {e}\n\n"
+            "Проверьте логи бота для подробностей."
+        )
+
+
+@router.message(Command("check_notifications"))
+async def cmd_check_notifications(message: Message) -> None:
+    """Обработчик команды /check_notifications - ручная проверка и отправка уведомлений (только для администраторов)."""
+    # Проверяем права администратора
+    if not message.from_user or not is_admin(message.from_user.id):
+        await message.answer(
+            "❌ У вас нет прав для выполнения этой команды.\n\n"
+            "Эта команда доступна только администраторам."
+        )
+        logger.warning(
+            f"Пользователь {message.from_user.id if message.from_user else 'unknown'} "
+            f"попытался выполнить команду /check_notifications без прав администратора"
+        )
+        return
+
+    try:
+        await message.answer("🔄 Проверяю уведомления...")
+        
+        # Выполняем проверку уведомлений
+        stats = await check_and_notify_deadlines(bot)
+        
+        result_text = (
+            f"✅ Проверка уведомлений завершена!\n\n"
+            f"📊 Статистика:\n"
+            f"• Пользователей уведомлено: {stats['users_notified']}\n"
+            f"• Уведомлений отправлено: {stats['notifications_sent']}"
+        )
+        
+        await message.answer(result_text)
+        logger.info(
+            f"Администратор {message.from_user.id} выполнил ручную проверку уведомлений: "
+            f"уведомлено {stats['users_notified']} пользователей, "
+            f"отправлено {stats['notifications_sent']} уведомлений"
+        )
+
+    except Exception as e:
+        logger.error(f"Ошибка при проверке уведомлений: {e}", exc_info=True)
+        await message.answer(
+            f"❌ Ошибка при проверке уведомлений: {e}\n\n"
+            "Проверьте логи бота для подробностей."
+        )
+
+
 @router.message()
 async def handle_unknown(message: Message) -> None:
     """Обработчик неизвестных сообщений."""
@@ -489,7 +904,7 @@ async def handle_unknown(message: Message) -> None:
 
 
 async def scheduled_sync() -> None:
-    """Периодическая синхронизация дедлайнов из Yonote."""
+    """Периодическая синхронизация дедлайнов из Yonote и проверка уведомлений."""
     try:
         logger.info("Начало синхронизации дедлайнов из Yonote...")
         stats = await sync_all_deadlines()
@@ -497,8 +912,17 @@ async def scheduled_sync() -> None:
             f"Синхронизация завершена: пользователей {stats['total_users']}, "
             f"создано {stats['created']}, обновлено {stats['updated']}"
         )
+        
+        # Сразу после синхронизации проверяем уведомления
+        logger.info("Начало проверки уведомлений после синхронизации...")
+        notification_stats = await check_and_notify_deadlines(bot)
+        logger.info(
+            f"Проверка уведомлений завершена: "
+            f"пользователей уведомлено {notification_stats['users_notified']}, "
+            f"отправлено уведомлений {notification_stats['notifications_sent']}"
+        )
     except Exception as e:
-        logger.error(f"Ошибка при синхронизации дедлайнов: {e}", exc_info=True)
+        logger.error(f"Ошибка при синхронизации дедлайнов или проверке уведомлений: {e}", exc_info=True)
 
 
 async def scheduled_notifications() -> None:
@@ -537,23 +961,13 @@ async def main() -> None:
     dp.include_router(router)
 
     # Настраиваем планировщик
-    # Синхронизация дедлайнов каждые UPDATE_INTERVAL_MINUTES минут
+    # Синхронизация дедлайнов и проверка уведомлений каждые UPDATE_INTERVAL_MINUTES минут
     scheduler.add_job(
         scheduled_sync,
         "interval",
         minutes=UPDATE_INTERVAL_MINUTES,
         id="sync_deadlines",
-        name="Синхронизация дедлайнов из Yonote",
-        replace_existing=True,
-    )
-
-    # Проверка уведомлений каждый час
-    scheduler.add_job(
-        scheduled_notifications,
-        "interval",
-        hours=1,
-        id="check_notifications",
-        name="Проверка и отправка уведомлений",
+        name="Синхронизация дедлайнов из Yonote и проверка уведомлений",
         replace_existing=True,
     )
 
@@ -569,7 +983,7 @@ async def main() -> None:
 
     # Запускаем планировщик
     scheduler.start()
-    logger.info(f"Планировщик запущен: синхронизация каждые {UPDATE_INTERVAL_MINUTES} мин, уведомления каждый час, очистка просроченных раз в день")
+    logger.info(f"Планировщик запущен: синхронизация и проверка уведомлений каждые {UPDATE_INTERVAL_MINUTES} мин, очистка просроченных раз в день")
 
     # Запускаем бота
     logger.info("Запуск бота...")
