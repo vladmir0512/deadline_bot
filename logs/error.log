@@ -1,0 +1,178 @@
+2025-12-16 13:25:19,156 - deadline_bot - ERROR - bot.py:1015 - Критическая ошибка: name 'DATABASE_URL' is not defined
+Traceback (most recent call last):
+  File "/app/bot.py", line 1011, in <module>
+    asyncio.run(main())
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/app/bot.py", line 954, in main
+    "database_url": DATABASE_URL,
+                    ^^^^^^^^^^^^
+NameError: name 'DATABASE_URL' is not defined
+2025-12-16 13:25:24,139 - deadline_bot - ERROR - bot.py:1015 - Критическая ошибка: name 'DATABASE_URL' is not defined
+Traceback (most recent call last):
+  File "/app/bot.py", line 1011, in <module>
+    asyncio.run(main())
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/app/bot.py", line 954, in main
+    "database_url": DATABASE_URL,
+                    ^^^^^^^^^^^^
+NameError: name 'DATABASE_URL' is not defined
+2025-12-16 13:25:29,396 - deadline_bot - ERROR - bot.py:1015 - Критическая ошибка: name 'DATABASE_URL' is not defined
+Traceback (most recent call last):
+  File "/app/bot.py", line 1011, in <module>
+    asyncio.run(main())
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/app/bot.py", line 954, in main
+    "database_url": DATABASE_URL,
+                    ^^^^^^^^^^^^
+NameError: name 'DATABASE_URL' is not defined
+2025-12-16 13:25:34,550 - deadline_bot - ERROR - bot.py:1015 - Критическая ошибка: name 'DATABASE_URL' is not defined
+Traceback (most recent call last):
+  File "/app/bot.py", line 1011, in <module>
+    asyncio.run(main())
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/app/bot.py", line 954, in main
+    "database_url": DATABASE_URL,
+                    ^^^^^^^^^^^^
+NameError: name 'DATABASE_URL' is not defined
+2025-12-16 13:25:40,155 - deadline_bot - ERROR - bot.py:1015 - Критическая ошибка: name 'DATABASE_URL' is not defined
+Traceback (most recent call last):
+  File "/app/bot.py", line 1011, in <module>
+    asyncio.run(main())
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/app/bot.py", line 954, in main
+    "database_url": DATABASE_URL,
+                    ^^^^^^^^^^^^
+NameError: name 'DATABASE_URL' is not defined
+2025-12-16 13:25:46,633 - deadline_bot - ERROR - bot.py:1015 - Критическая ошибка: name 'DATABASE_URL' is not defined
+Traceback (most recent call last):
+  File "/app/bot.py", line 1011, in <module>
+    asyncio.run(main())
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/app/bot.py", line 954, in main
+    "database_url": DATABASE_URL,
+                    ^^^^^^^^^^^^
+NameError: name 'DATABASE_URL' is not defined
+2025-12-16 13:25:54,698 - deadline_bot - ERROR - bot.py:1015 - Критическая ошибка: name 'DATABASE_URL' is not defined
+Traceback (most recent call last):
+  File "/app/bot.py", line 1011, in <module>
+    asyncio.run(main())
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/app/bot.py", line 954, in main
+    "database_url": DATABASE_URL,
+                    ^^^^^^^^^^^^
+NameError: name 'DATABASE_URL' is not defined
+2025-12-16 13:26:05,969 - deadline_bot - ERROR - bot.py:1015 - Критическая ошибка: name 'DATABASE_URL' is not defined
+Traceback (most recent call last):
+  File "/app/bot.py", line 1011, in <module>
+    asyncio.run(main())
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/app/bot.py", line 954, in main
+    "database_url": DATABASE_URL,
+                    ^^^^^^^^^^^^
+NameError: name 'DATABASE_URL' is not defined
+2025-12-16 13:26:23,659 - deadline_bot - ERROR - bot.py:1015 - Критическая ошибка: name 'DATABASE_URL' is not defined
+Traceback (most recent call last):
+  File "/app/bot.py", line 1011, in <module>
+    asyncio.run(main())
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/app/bot.py", line 954, in main
+    "database_url": DATABASE_URL,
+                    ^^^^^^^^^^^^
+NameError: name 'DATABASE_URL' is not defined
+2025-12-16 13:26:54,223 - deadline_bot - ERROR - bot.py:1015 - Критическая ошибка: name 'DATABASE_URL' is not defined
+Traceback (most recent call last):
+  File "/app/bot.py", line 1011, in <module>
+    asyncio.run(main())
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/app/bot.py", line 954, in main
+    "database_url": DATABASE_URL,
+                    ^^^^^^^^^^^^
+NameError: name 'DATABASE_URL' is not defined
+2025-12-16 13:35:23,996 - deadline_bot - ERROR - healthcheck.py:86 - Database health check failed: Textual SQL expression 'SELECT 1' should be explicitly declared as text('SELECT 1')
+2025-12-16 13:49:45,609 - deadline_bot - ERROR - healthcheck.py:86 - Database health check failed: Textual SQL expression 'SELECT 1' should be explicitly declared as text('SELECT 1')
+2025-12-16 13:49:46,492 - deadline_bot - ERROR - healthcheck.py:86 - Database health check failed: Textual SQL expression 'SELECT 1' should be explicitly declared as text('SELECT 1')
+2025-12-16 13:49:47,473 - deadline_bot - ERROR - healthcheck.py:86 - Database health check failed: Textual SQL expression 'SELECT 1' should be explicitly declared as text('SELECT 1')
+2025-12-16 13:49:48,132 - deadline_bot - ERROR - healthcheck.py:86 - Database health check failed: Textual SQL expression 'SELECT 1' should be explicitly declared as text('SELECT 1')
+2025-12-16 13:49:48,977 - deadline_bot - ERROR - healthcheck.py:86 - Database health check failed: Textual SQL expression 'SELECT 1' should be explicitly declared as text('SELECT 1')
+2025-12-16 13:52:22,882 - deadline_bot - ERROR - healthcheck.py:86 - Database health check failed: Textual SQL expression 'SELECT 1' should be explicitly declared as text('SELECT 1')
+2025-12-16 13:52:52,527 - deadline_bot - ERROR - healthcheck.py:86 - Database health check failed: Textual SQL expression 'SELECT 1' should be explicitly declared as text('SELECT 1')

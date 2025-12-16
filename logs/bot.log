@@ -1,0 +1,490 @@
+2025-12-16 13:25:15,786 - deadline_bot - INFO - healthcheck.py:118 - Health check server created
+2025-12-16 13:25:15,788 - deadline_bot - INFO - healthcheck.py:129 - Starting health check server on 0.0.0.0:8080
+2025-12-16 13:25:15,791 - deadline_bot - INFO - healthcheck.py:137 - Health check server started on http://0.0.0.0:8080
+2025-12-16 13:25:19,131 - deadline_bot - INFO - bot.py:65 - Загружено 2 администраторов
+2025-12-16 13:25:19,149 - tzlocal - DEBUG - unix.py:120 - /etc/localtime found
+2025-12-16 13:25:19,152 - tzlocal - DEBUG - unix.py:136 - 1 found:
+ {'/etc/localtime is a symlink to': 'Etc/UTC'}
+2025-12-16 13:25:19,154 - asyncio - DEBUG - selector_events.py:54 - Using selector: EpollSelector
+2025-12-16 13:25:19,156 - deadline_bot - ERROR - bot.py:1015 - Критическая ошибка: name 'DATABASE_URL' is not defined
+Traceback (most recent call last):
+  File "/app/bot.py", line 1011, in <module>
+    asyncio.run(main())
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/app/bot.py", line 954, in main
+    "database_url": DATABASE_URL,
+                    ^^^^^^^^^^^^
+NameError: name 'DATABASE_URL' is not defined
+2025-12-16 13:25:24,112 - deadline_bot - INFO - bot.py:65 - Загружено 2 администраторов
+2025-12-16 13:25:24,132 - tzlocal - DEBUG - unix.py:120 - /etc/localtime found
+2025-12-16 13:25:24,135 - tzlocal - DEBUG - unix.py:136 - 1 found:
+ {'/etc/localtime is a symlink to': 'Etc/UTC'}
+2025-12-16 13:25:24,137 - asyncio - DEBUG - selector_events.py:54 - Using selector: EpollSelector
+2025-12-16 13:25:24,139 - deadline_bot - ERROR - bot.py:1015 - Критическая ошибка: name 'DATABASE_URL' is not defined
+Traceback (most recent call last):
+  File "/app/bot.py", line 1011, in <module>
+    asyncio.run(main())
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/app/bot.py", line 954, in main
+    "database_url": DATABASE_URL,
+                    ^^^^^^^^^^^^
+NameError: name 'DATABASE_URL' is not defined
+2025-12-16 13:25:29,369 - deadline_bot - INFO - bot.py:65 - Загружено 2 администраторов
+2025-12-16 13:25:29,389 - tzlocal - DEBUG - unix.py:120 - /etc/localtime found
+2025-12-16 13:25:29,392 - tzlocal - DEBUG - unix.py:136 - 1 found:
+ {'/etc/localtime is a symlink to': 'Etc/UTC'}
+2025-12-16 13:25:29,395 - asyncio - DEBUG - selector_events.py:54 - Using selector: EpollSelector
+2025-12-16 13:25:29,396 - deadline_bot - ERROR - bot.py:1015 - Критическая ошибка: name 'DATABASE_URL' is not defined
+Traceback (most recent call last):
+  File "/app/bot.py", line 1011, in <module>
+    asyncio.run(main())
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/app/bot.py", line 954, in main
+    "database_url": DATABASE_URL,
+                    ^^^^^^^^^^^^
+NameError: name 'DATABASE_URL' is not defined
+2025-12-16 13:25:34,518 - deadline_bot - INFO - bot.py:65 - Загружено 2 администраторов
+2025-12-16 13:25:34,537 - tzlocal - DEBUG - unix.py:120 - /etc/localtime found
+2025-12-16 13:25:34,542 - tzlocal - DEBUG - unix.py:136 - 1 found:
+ {'/etc/localtime is a symlink to': 'Etc/UTC'}
+2025-12-16 13:25:34,547 - asyncio - DEBUG - selector_events.py:54 - Using selector: EpollSelector
+2025-12-16 13:25:34,550 - deadline_bot - ERROR - bot.py:1015 - Критическая ошибка: name 'DATABASE_URL' is not defined
+Traceback (most recent call last):
+  File "/app/bot.py", line 1011, in <module>
+    asyncio.run(main())
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/app/bot.py", line 954, in main
+    "database_url": DATABASE_URL,
+                    ^^^^^^^^^^^^
+NameError: name 'DATABASE_URL' is not defined
+2025-12-16 13:25:40,129 - deadline_bot - INFO - bot.py:65 - Загружено 2 администраторов
+2025-12-16 13:25:40,148 - tzlocal - DEBUG - unix.py:120 - /etc/localtime found
+2025-12-16 13:25:40,151 - tzlocal - DEBUG - unix.py:136 - 1 found:
+ {'/etc/localtime is a symlink to': 'Etc/UTC'}
+2025-12-16 13:25:40,153 - asyncio - DEBUG - selector_events.py:54 - Using selector: EpollSelector
+2025-12-16 13:25:40,155 - deadline_bot - ERROR - bot.py:1015 - Критическая ошибка: name 'DATABASE_URL' is not defined
+Traceback (most recent call last):
+  File "/app/bot.py", line 1011, in <module>
+    asyncio.run(main())
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/app/bot.py", line 954, in main
+    "database_url": DATABASE_URL,
+                    ^^^^^^^^^^^^
+NameError: name 'DATABASE_URL' is not defined
+2025-12-16 13:25:46,609 - deadline_bot - INFO - bot.py:65 - Загружено 2 администраторов
+2025-12-16 13:25:46,627 - tzlocal - DEBUG - unix.py:120 - /etc/localtime found
+2025-12-16 13:25:46,630 - tzlocal - DEBUG - unix.py:136 - 1 found:
+ {'/etc/localtime is a symlink to': 'Etc/UTC'}
+2025-12-16 13:25:46,632 - asyncio - DEBUG - selector_events.py:54 - Using selector: EpollSelector
+2025-12-16 13:25:46,633 - deadline_bot - ERROR - bot.py:1015 - Критическая ошибка: name 'DATABASE_URL' is not defined
+Traceback (most recent call last):
+  File "/app/bot.py", line 1011, in <module>
+    asyncio.run(main())
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/app/bot.py", line 954, in main
+    "database_url": DATABASE_URL,
+                    ^^^^^^^^^^^^
+NameError: name 'DATABASE_URL' is not defined
+2025-12-16 13:25:54,673 - deadline_bot - INFO - bot.py:65 - Загружено 2 администраторов
+2025-12-16 13:25:54,692 - tzlocal - DEBUG - unix.py:120 - /etc/localtime found
+2025-12-16 13:25:54,695 - tzlocal - DEBUG - unix.py:136 - 1 found:
+ {'/etc/localtime is a symlink to': 'Etc/UTC'}
+2025-12-16 13:25:54,697 - asyncio - DEBUG - selector_events.py:54 - Using selector: EpollSelector
+2025-12-16 13:25:54,698 - deadline_bot - ERROR - bot.py:1015 - Критическая ошибка: name 'DATABASE_URL' is not defined
+Traceback (most recent call last):
+  File "/app/bot.py", line 1011, in <module>
+    asyncio.run(main())
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/app/bot.py", line 954, in main
+    "database_url": DATABASE_URL,
+                    ^^^^^^^^^^^^
+NameError: name 'DATABASE_URL' is not defined
+2025-12-16 13:26:05,941 - deadline_bot - INFO - bot.py:65 - Загружено 2 администраторов
+2025-12-16 13:26:05,962 - tzlocal - DEBUG - unix.py:120 - /etc/localtime found
+2025-12-16 13:26:05,965 - tzlocal - DEBUG - unix.py:136 - 1 found:
+ {'/etc/localtime is a symlink to': 'Etc/UTC'}
+2025-12-16 13:26:05,967 - asyncio - DEBUG - selector_events.py:54 - Using selector: EpollSelector
+2025-12-16 13:26:05,969 - deadline_bot - ERROR - bot.py:1015 - Критическая ошибка: name 'DATABASE_URL' is not defined
+Traceback (most recent call last):
+  File "/app/bot.py", line 1011, in <module>
+    asyncio.run(main())
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/app/bot.py", line 954, in main
+    "database_url": DATABASE_URL,
+                    ^^^^^^^^^^^^
+NameError: name 'DATABASE_URL' is not defined
+2025-12-16 13:26:23,631 - deadline_bot - INFO - bot.py:65 - Загружено 2 администраторов
+2025-12-16 13:26:23,652 - tzlocal - DEBUG - unix.py:120 - /etc/localtime found
+2025-12-16 13:26:23,655 - tzlocal - DEBUG - unix.py:136 - 1 found:
+ {'/etc/localtime is a symlink to': 'Etc/UTC'}
+2025-12-16 13:26:23,657 - asyncio - DEBUG - selector_events.py:54 - Using selector: EpollSelector
+2025-12-16 13:26:23,659 - deadline_bot - ERROR - bot.py:1015 - Критическая ошибка: name 'DATABASE_URL' is not defined
+Traceback (most recent call last):
+  File "/app/bot.py", line 1011, in <module>
+    asyncio.run(main())
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/app/bot.py", line 954, in main
+    "database_url": DATABASE_URL,
+                    ^^^^^^^^^^^^
+NameError: name 'DATABASE_URL' is not defined
+2025-12-16 13:26:43,854 - aiohttp.access - INFO - web_log.py:214 - 172.18.0.1 [16/Dec/2025:13:26:43 +0000] "GET / HTTP/1.1" 404 174 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0 (Edition Yx GX)"
+2025-12-16 13:26:44,092 - aiohttp.access - INFO - web_log.py:214 - 172.18.0.1 [16/Dec/2025:13:26:44 +0000] "GET /favicon.ico HTTP/1.1" 404 174 "http://localhost:8081/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0 (Edition Yx GX)"
+2025-12-16 13:26:54,195 - deadline_bot - INFO - bot.py:65 - Загружено 2 администраторов
+2025-12-16 13:26:54,216 - tzlocal - DEBUG - unix.py:120 - /etc/localtime found
+2025-12-16 13:26:54,219 - tzlocal - DEBUG - unix.py:136 - 1 found:
+ {'/etc/localtime is a symlink to': 'Etc/UTC'}
+2025-12-16 13:26:54,221 - asyncio - DEBUG - selector_events.py:54 - Using selector: EpollSelector
+2025-12-16 13:26:54,223 - deadline_bot - ERROR - bot.py:1015 - Критическая ошибка: name 'DATABASE_URL' is not defined
+Traceback (most recent call last):
+  File "/app/bot.py", line 1011, in <module>
+    asyncio.run(main())
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/app/bot.py", line 954, in main
+    "database_url": DATABASE_URL,
+                    ^^^^^^^^^^^^
+NameError: name 'DATABASE_URL' is not defined
+2025-12-16 13:27:50,220 - deadline_bot - INFO - bot.py:71 - Загружено 2 администраторов
+2025-12-16 13:27:50,239 - tzlocal - DEBUG - unix.py:120 - /etc/localtime found
+2025-12-16 13:27:50,243 - tzlocal - DEBUG - unix.py:136 - 1 found:
+ {'/etc/localtime is a symlink to': 'Etc/UTC'}
+2025-12-16 13:27:50,245 - asyncio - DEBUG - selector_events.py:54 - Using selector: EpollSelector
+2025-12-16 13:27:50,247 - deadline_bot - INFO - logging_config.py:81 - ==================================================
+2025-12-16 13:27:50,248 - deadline_bot - INFO - logging_config.py:82 - DEADLINE BOT STARTING UP
+2025-12-16 13:27:50,249 - deadline_bot - INFO - logging_config.py:83 - ==================================================
+2025-12-16 13:27:50,251 - deadline_bot - INFO - logging_config.py:84 - Database URL: sqlite:///data/deadlines.db
+2025-12-16 13:27:50,252 - deadline_bot - INFO - logging_config.py:85 - Telegram Bot Token: Configured
+2025-12-16 13:27:50,253 - deadline_bot - INFO - logging_config.py:86 - Yonote API Key: Configured
+2025-12-16 13:27:50,255 - deadline_bot - INFO - logging_config.py:87 - Update Interval: 30 minutes
+2025-12-16 13:27:50,256 - deadline_bot - INFO - logging_config.py:88 - Log Level: DEBUG
+2025-12-16 13:27:50,257 - deadline_bot - INFO - logging_config.py:89 - ==================================================
+2025-12-16 13:27:50,258 - deadline_bot - INFO - bot.py:969 - Инициализация базы данных...
+2025-12-16 13:27:50,460 - deadline_bot - INFO - bot.py:972 - База данных инициализирована
+2025-12-16 13:27:50,462 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-16 13:27:50,464 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-16 13:27:50,465 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Синхронизация дедлайнов из Yonote и проверка уведомлений" to job store "default"
+2025-12-16 13:27:50,467 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Очистка просроченных дедлайнов" to job store "default"
+2025-12-16 13:27:50,468 - apscheduler.scheduler - INFO - base.py:214 - Scheduler started
+2025-12-16 13:27:50,469 - deadline_bot - INFO - bot.py:1003 - Планировщик запущен: синхронизация и проверка уведомлений каждые 30 мин, очистка просроченных раз в день
+2025-12-16 13:27:50,470 - deadline_bot - INFO - bot.py:1006 - Запуск бота...
+2025-12-16 13:27:50,472 - aiogram.dispatcher - INFO - dispatcher.py:596 - Start polling
+2025-12-16 13:27:50,473 - apscheduler.scheduler - DEBUG - base.py:1151 - Looking for jobs to run
+2025-12-16 13:27:50,474 - apscheduler.scheduler - DEBUG - base.py:1258 - Next wakeup is due at 2025-12-16 13:57:50.462551+00:00 (in 1799.988181 seconds)
+2025-12-16 13:27:50,684 - aiogram.dispatcher - INFO - dispatcher.py:378 - Run polling for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-16 16:28:43,055 - deadline_bot - INFO - bot.py:71 - Загружено 2 администраторов
+2025-12-16 16:29:13,378 - deadline_bot - INFO - bot.py:71 - Загружено 2 администраторов
+2025-12-16 13:34:54,158 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747088 is handled. Duration 315 ms by bot id=8358666814
+2025-12-16 13:34:56,079 - deadline_bot - INFO - bot.py:187 - Пользователь 929644995 зарегистрирован/обновлён
+2025-12-16 13:34:56,082 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747089 is handled. Duration 182 ms by bot id=8358666814
+2025-12-16 13:35:08,053 - aiohttp.access - INFO - web_log.py:214 - 172.18.0.1 [16/Dec/2025:13:35:08 +0000] "GET / HTTP/1.1" 404 174 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0 (Edition Yx GX)"
+2025-12-16 13:35:08,882 - aiohttp.access - INFO - web_log.py:214 - 172.18.0.1 [16/Dec/2025:13:35:08 +0000] "GET / HTTP/1.1" 404 174 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0 (Edition Yx GX)"
+2025-12-16 13:35:23,996 - deadline_bot - ERROR - healthcheck.py:86 - Database health check failed: Textual SQL expression 'SELECT 1' should be explicitly declared as text('SELECT 1')
+2025-12-16 13:35:23,999 - aiohttp.access - INFO - web_log.py:214 - 172.18.0.1 [16/Dec/2025:13:35:23 +0000] "GET /health HTTP/1.1" 503 504 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0 (Edition Yx GX)"
+2025-12-16 13:36:47,706 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747090 is handled. Duration 92 ms by bot id=8358666814
+2025-12-16 13:36:54,548 - deadline_bot - INFO - bot.py:254 - Пользователь 929644995 привязал ник: VJ_Games
+2025-12-16 13:36:54,553 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747091 is handled. Duration 136 ms by bot id=8358666814
+2025-12-16 13:37:07,335 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 1 по нику: VJ_Games
+2025-12-16 13:37:07,336 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для идентификатора: VJ_Games
+2025-12-16 13:37:07,538 - scripts.sync_deadlines - INFO - sync_deadlines.py:98 - Получено 3 дедлайнов из Yonote для пользователя 1
+2025-12-16 13:37:07,585 - scripts.sync_deadlines - INFO - sync_deadlines.py:215 - [OK] Создан новый дедлайн: просто тест оповещения (ID: csv_39761434)
+2025-12-16 13:37:07,597 - scripts.sync_deadlines - INFO - sync_deadlines.py:215 - [OK] Создан новый дедлайн: Тест на жопу абобы (ID: csv_48276318)
+2025-12-16 13:37:07,606 - scripts.sync_deadlines - INFO - sync_deadlines.py:215 - [OK] Создан новый дедлайн: стрей кидс (ID: csv_33504140)
+2025-12-16 13:37:07,640 - scripts.sync_deadlines - INFO - sync_deadlines.py:221 - Синхронизировано дедлайнов для пользователя 1: создано 3, обновлено 0
+2025-12-16 13:37:07,641 - deadline_bot - INFO - bot.py:288 - Автоматическая синхронизация для пользователя 1: создано 3, обновлено 0
+2025-12-16 13:37:07,652 - deadline_bot - DEBUG - bot.py:309 - Дедлайн 'Тест на жопу абобы' без timezone - добавлен UTC
+2025-12-16 13:37:07,758 - deadline_bot - INFO - bot.py:406 - Пользователь 929644995 запросил список дедлайнов: 1 шт.
+2025-12-16 13:37:07,762 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747092 is handled. Duration 430 ms by bot id=8358666814
+2025-12-16 13:37:19,752 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747093 is handled. Duration 105 ms by bot id=8358666814
+2025-12-16 13:37:28,296 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 1 по нику: VJ_Games
+2025-12-16 13:37:28,298 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для идентификатора: VJ_Games
+2025-12-16 13:37:28,445 - scripts.sync_deadlines - INFO - sync_deadlines.py:98 - Получено 3 дедлайнов из Yonote для пользователя 1
+2025-12-16 13:37:28,453 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'просто тест оповещения': дата изменена с 2025-12-16 09:04:00 на 2025-12-16 09:04:00+00:00
+2025-12-16 13:37:28,454 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: просто тест оповещения (ID: csv_39761434)
+2025-12-16 13:37:28,458 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'Тест на жопу абобы': дата изменена с 2025-12-31 00:00:00 на 2025-12-31 00:00:00+00:00
+2025-12-16 13:37:28,460 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: Тест на жопу абобы (ID: csv_48276318)
+2025-12-16 13:37:28,465 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'стрей кидс': дата изменена с 2025-12-07 00:00:00 на 2025-12-07 00:00:00+00:00
+2025-12-16 13:37:28,466 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: стрей кидс (ID: csv_33504140)
+2025-12-16 13:37:28,485 - scripts.sync_deadlines - INFO - sync_deadlines.py:221 - Синхронизировано дедлайнов для пользователя 1: создано 0, обновлено 3
+2025-12-16 13:37:28,487 - deadline_bot - INFO - bot.py:524 - Проверка уведомлений после ручной синхронизации для пользователя 1
+2025-12-16 13:37:28,493 - notifications - INFO - notifications.py:352 - Проверка уведомлений завершена: пользователей уведомлено 0, отправлено уведомлений 0
+2025-12-16 13:37:28,607 - deadline_bot - INFO - bot.py:543 - Пользователь 929644995 выполнил ручную синхронизацию: создано 0, обновлено 3
+2025-12-16 13:37:28,608 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747094 is handled. Duration 465 ms by bot id=8358666814
+2025-12-16 13:37:37,504 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 1 по нику: VJ_Games
+2025-12-16 13:37:37,506 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для идентификатора: VJ_Games
+2025-12-16 13:37:37,629 - scripts.sync_deadlines - INFO - sync_deadlines.py:98 - Получено 3 дедлайнов из Yonote для пользователя 1
+2025-12-16 13:37:37,637 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'просто тест оповещения': дата изменена с 2025-12-16 09:04:00 на 2025-12-16 09:04:00+00:00
+2025-12-16 13:37:37,638 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: просто тест оповещения (ID: csv_39761434)
+2025-12-16 13:37:37,643 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'Тест на жопу абобы': дата изменена с 2025-12-31 00:00:00 на 2025-12-31 00:00:00+00:00
+2025-12-16 13:37:37,645 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: Тест на жопу абобы (ID: csv_48276318)
+2025-12-16 13:37:37,650 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'стрей кидс': дата изменена с 2025-12-07 00:00:00 на 2025-12-07 00:00:00+00:00
+2025-12-16 13:37:37,651 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: стрей кидс (ID: csv_33504140)
+2025-12-16 13:37:37,668 - scripts.sync_deadlines - INFO - sync_deadlines.py:221 - Синхронизировано дедлайнов для пользователя 1: создано 0, обновлено 3
+2025-12-16 13:37:37,670 - deadline_bot - INFO - bot.py:288 - Автоматическая синхронизация для пользователя 1: создано 0, обновлено 3
+2025-12-16 13:37:37,679 - deadline_bot - DEBUG - bot.py:309 - Дедлайн 'Тест на жопу абобы' без timezone - добавлен UTC
+2025-12-16 13:37:37,792 - deadline_bot - INFO - bot.py:406 - Пользователь 929644995 запросил список дедлайнов: 1 шт.
+2025-12-16 13:37:37,794 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747095 is handled. Duration 294 ms by bot id=8358666814
+2025-12-16 13:37:59,831 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747096 is handled. Duration 139 ms by bot id=8358666814
+2025-12-16 13:38:02,812 - deadline_bot - INFO - bot.py:448 - Пользователь 929644995 включил подписку
+2025-12-16 13:38:02,814 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747097 is handled. Duration 162 ms by bot id=8358666814
+2025-12-16 13:38:18,644 - notifications - DEBUG - notifications.py:323 - Проверка половины срока для пользователя 929644995: найдено 0 дедлайнов на половине срока
+2025-12-16 13:38:18,646 - notifications - INFO - notifications.py:352 - Проверка уведомлений завершена: пользователей уведомлено 0, отправлено уведомлений 0
+2025-12-16 13:38:18,756 - deadline_bot - INFO - bot.py:886 - Администратор 929644995 выполнил ручную проверку уведомлений: уведомлено 0 пользователей, отправлено 0 уведомлений
+2025-12-16 13:38:18,758 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747098 is handled. Duration 246 ms by bot id=8358666814
+2025-12-16 13:41:11,284 - notifications - DEBUG - notifications.py:323 - Проверка половины срока для пользователя 929644995: найдено 0 дедлайнов на половине срока
+2025-12-16 13:41:11,285 - notifications - INFO - notifications.py:352 - Проверка уведомлений завершена: пользователей уведомлено 0, отправлено уведомлений 0
+2025-12-16 13:41:11,408 - deadline_bot - INFO - bot.py:886 - Администратор 929644995 выполнил ручную проверку уведомлений: уведомлено 0 пользователей, отправлено 0 уведомлений
+2025-12-16 13:41:11,410 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747099 is handled. Duration 265 ms by bot id=8358666814
+2025-12-16 13:41:14,724 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 1 по нику: VJ_Games
+2025-12-16 13:41:14,725 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для идентификатора: VJ_Games
+2025-12-16 13:41:14,846 - scripts.sync_deadlines - INFO - sync_deadlines.py:98 - Получено 3 дедлайнов из Yonote для пользователя 1
+2025-12-16 13:41:14,856 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'просто тест оповещения': дата изменена с 2025-12-16 09:04:00 на 2025-12-16 09:04:00+00:00
+2025-12-16 13:41:14,858 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: просто тест оповещения (ID: csv_39761434)
+2025-12-16 13:41:14,863 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'Тест на жопу абобы': дата изменена с 2025-12-31 00:00:00 на 2025-12-31 00:00:00+00:00
+2025-12-16 13:41:14,865 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: Тест на жопу абобы (ID: csv_48276318)
+2025-12-16 13:41:14,870 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'стрей кидс': дата изменена с 2025-12-07 00:00:00 на 2025-12-07 00:00:00+00:00
+2025-12-16 13:41:14,872 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: стрей кидс (ID: csv_33504140)
+2025-12-16 13:41:14,891 - scripts.sync_deadlines - INFO - sync_deadlines.py:221 - Синхронизировано дедлайнов для пользователя 1: создано 0, обновлено 3
+2025-12-16 13:41:14,892 - deadline_bot - INFO - bot.py:288 - Автоматическая синхронизация для пользователя 1: создано 0, обновлено 3
+2025-12-16 13:41:14,902 - deadline_bot - DEBUG - bot.py:309 - Дедлайн 'Тест на жопу абобы' без timezone - добавлен UTC
+2025-12-16 13:41:15,093 - deadline_bot - INFO - bot.py:406 - Пользователь 929644995 запросил список дедлайнов: 1 шт.
+2025-12-16 13:41:15,095 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747100 is handled. Duration 376 ms by bot id=8358666814
+2025-12-16 13:41:21,041 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 1 по нику: VJ_Games
+2025-12-16 13:41:21,043 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для идентификатора: VJ_Games
+2025-12-16 13:41:21,185 - scripts.sync_deadlines - INFO - sync_deadlines.py:98 - Получено 3 дедлайнов из Yonote для пользователя 1
+2025-12-16 13:41:21,199 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'просто тест оповещения': дата изменена с 2025-12-16 09:04:00 на 2025-12-16 09:04:00+00:00
+2025-12-16 13:41:21,201 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: просто тест оповещения (ID: csv_39761434)
+2025-12-16 13:41:21,208 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'Тест на жопу абобы': дата изменена с 2025-12-31 00:00:00 на 2025-12-31 00:00:00+00:00
+2025-12-16 13:41:21,209 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: Тест на жопу абобы (ID: csv_48276318)
+2025-12-16 13:41:21,213 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'стрей кидс': дата изменена с 2025-12-07 00:00:00 на 2025-12-07 00:00:00+00:00
+2025-12-16 13:41:21,215 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: стрей кидс (ID: csv_33504140)
+2025-12-16 13:41:21,230 - scripts.sync_deadlines - INFO - sync_deadlines.py:221 - Синхронизировано дедлайнов для пользователя 1: создано 0, обновлено 3
+2025-12-16 13:41:21,231 - deadline_bot - INFO - bot.py:524 - Проверка уведомлений после ручной синхронизации для пользователя 1
+2025-12-16 13:41:21,245 - notifications - DEBUG - notifications.py:323 - Проверка половины срока для пользователя 929644995: найдено 0 дедлайнов на половине срока
+2025-12-16 13:41:21,246 - notifications - INFO - notifications.py:352 - Проверка уведомлений завершена: пользователей уведомлено 0, отправлено уведомлений 0
+2025-12-16 13:41:21,342 - deadline_bot - INFO - bot.py:543 - Пользователь 929644995 выполнил ручную синхронизацию: создано 0, обновлено 3
+2025-12-16 13:41:21,344 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747101 is handled. Duration 408 ms by bot id=8358666814
+2025-12-16 13:41:34,385 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 1 по нику: VJ_Games
+2025-12-16 13:41:34,386 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для идентификатора: VJ_Games
+2025-12-16 13:41:34,527 - scripts.sync_deadlines - INFO - sync_deadlines.py:98 - Получено 3 дедлайнов из Yonote для пользователя 1
+2025-12-16 13:41:34,536 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'просто тест оповещения': дата изменена с 2025-12-16 09:04:00 на 2025-12-16 09:04:00+00:00
+2025-12-16 13:41:34,537 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: просто тест оповещения (ID: csv_39761434)
+2025-12-16 13:41:34,541 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'Тест на жопу абобы': дата изменена с 2025-12-31 00:00:00 на 2025-12-31 00:00:00+00:00
+2025-12-16 13:41:34,542 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: Тест на жопу абобы (ID: csv_48276318)
+2025-12-16 13:41:34,546 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'стрей кидс': дата изменена с 2025-12-07 00:00:00 на 2025-12-07 00:00:00+00:00
+2025-12-16 13:41:34,548 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: стрей кидс (ID: csv_33504140)
+2025-12-16 13:41:34,564 - scripts.sync_deadlines - INFO - sync_deadlines.py:221 - Синхронизировано дедлайнов для пользователя 1: создано 0, обновлено 3
+2025-12-16 13:41:34,566 - deadline_bot - INFO - bot.py:718 - Синхронизация для /test_halfway: создано 0, обновлено 3
+2025-12-16 13:41:34,680 - deadline_bot - INFO - bot.py:844 - Администратор 929644995 проверил напоминания за половину срока: найдено 0 из 1 дедлайнов
+2025-12-16 13:41:34,682 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747102 is handled. Duration 407 ms by bot id=8358666814
+2025-12-16 13:41:51,024 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 1 по нику: VJ_Games
+2025-12-16 13:41:51,026 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для идентификатора: VJ_Games
+2025-12-16 13:41:51,143 - scripts.sync_deadlines - INFO - sync_deadlines.py:98 - Получено 3 дедлайнов из Yonote для пользователя 1
+2025-12-16 13:41:51,151 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'Тест на жопу абобы': дата изменена с 2025-12-31 00:00:00 на 2025-12-31 00:00:00+00:00
+2025-12-16 13:41:51,153 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: Тест на жопу абобы (ID: csv_48276318)
+2025-12-16 13:41:51,159 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'просто тест оповещения': дата изменена с 2025-12-16 09:04:00 на 2025-12-16 16:45:00+00:00
+2025-12-16 13:41:51,161 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: просто тест оповещения (ID: csv_-3207366)
+2025-12-16 13:41:51,165 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'стрей кидс': дата изменена с 2025-12-07 00:00:00 на 2025-12-07 00:00:00+00:00
+2025-12-16 13:41:51,166 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: стрей кидс (ID: csv_33504140)
+2025-12-16 13:41:51,183 - scripts.sync_deadlines - INFO - sync_deadlines.py:221 - Синхронизировано дедлайнов для пользователя 1: создано 0, обновлено 3
+2025-12-16 13:41:51,185 - deadline_bot - INFO - bot.py:718 - Синхронизация для /test_halfway: создано 0, обновлено 3
+2025-12-16 13:41:51,344 - deadline_bot - INFO - bot.py:844 - Администратор 929644995 проверил напоминания за половину срока: найдено 0 из 2 дедлайнов
+2025-12-16 13:41:51,346 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747103 is handled. Duration 416 ms by bot id=8358666814
+2025-12-16 13:42:04,093 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 1 по нику: VJ_Games
+2025-12-16 13:42:04,095 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для идентификатора: VJ_Games
+2025-12-16 13:42:04,245 - scripts.sync_deadlines - INFO - sync_deadlines.py:98 - Получено 3 дедлайнов из Yonote для пользователя 1
+2025-12-16 13:42:04,258 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'Тест на жопу абобы': дата изменена с 2025-12-31 00:00:00 на 2025-12-31 00:00:00+00:00
+2025-12-16 13:42:04,260 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: Тест на жопу абобы (ID: csv_48276318)
+2025-12-16 13:42:04,270 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'просто тест оповещения': дата изменена с 2025-12-16 16:45:00 на 2025-12-16 16:45:00+00:00
+2025-12-16 13:42:04,272 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: просто тест оповещения (ID: csv_-3207366)
+2025-12-16 13:42:04,279 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'стрей кидс': дата изменена с 2025-12-07 00:00:00 на 2025-12-07 00:00:00+00:00
+2025-12-16 13:42:04,281 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: стрей кидс (ID: csv_33504140)
+2025-12-16 13:42:04,301 - scripts.sync_deadlines - INFO - sync_deadlines.py:221 - Синхронизировано дедлайнов для пользователя 1: создано 0, обновлено 3
+2025-12-16 13:42:04,303 - deadline_bot - INFO - bot.py:718 - Синхронизация для /test_halfway: создано 0, обновлено 3
+2025-12-16 13:42:04,430 - deadline_bot - INFO - bot.py:844 - Администратор 929644995 проверил напоминания за половину срока: найдено 0 из 2 дедлайнов
+2025-12-16 13:42:04,432 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747104 is handled. Duration 429 ms by bot id=8358666814
+2025-12-16 13:42:29,790 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 1 по нику: VJ_Games
+2025-12-16 13:42:29,791 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для идентификатора: VJ_Games
+2025-12-16 13:42:29,937 - scripts.sync_deadlines - INFO - sync_deadlines.py:98 - Получено 3 дедлайнов из Yonote для пользователя 1
+2025-12-16 13:42:29,944 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'Тест на жопу абобы': дата изменена с 2025-12-31 00:00:00 на 2025-12-31 00:00:00+00:00
+2025-12-16 13:42:29,946 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: Тест на жопу абобы (ID: csv_48276318)
+2025-12-16 13:42:29,953 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'просто тест оповещения': дата изменена с 2025-12-16 16:45:00 на 2025-12-16 16:45:00+00:00
+2025-12-16 13:42:29,955 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: просто тест оповещения (ID: csv_-3207366)
+2025-12-16 13:42:29,960 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'стрей кидс': дата изменена с 2025-12-07 00:00:00 на 2025-12-07 00:00:00+00:00
+2025-12-16 13:42:29,961 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: стрей кидс (ID: csv_33504140)
+2025-12-16 13:42:29,978 - scripts.sync_deadlines - INFO - sync_deadlines.py:221 - Синхронизировано дедлайнов для пользователя 1: создано 0, обновлено 3
+2025-12-16 13:42:29,980 - deadline_bot - INFO - bot.py:718 - Синхронизация для /test_halfway: создано 0, обновлено 3
+2025-12-16 13:42:30,111 - deadline_bot - INFO - bot.py:844 - Администратор 929644995 проверил напоминания за половину срока: найдено 0 из 2 дедлайнов
+2025-12-16 13:42:30,113 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747105 is handled. Duration 460 ms by bot id=8358666814
+2025-12-16 13:45:02,655 - aiogram.dispatcher - WARNING - dispatcher.py:515 - Received SIGTERM signal
+2025-12-16 13:45:02,658 - aiogram.dispatcher - INFO - dispatcher.py:413 - Polling stopped for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-16 13:45:02,660 - aiogram.dispatcher - INFO - dispatcher.py:624 - Polling stopped
+2025-12-16 13:45:02,915 - deadline_bot - INFO - bot.py:1012 - Планировщик остановлен
+2025-12-16 13:45:02,917 - apscheduler.scheduler - INFO - base.py:245 - Scheduler has been shut down
+2025-12-16 16:45:29,606 - deadline_bot - INFO - bot.py:71 - Загружено 2 администраторов
+2025-12-16 13:47:28,033 - deadline_bot - INFO - healthcheck.py:118 - Health check server created
+2025-12-16 13:47:28,034 - deadline_bot - INFO - healthcheck.py:129 - Starting health check server on 0.0.0.0:8080
+2025-12-16 13:47:28,036 - deadline_bot - INFO - healthcheck.py:137 - Health check server started on http://0.0.0.0:8080
+2025-12-16 13:47:31,484 - deadline_bot - INFO - bot.py:71 - Загружено 2 администраторов
+2025-12-16 13:47:31,506 - tzlocal - DEBUG - unix.py:120 - /etc/localtime found
+2025-12-16 13:47:31,510 - tzlocal - DEBUG - unix.py:136 - 1 found:
+ {'/etc/localtime is a symlink to': 'Etc/UTC'}
+2025-12-16 13:47:31,514 - asyncio - DEBUG - selector_events.py:54 - Using selector: EpollSelector
+2025-12-16 13:47:31,515 - deadline_bot - INFO - logging_config.py:81 - ==================================================
+2025-12-16 13:47:31,517 - deadline_bot - INFO - logging_config.py:82 - DEADLINE BOT STARTING UP
+2025-12-16 13:47:31,518 - deadline_bot - INFO - logging_config.py:83 - ==================================================
+2025-12-16 13:47:31,520 - deadline_bot - INFO - logging_config.py:84 - Database URL: sqlite:///data/deadlines.db
+2025-12-16 13:47:31,521 - deadline_bot - INFO - logging_config.py:85 - Telegram Bot Token: Configured
+2025-12-16 13:47:31,522 - deadline_bot - INFO - logging_config.py:86 - Yonote API Key: Configured
+2025-12-16 13:47:31,524 - deadline_bot - INFO - logging_config.py:87 - Update Interval: 30 minutes
+2025-12-16 13:47:31,525 - deadline_bot - INFO - logging_config.py:88 - Log Level: DEBUG
+2025-12-16 13:47:31,526 - deadline_bot - INFO - logging_config.py:89 - ==================================================
+2025-12-16 13:47:31,527 - deadline_bot - INFO - bot.py:972 - Инициализация базы данных...
+2025-12-16 13:47:31,545 - deadline_bot - INFO - bot.py:975 - База данных инициализирована
+2025-12-16 13:47:31,547 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-16 13:47:31,549 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-16 13:47:31,551 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Синхронизация дедлайнов из Yonote и проверка уведомлений" to job store "default"
+2025-12-16 13:47:31,552 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Очистка просроченных дедлайнов" to job store "default"
+2025-12-16 13:47:31,553 - apscheduler.scheduler - INFO - base.py:214 - Scheduler started
+2025-12-16 13:47:31,555 - deadline_bot - INFO - bot.py:1006 - Планировщик запущен: синхронизация и проверка уведомлений каждые 30 мин, очистка просроченных раз в день
+2025-12-16 13:47:31,556 - deadline_bot - INFO - bot.py:1009 - Запуск бота...
+2025-12-16 13:47:31,557 - aiogram.dispatcher - INFO - dispatcher.py:596 - Start polling
+2025-12-16 13:47:31,559 - apscheduler.scheduler - DEBUG - base.py:1151 - Looking for jobs to run
+2025-12-16 13:47:31,560 - apscheduler.scheduler - DEBUG - base.py:1258 - Next wakeup is due at 2025-12-16 14:17:31.547531+00:00 (in 1799.986753 seconds)
+2025-12-16 13:47:31,791 - aiogram.dispatcher - INFO - dispatcher.py:378 - Run polling for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-16 13:49:45,609 - deadline_bot - ERROR - healthcheck.py:86 - Database health check failed: Textual SQL expression 'SELECT 1' should be explicitly declared as text('SELECT 1')
+2025-12-16 13:49:45,612 - aiohttp.access - INFO - web_log.py:214 - 172.18.0.1 [16/Dec/2025:13:49:45 +0000] "GET /health HTTP/1.1" 503 502 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0 (Edition Yx GX)"
+2025-12-16 13:49:46,492 - deadline_bot - ERROR - healthcheck.py:86 - Database health check failed: Textual SQL expression 'SELECT 1' should be explicitly declared as text('SELECT 1')
+2025-12-16 13:49:46,494 - aiohttp.access - INFO - web_log.py:214 - 172.18.0.1 [16/Dec/2025:13:49:46 +0000] "GET /health HTTP/1.1" 503 504 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0 (Edition Yx GX)"
+2025-12-16 13:49:47,473 - deadline_bot - ERROR - healthcheck.py:86 - Database health check failed: Textual SQL expression 'SELECT 1' should be explicitly declared as text('SELECT 1')
+2025-12-16 13:49:47,476 - aiohttp.access - INFO - web_log.py:214 - 172.18.0.1 [16/Dec/2025:13:49:47 +0000] "GET /health HTTP/1.1" 503 503 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0 (Edition Yx GX)"
+2025-12-16 13:49:48,132 - deadline_bot - ERROR - healthcheck.py:86 - Database health check failed: Textual SQL expression 'SELECT 1' should be explicitly declared as text('SELECT 1')
+2025-12-16 13:49:48,135 - aiohttp.access - INFO - web_log.py:214 - 172.18.0.1 [16/Dec/2025:13:49:48 +0000] "GET /health HTTP/1.1" 503 504 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0 (Edition Yx GX)"
+2025-12-16 13:49:48,977 - deadline_bot - ERROR - healthcheck.py:86 - Database health check failed: Textual SQL expression 'SELECT 1' should be explicitly declared as text('SELECT 1')
+2025-12-16 13:49:48,980 - aiohttp.access - INFO - web_log.py:214 - 172.18.0.1 [16/Dec/2025:13:49:48 +0000] "GET /health HTTP/1.1" 503 504 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0 (Edition Yx GX)"
+2025-12-16 13:50:23,056 - aiogram.dispatcher - WARNING - dispatcher.py:515 - Received SIGTERM signal
+2025-12-16 13:50:23,058 - aiogram.dispatcher - INFO - dispatcher.py:413 - Polling stopped for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-16 13:50:23,060 - aiogram.dispatcher - INFO - dispatcher.py:624 - Polling stopped
+2025-12-16 13:50:23,312 - deadline_bot - INFO - bot.py:1015 - Планировщик остановлен
+2025-12-16 13:50:23,314 - apscheduler.scheduler - INFO - base.py:245 - Scheduler has been shut down
+2025-12-16 13:51:33,195 - deadline_bot - INFO - healthcheck.py:118 - Health check server created
+2025-12-16 13:51:33,196 - deadline_bot - INFO - healthcheck.py:129 - Starting health check server on 0.0.0.0:8080
+2025-12-16 13:51:33,199 - deadline_bot - INFO - healthcheck.py:137 - Health check server started on http://0.0.0.0:8080
+2025-12-16 13:51:36,432 - deadline_bot - INFO - bot.py:71 - Загружено 2 администраторов
+2025-12-16 13:51:36,453 - tzlocal - DEBUG - unix.py:120 - /etc/localtime found
+2025-12-16 13:51:36,457 - tzlocal - DEBUG - unix.py:136 - 1 found:
+ {'/etc/localtime is a symlink to': 'Etc/UTC'}
+2025-12-16 13:51:36,459 - asyncio - DEBUG - selector_events.py:54 - Using selector: EpollSelector
+2025-12-16 13:51:36,461 - deadline_bot - INFO - logging_config.py:81 - ==================================================
+2025-12-16 13:51:36,462 - deadline_bot - INFO - logging_config.py:82 - DEADLINE BOT STARTING UP
+2025-12-16 13:51:36,463 - deadline_bot - INFO - logging_config.py:83 - ==================================================
+2025-12-16 13:51:36,464 - deadline_bot - INFO - logging_config.py:84 - Database URL: sqlite:///data/deadlines.db
+2025-12-16 13:51:36,465 - deadline_bot - INFO - logging_config.py:85 - Telegram Bot Token: Configured
+2025-12-16 13:51:36,466 - deadline_bot - INFO - logging_config.py:86 - Yonote API Key: Configured
+2025-12-16 13:51:36,468 - deadline_bot - INFO - logging_config.py:87 - Update Interval: 30 minutes
+2025-12-16 13:51:36,469 - deadline_bot - INFO - logging_config.py:88 - Log Level: DEBUG
+2025-12-16 13:51:36,471 - deadline_bot - INFO - logging_config.py:89 - ==================================================
+2025-12-16 13:51:36,472 - deadline_bot - INFO - bot.py:972 - Инициализация базы данных...
+2025-12-16 13:51:36,487 - deadline_bot - INFO - bot.py:975 - База данных инициализирована
+2025-12-16 13:51:36,489 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-16 13:51:36,490 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-16 13:51:36,492 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Синхронизация дедлайнов из Yonote и проверка уведомлений" to job store "default"
+2025-12-16 13:51:36,493 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Очистка просроченных дедлайнов" to job store "default"
+2025-12-16 13:51:36,494 - apscheduler.scheduler - INFO - base.py:214 - Scheduler started
+2025-12-16 13:51:36,495 - deadline_bot - INFO - bot.py:1006 - Планировщик запущен: синхронизация и проверка уведомлений каждые 30 мин, очистка просроченных раз в день
+2025-12-16 13:51:36,496 - deadline_bot - INFO - bot.py:1009 - Запуск бота...
+2025-12-16 13:51:36,498 - aiogram.dispatcher - INFO - dispatcher.py:596 - Start polling
+2025-12-16 13:51:36,499 - apscheduler.scheduler - DEBUG - base.py:1151 - Looking for jobs to run
+2025-12-16 13:51:36,500 - apscheduler.scheduler - DEBUG - base.py:1258 - Next wakeup is due at 2025-12-16 14:21:36.489327+00:00 (in 1799.988531 seconds)
+2025-12-16 13:51:36,736 - aiogram.dispatcher - INFO - dispatcher.py:378 - Run polling for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-16 13:52:22,882 - deadline_bot - ERROR - healthcheck.py:86 - Database health check failed: Textual SQL expression 'SELECT 1' should be explicitly declared as text('SELECT 1')
+2025-12-16 13:52:22,887 - aiohttp.access - INFO - web_log.py:214 - 127.0.0.1 [16/Dec/2025:13:52:22 +0000] "GET /health HTTP/1.1" 503 503 "-" "curl/8.14.1"
+2025-12-16 13:52:43,734 - deadline_bot - INFO - healthcheck.py:118 - Health check server created
+2025-12-16 13:52:43,735 - deadline_bot - INFO - healthcheck.py:129 - Starting health check server on 0.0.0.0:8080
+2025-12-16 13:52:43,737 - deadline_bot - INFO - healthcheck.py:137 - Health check server started on http://0.0.0.0:8080
+2025-12-16 13:52:52,527 - deadline_bot - ERROR - healthcheck.py:86 - Database health check failed: Textual SQL expression 'SELECT 1' should be explicitly declared as text('SELECT 1')
+2025-12-16 13:52:52,530 - aiohttp.access - INFO - web_log.py:214 - 127.0.0.1 [16/Dec/2025:13:52:52 +0000] "GET /health HTTP/1.1" 503 502 "-" "curl/8.14.1"
+2025-12-16 13:53:31,975 - deadline_bot - INFO - healthcheck.py:119 - Health check server created
+2025-12-16 13:53:31,977 - deadline_bot - INFO - healthcheck.py:130 - Starting health check server on 0.0.0.0:8080
+2025-12-16 13:53:31,979 - deadline_bot - INFO - healthcheck.py:138 - Health check server started on http://0.0.0.0:8080
+2025-12-16 13:53:40,988 - aiohttp.access - INFO - web_log.py:214 - 127.0.0.1 [16/Dec/2025:13:53:40 +0000] "GET /health HTTP/1.1" 200 476 "-" "curl/8.14.1"
+2025-12-16 13:53:58,207 - aiohttp.access - INFO - web_log.py:214 - 172.18.0.1 [16/Dec/2025:13:53:58 +0000] "GET /health HTTP/1.1" 200 477 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0 (Edition Yx GX)"
+2025-12-16 13:53:58,896 - aiohttp.access - INFO - web_log.py:214 - 172.18.0.1 [16/Dec/2025:13:53:58 +0000] "GET /health HTTP/1.1" 200 478 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0 (Edition Yx GX)"

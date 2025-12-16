@@ -1,0 +1,20 @@
+# Override файл для разработки
+version: '3.8'
+
+services:
+  deadline-bot:
+    # В режиме разработки можно монтировать код для hot reload
+    volumes:
+      - .:/app
+    # Или использовать development команду
+    # command: ["python", "-m", "debugpy", "--listen", "0.0.0.0:5678", "bot.py"]
+    environment:
+      - LOG_LEVEL=DEBUG
+    # Отключаем healthcheck в разработке если мешает
+    # healthcheck:
+    #   disable: true
+
+  # В разработке healthcheck сервер можно отключить
+  # healthcheck-server:
+  #   profiles: ["production"]
+

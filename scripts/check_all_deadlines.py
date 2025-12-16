@@ -1,3 +1,7 @@
+import os
+import sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from db import SessionLocal
 from models import Deadline, User
 from services import get_user_by_telegram_id

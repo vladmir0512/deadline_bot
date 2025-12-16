@@ -3,6 +3,10 @@
 Скрипт для тестирования уведомлений о половине срока с текущими дедлайнами.
 """
 
+import os
+import sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+
 from db import SessionLocal
 from models import Deadline, DeadlineStatus, User
 from notifications import get_deadlines_at_halfway

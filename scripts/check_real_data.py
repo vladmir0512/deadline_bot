@@ -3,6 +3,10 @@
 Скрипт для проверки реальных дедлайнов в базе данных.
 """
 
+import os
+import sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from db import SessionLocal
 from services import get_user_deadlines
 from models import DeadlineStatus, User

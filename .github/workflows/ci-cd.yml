@@ -1,0 +1,109 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run verify_all.py
+      run: python -m scripts.verify_all
+      env:
+        DATABASE_URL: sqlite:///./test.db
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        YONOTE_API_KEY: ${{ secrets.YONOTE_API_KEY }}
+        YONOTE_CALENDAR_ID: ${{ secrets.YONOTE_CALENDAR_ID }}
+
+    - name: Run integration tests
+      run: |
+        python tests/integration/test_notifications.py
+        python tests/integration/test_sync.py
+      env:
+        DATABASE_URL: sqlite:///./test.db
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        YONOTE_API_KEY: ${{ secrets.YONOTE_API_KEY }}
+        YONOTE_CALENDAR_ID: ${{ secrets.YONOTE_CALENDAR_ID }}
+
+  build-and-push:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: actions/docker/setup-buildx-action@v3
+
+    - name: Log in to Docker Hub
+      uses: actions/docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+    - name: Extract metadata
+      id: meta
+      uses: actions/docker/metadata-action@v5
+      with:
+        images: ${{ secrets.DOCKER_HUB_USERNAME }}/deadline-bot
+        tags: |
+          type=ref,event=branch
+          type=ref,event=pr
+          type=sha,prefix={{branch}}-
+          type=raw,value=latest,enable={{is_default_branch}}
+
+    - name: Build and push Docker image
+      uses: actions/docker/build-push-action@v5
+      with:
+        context: .
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    steps:
+    - name: Deploy to production
+      run: |
+        echo "Deployment would happen here"
+        echo "Use docker-compose pull && docker-compose up -d on your server"
+        echo "Or integrate with your deployment platform (Railway, VPS, etc.)"
+
+  release-deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release' && github.event.action == 'published'
+    steps:
+    - name: Deploy release to production
+      run: |
+        echo "Deploying release ${{ github.event.release.tag_name }}"
+        echo "Release notes: ${{ github.event.release.body }}"
+
+        # Здесь можно добавить команды для production деплоя
+        # Например, через SSH или cloud API
+
+        echo "Release deployment completed for ${{ github.event.release.tag_name }}"
