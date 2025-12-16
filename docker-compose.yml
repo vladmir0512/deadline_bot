@@ -19,15 +19,12 @@ services:
       - LOG_LEVEL=INFO
       - HEALTH_CHECK_PORT=8080
       - HEALTH_CHECK_HOST=0.0.0.0
+      - SERVICE_NAME=deadline-bot
     ports:
       # Порт для health check
       - "8080:8080"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
+    # Основной бот не предоставляет health check - его предоставляет healthcheck-server
+    # Поэтому health check для бота отключен
     command: ["python", "bot.py"]
 
   healthcheck-server:
@@ -43,6 +40,7 @@ services:
       - DATABASE_URL=sqlite:///data/deadlines.db
       - LOG_LEVEL=INFO
       - HEALTH_CHECK_PORT=8080
+      - SERVICE_NAME=healthcheck
     ports:
       - "8081:8080"
     command: ["python", "healthcheck.py"]

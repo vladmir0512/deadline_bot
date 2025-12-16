@@ -25,25 +25,52 @@ console_handler = logging.StreamHandler()
 console_handler.setLevel(logging.INFO)
 console_handler.setFormatter(simple_formatter)
 
-# Файловый handler с ротацией
-file_handler = logging.handlers.RotatingFileHandler(
-    logs_dir / "bot.log",
-    maxBytes=10*1024*1024,  # 10MB
-    backupCount=5,
-    encoding='utf-8'
-)
-file_handler.setLevel(logging.DEBUG)
-file_handler.setFormatter(detailed_formatter)
+# Определяем имя файла логов на основе скрипта или переменной окружения
+import sys
+script_name = sys.argv[0].split('/')[-1].replace('.py', '') if len(sys.argv) > 0 else 'unknown'
+service_name = os.getenv('SERVICE_NAME', script_name)
 
-# Handler для ошибок
-error_handler = logging.handlers.RotatingFileHandler(
-    logs_dir / "error.log",
-    maxBytes=10*1024*1024,  # 10MB
-    backupCount=5,
-    encoding='utf-8'
-)
-error_handler.setLevel(logging.ERROR)
-error_handler.setFormatter(detailed_formatter)
+# Файловый handler с ротацией (с обработкой ошибок доступа)
+try:
+    logs_dir.mkdir(exist_ok=True)
+
+    # Используем разные файлы для разных сервисов
+    log_filename = f"{service_name}.log"
+
+    file_handler = logging.handlers.RotatingFileHandler(
+        logs_dir / log_filename,
+        maxBytes=10*1024*1024,  # 10MB
+        backupCount=5,
+        encoding='utf-8'
+    )
+    file_handler.setLevel(logging.DEBUG)
+    file_handler.setFormatter(detailed_formatter)
+    file_handler_available = True
+except (PermissionError, OSError) as e:
+    print(f"Warning: Cannot create log file handler for {service_name}: {e}")
+    file_handler = None
+    file_handler_available = False
+
+# Handler для ошибок (с обработкой ошибок доступа)
+try:
+    if not file_handler_available:
+        logs_dir.mkdir(exist_ok=True)
+
+    error_filename = f"{service_name}_error.log"
+
+    error_handler = logging.handlers.RotatingFileHandler(
+        logs_dir / error_filename,
+        maxBytes=10*1024*1024,  # 10MB
+        backupCount=5,
+        encoding='utf-8'
+    )
+    error_handler.setLevel(logging.ERROR)
+    error_handler.setFormatter(detailed_formatter)
+    error_handler_available = True
+except (PermissionError, OSError) as e:
+    print(f"Warning: Cannot create error log file handler for {service_name}: {e}")
+    error_handler = None
+    error_handler_available = False
 
 def setup_logging(log_level: str = "INFO") -> logging.Logger:
     """
@@ -67,8 +94,10 @@ def setup_logging(log_level: str = "INFO") -> logging.Logger:
 
     # Добавляем handlers
     root_logger.addHandler(console_handler)
-    root_logger.addHandler(file_handler)
-    root_logger.addHandler(error_handler)
+    if file_handler_available and file_handler:
+        root_logger.addHandler(file_handler)
+    if error_handler_available and error_handler:
+        root_logger.addHandler(error_handler)
 
     # Создаем логгер для приложения
     logger = logging.getLogger("deadline_bot")

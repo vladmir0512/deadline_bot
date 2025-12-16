@@ -17,8 +17,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Копируем исходный код приложения
 COPY . .
 
-# Создаем директорию для базы данных
-RUN mkdir -p data
+# Создаем директории для данных и логов
+RUN mkdir -p data logs
 
 # Устанавливаем переменные окружения по умолчанию
 ENV PYTHONUNBUFFERED=1
