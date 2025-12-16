@@ -793,6 +793,75 @@ cp data/backup_20251216.db data/deadlines.db
 docker-compose restart
 ```
 
+### Способ 4: Безопасное обновление с сохранением данных
+```bash
+# Используйте специальный скрипт для безопасного обновления
+python scripts/safe_update.py --check    # Проверить состояние
+python scripts/safe_update.py            # Выполнить обновление
+python scripts/safe_update.py --rollback # Откат при проблемах
+
+# Или ручное обновление:
+# 1. Создать бэкап
+python scripts/backup_db.py
+
+# 2. Скачать обновления
+git pull origin main
+
+# 3. Пересобрать и перезапустить
+docker-compose build --no-cache
+docker-compose up -d
+
+# 4. Проверить работу
+curl http://localhost:8080/health
+
+# 5. При проблемах восстановить из бэкапа
+python scripts/backup_db.py --restore data/backups/backup_YYYYMMDD_HHMMSS.db
+```
+
+### Способ 4: Исправление проблем с Docker сборкой
+
+#### Если apt-get update fails:
+```bash
+# Очистите Docker cache
+docker system prune -a
+
+# Проверьте сеть
+ping -c 3 google.com
+
+# Обновите sources.list (если Ubuntu устарела)
+sudo sed -i 's/archive.ubuntu.com/mirror.ubuntu.com/' /etc/apt/sources.list
+
+# Или используйте российское зеркало
+sudo sed -i 's/archive.ubuntu.com/mirror.yandex.ru/' /etc/apt/sources.list
+sudo apt update
+
+# Перезапустите сборку
+docker-compose build --no-cache --pull
+```
+
+#### Если ошибка с установкой пакетов:
+```bash
+# Проверьте место на диске
+df -h
+
+# Очистите пакеты
+sudo apt autoremove && sudo apt autoclean
+
+# Перезапустите сборку
+docker-compose build --no-cache
+```
+
+#### Если проблема с su-exec:
+```bash
+# Проверьте версию Ubuntu
+lsb_release -a
+
+# Для Ubuntu 22.04+ su-exec может отсутствовать
+# Замените в Dockerfile:
+# RUN apt-get install -y gosu
+# И в docker-compose.yml замените su-exec на gosu
+```
+
 ### Проверка после обновления:
 ```bash
 # Health check
