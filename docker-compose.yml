@@ -22,7 +22,7 @@ services:
       - SERVICE_NAME=deadline-bot
     # Основной бот не предоставляет health check - его предоставляет healthcheck-server
     # Поэтому health check для бота отключен
-    command: ["sh", "-c", "chown -R app:app /app/logs /app/data /app/.env 2>/dev/null || true && su-exec app python bot.py"]
+    command: ["sh", "-c", "chown -R app:app /app/logs /app/data /app/.env 2>/dev/null || true && gosu app python bot.py"]
     user: root
 
   healthcheck-server:
@@ -42,7 +42,7 @@ services:
       - SERVICE_NAME=healthcheck
     ports:
       - "8080:8080"  # Health check доступен на порту 8080 хоста
-    command: ["sh", "-c", "chown -R app:app /app/logs /app/data /app/.env 2>/dev/null || true && su-exec app python healthcheck.py"]
+    command: ["sh", "-c", "chown -R app:app /app/logs /app/data /app/.env 2>/dev/null || true && gosu app python healthcheck.py"]
     depends_on:
       - deadline-bot
     user: root
