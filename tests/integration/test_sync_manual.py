@@ -7,11 +7,11 @@ import asyncio
 import sys
 import os
 
-# Добавляем текущую директорию в путь
-sys.path.insert(0, '.')
+# Добавляем корневую директорию проекта в путь для импорта
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 from services import get_user_by_telegram_id
-from sync_deadlines import sync_user_deadlines
+from scripts.sync_deadlines import sync_user_deadlines
 
 async def main():
     # Получить пользователя по ID

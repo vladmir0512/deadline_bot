@@ -5,8 +5,12 @@
 
 import asyncio
 import os
+import sys
 from aiogram import Bot
 from dotenv import load_dotenv
+
+# Добавляем корневую директорию проекта в путь для импорта
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Загружаем переменные окружения
 load_dotenv()

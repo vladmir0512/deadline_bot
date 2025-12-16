@@ -22,6 +22,7 @@ from aiogram.types import Message
 from dotenv import load_dotenv
 
 from db import init_db
+from logging_config import setup_logging, log_startup_info, log_error_with_context
 from notifications import (
     check_and_notify_deadlines,
     get_deadlines_at_halfway,
@@ -40,23 +41,25 @@ from services import (
 from scripts.sync_deadlines import sync_all_deadlines, sync_user_deadlines
 
 # Настройка логирования
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-)
-logger = logging.getLogger(__name__)
+logger = setup_logging(os.getenv("LOG_LEVEL", "INFO"))
 
 # Загружаем переменные окружения
 load_dotenv()
 
 # Получаем токен бота
-TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-if not TELEGRAM_BOT_TOKEN:
+BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+if not BOT_TOKEN:
     logger.error("TELEGRAM_BOT_TOKEN не задан в переменных окружения!")
     sys.exit(1)
 
+# Для обратной совместимости
+TELEGRAM_BOT_TOKEN = BOT_TOKEN
+
 # Получаем интервал обновления из переменных окружения (по умолчанию 30 минут)
 UPDATE_INTERVAL_MINUTES = int(os.getenv("UPDATE_INTERVAL_MINUTES", "30"))
+
+# Получаем URL базы данных
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///../data/deadlines.db")
 
 # Получаем список ID администраторов из переменных окружения
 # Формат: "123456789,987654321" (через запятую)
@@ -73,7 +76,7 @@ if ADMIN_IDS_STR:
 MOSCOW_TZ = timezone(timedelta(hours=3))
 
 # Инициализация бота и диспетчера
-bot = Bot(token=TELEGRAM_BOT_TOKEN)
+bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 router = Router()
 
@@ -278,14 +281,16 @@ async def cmd_my_deadlines(message: Message) -> None:
             )
             return
 
-        # Автоматически синхронизируем дедлайны перед отображением (чтобы показать самые свежие данные)
+        # Сначала синхронизируем дедлайны из Yonote
+        await message.answer("🔄 Синхронизирую дедлайны из Yonote...")
         try:
             from scripts.sync_deadlines import sync_user_deadlines
             created, updated = await sync_user_deadlines(user)
-            logger.info(f"Автоматическая синхронизация для пользователя {user.id}: создано {created}, обновлено {updated}")
+            sync_message = f"✅ Синхронизация завершена: создано {created}, обновлено {updated}"
+            logger.info(f"Синхронизация для /my_deadlines: создано {created}, обновлено {updated}")
         except Exception as sync_error:
-            logger.error(f"Ошибка при авто-синхронизации: {sync_error}", exc_info=True)
-            # Продолжаем работу даже если автосинхронизация не удалась, чтобы показать имеющиеся данные
+            sync_message = f"⚠️ Ошибка при синхронизации: {sync_error}"
+            logger.error(f"Ошибка при синхронизации в /my_deadlines: {sync_error}", exc_info=True)
 
         deadlines = get_user_deadlines(user.id, status="active", only_future=True, include_no_date=True)
 
@@ -321,6 +326,7 @@ async def cmd_my_deadlines(message: Message) -> None:
             info_text = "\n".join(user_info) if user_info else "не задан"
 
             await message.answer(
+                f"{sync_message}\n\n"
                 "📭 У вас пока нет активных дедлайнов.\n\n"
                 f"Ваш идентификатор: {info_text}\n\n"
                 "💡 Попробуйте:\n"
@@ -331,7 +337,7 @@ async def cmd_my_deadlines(message: Message) -> None:
             return
 
         # Формируем сообщение с дедлайнами
-        response_lines = [f"📋 *Ваши дедлайны ({len(deadlines)}):*\n"]
+        response_lines = [f"{sync_message}\n\n📋 *Ваши дедлайны ({len(deadlines)}):*\n"]
 
         for i, deadline in enumerate(deadlines, 1):
             # Экранируем заголовок дедлайна
@@ -952,10 +958,24 @@ async def scheduled_clean_expired() -> None:
 
 async def main() -> None:
     """Главная функция запуска бота."""
+    # Логируем информацию о запуске
+    config = {
+        "database_url": DATABASE_URL,
+        "bot_token": bool(BOT_TOKEN),
+        "yonote_api_key": bool(os.getenv("YONOTE_API_KEY")),
+        "update_interval": UPDATE_INTERVAL_MINUTES,
+        "log_level": os.getenv("LOG_LEVEL", "INFO")
+    }
+    log_startup_info(logger, config)
+
     # Инициализируем БД
     logger.info("Инициализация базы данных...")
-    init_db()
-    logger.info("База данных инициализирована")
+    try:
+        init_db()
+        logger.info("База данных инициализирована")
+    except Exception as e:
+        log_error_with_context(logger, e, "Ошибка инициализации базы данных")
+        raise
 
     # Регистрируем роутер
     dp.include_router(router)

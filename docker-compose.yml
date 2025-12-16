@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  deadline-bot:
+    build: .
+    container_name: deadline_bot
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      # Персистентное хранение базы данных
+      - ./data:/app/data
+      # Логи
+      - ./logs:/app/logs
+    environment:
+      # Переменные с высоким приоритетом (переопределяют .env)
+      - DATABASE_URL=sqlite:///data/deadlines.db
+      - PYTHONUNBUFFERED=1
+      - LOG_LEVEL=INFO
+      - HEALTH_CHECK_PORT=8080
+      - HEALTH_CHECK_HOST=0.0.0.0
+    ports:
+      # Порт для health check
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    command: ["python", "bot.py"]
+
+  healthcheck-server:
+    build: .
+    container_name: deadline_healthcheck
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data  # Общая база данных с основным ботом
+      - ./logs:/app/logs
+    environment:
+      - DATABASE_URL=sqlite:///data/deadlines.db
+      - LOG_LEVEL=INFO
+      - HEALTH_CHECK_PORT=8080
+    ports:
+      - "8081:8080"
+    command: ["python", "healthcheck.py"]
+    depends_on:
+      - deadline-bot
