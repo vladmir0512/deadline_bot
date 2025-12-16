@@ -4,12 +4,15 @@
 
 from __future__ import annotations
 
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timezone, timedelta
 
 from sqlalchemy import or_
 
 from db import SessionLocal
 from models import Deadline, DeadlineStatus, Subscription, User
+
+# Настройка часового пояса (GMT+3, Moscow)
+MOSCOW_TZ = timezone(timedelta(hours=3))
 
 
 def get_or_create_user(telegram_id: int, username: str | None = None) -> User:
@@ -275,8 +278,14 @@ def format_deadline(deadline: Deadline) -> str:
 
     if deadline.due_date:
         # Форматируем дату в московском времени
-        due_date_str = deadline.due_date.strftime("%d.%m.%Y %H:%M")
-        lines.append(f"⏰ Дедлайн: {due_date_str}")
+        if deadline.due_date.tzinfo is None:
+            # Если naive datetime, предполагаем UTC
+            due_date_moscow = deadline.due_date.replace(tzinfo=UTC).astimezone(MOSCOW_TZ)
+        else:
+            due_date_moscow = deadline.due_date.astimezone(MOSCOW_TZ)
+
+        due_date_str = due_date_moscow.strftime("%d.%m.%Y %H:%M")
+        lines.append(f"⏰ Дедлайн: {due_date_str} (MSK)")
 
     status_emoji = {
         DeadlineStatus.ACTIVE: "🟢",
@@ -296,4 +305,34 @@ def format_deadline(deadline: Deadline) -> str:
         lines.append(f"🔗 Источник: {deadline.source}")
 
     return "\n".join(lines)
+
+
+def get_all_subscribed_users(notification_type: str = "telegram") -> list[tuple[User, Subscription]]:
+    """
+    Получить список всех пользователей с активными подписками.
+
+    Args:
+        notification_type: Тип уведомлений (по умолчанию "telegram")
+
+    Returns:
+        Список кортежей (User, Subscription) для всех подписанных пользователей
+    """
+    session = SessionLocal()
+    try:
+        subscriptions = (
+            session.query(Subscription)
+            .filter_by(notification_type=notification_type, active=True)
+            .join(User)
+            .order_by(User.created_at.asc())
+            .all()
+        )
+
+        result = []
+        for subscription in subscriptions:
+            if subscription.user:
+                result.append((subscription.user, subscription))
+
+        return result
+    finally:
+        session.close()
 

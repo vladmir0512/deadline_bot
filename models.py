@@ -64,6 +64,7 @@ class Deadline(Base):
     due_date: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
     status: Mapped[str] = mapped_column(String(32), default=DeadlineStatus.ACTIVE, nullable=False, index=True)
     source: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
+    source_id: Mapped[str | None] = mapped_column(String(255), nullable=True, index=True)  # Уникальный ID из внешнего источника
 
     created_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now, nullable=False)
     updated_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now, onupdate=utc_now, nullable=False)
