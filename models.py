@@ -7,6 +7,7 @@ from __future__ import annotations
 - users: информация о пользователе Telegram
 - deadlines: дедлайны, связанные с пользователями
 - subscriptions: настройки подписок на уведомления
+- blocked_users: список заблокированных пользователей
 """
 
 from datetime import UTC, datetime
@@ -87,5 +88,20 @@ class Subscription(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now, nullable=False)
 
     user: Mapped["User"] = relationship("User", back_populates="subscriptions")
+
+
+class BlockedUser(Base):
+    __tablename__ = "blocked_users"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    telegram_id: Mapped[int] = mapped_column(Integer, unique=True, index=True, nullable=False)
+
+    # Причина блокировки (опционально)
+    reason: Mapped[str | None] = mapped_column(Text, nullable=True)
+
+    # Кто заблокировал (ID администратора)
+    blocked_by: Mapped[int] = mapped_column(Integer, nullable=False)
+
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now, nullable=False)
 
 
