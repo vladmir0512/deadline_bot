@@ -1,0 +1,121 @@
+2025-12-16 19:43:34,842 - aiohttp.server - ERROR - web_protocol.py:481 - Error handling request from 66.132.153.58
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/aiohttp/web_protocol.py", line 408, in data_received
+    messages, upgraded, tail = self._request_parser.feed_data(data)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "aiohttp/_http_parser.pyx", line 556, in aiohttp._http_parser.HttpParser.feed_data
+aiohttp.http_exceptions.BadHttpMessage: 400, message:
+  Pause on PRI/Upgrade:
+
+    b''
+      ^
+2025-12-17 20:07:15,261 - aiohttp.server - ERROR - web_protocol.py:481 - Error handling request from 162.142.125.121
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/aiohttp/web_protocol.py", line 408, in data_received
+    messages, upgraded, tail = self._request_parser.feed_data(data)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "aiohttp/_http_parser.pyx", line 556, in aiohttp._http_parser.HttpParser.feed_data
+aiohttp.http_exceptions.BadHttpMessage: 400, message:
+  Pause on PRI/Upgrade:
+
+    b''
+      ^
+2025-12-17 21:06:41,549 - aiohttp.server - ERROR - web_protocol.py:481 - Error handling request from 66.132.153.61
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/aiohttp/web_protocol.py", line 408, in data_received
+    messages, upgraded, tail = self._request_parser.feed_data(data)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "aiohttp/_http_parser.pyx", line 556, in aiohttp._http_parser.HttpParser.feed_data
+aiohttp.http_exceptions.BadHttpMessage: 400, message:
+  Pause on PRI/Upgrade:
+
+    b''
+      ^
+2025-12-18 22:07:20,194 - aiohttp.server - ERROR - web_protocol.py:481 - Error handling request from 162.142.125.117
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/aiohttp/web_protocol.py", line 408, in data_received
+    messages, upgraded, tail = self._request_parser.feed_data(data)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "aiohttp/_http_parser.pyx", line 556, in aiohttp._http_parser.HttpParser.feed_data
+aiohttp.http_exceptions.BadHttpMessage: 400, message:
+  Pause on PRI/Upgrade:
+
+    b''
+      ^
+2025-12-18 23:39:09,861 - aiohttp.server - ERROR - web_protocol.py:481 - Error handling request from 66.132.153.50
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/aiohttp/web_protocol.py", line 408, in data_received
+    messages, upgraded, tail = self._request_parser.feed_data(data)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "aiohttp/_http_parser.pyx", line 556, in aiohttp._http_parser.HttpParser.feed_data
+aiohttp.http_exceptions.BadHttpMessage: 400, message:
+  Pause on PRI/Upgrade:
+
+    b''
+      ^
+2025-12-20 00:01:19,387 - aiohttp.server - ERROR - web_protocol.py:481 - Error handling request from 162.142.125.201
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/aiohttp/web_protocol.py", line 408, in data_received
+    messages, upgraded, tail = self._request_parser.feed_data(data)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "aiohttp/_http_parser.pyx", line 556, in aiohttp._http_parser.HttpParser.feed_data
+aiohttp.http_exceptions.BadHttpMessage: 400, message:
+  Pause on PRI/Upgrade:
+
+    b''
+      ^
+2025-12-21 01:03:04,557 - aiohttp.server - ERROR - web_protocol.py:481 - Error handling request from 66.132.153.140
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/aiohttp/web_protocol.py", line 408, in data_received
+    messages, upgraded, tail = self._request_parser.feed_data(data)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "aiohttp/_http_parser.pyx", line 556, in aiohttp._http_parser.HttpParser.feed_data
+aiohttp.http_exceptions.BadHttpMessage: 400, message:
+  Pause on PRI/Upgrade:
+
+    b''
+      ^
+2025-12-21 02:49:39,019 - aiohttp.server - ERROR - web_protocol.py:481 - Error handling request from 45.194.92.18
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/aiohttp/web_protocol.py", line 408, in data_received
+    messages, upgraded, tail = self._request_parser.feed_data(data)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "aiohttp/_http_parser.pyx", line 556, in aiohttp._http_parser.HttpParser.feed_data
+aiohttp.http_exceptions.BadHttpMessage: 400, message:
+  Invalid header token:
+
+    b'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36'
+             ^
+2025-12-21 02:49:39,273 - aiohttp.server - ERROR - web_protocol.py:481 - Error handling request from 45.194.92.18
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/aiohttp/web_protocol.py", line 408, in data_received
+    messages, upgraded, tail = self._request_parser.feed_data(data)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "aiohttp/_http_parser.pyx", line 556, in aiohttp._http_parser.HttpParser.feed_data
+aiohttp.http_exceptions.BadHttpMessage: 400, message:
+  Invalid header token:
+
+    b'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36'
+             ^
+2025-12-21 04:39:09,453 - aiohttp.server - ERROR - web_protocol.py:481 - Error handling request from 66.132.153.49
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/aiohttp/web_protocol.py", line 408, in data_received
+    messages, upgraded, tail = self._request_parser.feed_data(data)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "aiohttp/_http_parser.pyx", line 556, in aiohttp._http_parser.HttpParser.feed_data
+aiohttp.http_exceptions.BadHttpMessage: 400, message:
+  Pause on PRI/Upgrade:
+
+    b''
+      ^
+2025-12-21 17:54:45,444 - aiohttp.server - ERROR - web_protocol.py:481 - Error handling request from 66.132.153.57
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/aiohttp/web_protocol.py", line 408, in data_received
+    messages, upgraded, tail = self._request_parser.feed_data(data)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "aiohttp/_http_parser.pyx", line 556, in aiohttp._http_parser.HttpParser.feed_data
+aiohttp.http_exceptions.BadHttpMessage: 400, message:
+  Pause on PRI/Upgrade:
+
+    b''
+      ^

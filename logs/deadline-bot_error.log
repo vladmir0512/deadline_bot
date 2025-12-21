@@ -1,0 +1,4 @@
+2025-12-19 01:10:58,432 - aiogram.dispatcher - ERROR - dispatcher.py:225 - Failed to fetch updates - TelegramServerError: Telegram server says - Bad Gateway
+2025-12-19 01:10:59,489 - aiogram.dispatcher - ERROR - dispatcher.py:225 - Failed to fetch updates - TelegramServerError: Telegram server says - Bad Gateway
+2025-12-19 01:11:00,917 - aiogram.dispatcher - ERROR - dispatcher.py:225 - Failed to fetch updates - TelegramServerError: Telegram server says - Bad Gateway
+2025-12-19 01:11:02,850 - aiogram.dispatcher - ERROR - dispatcher.py:225 - Failed to fetch updates - TelegramServerError: Telegram server says - Bad Gateway
