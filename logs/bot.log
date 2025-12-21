@@ -488,3 +488,155 @@ NameError: name 'DATABASE_URL' is not defined
 2025-12-16 13:53:40,988 - aiohttp.access - INFO - web_log.py:214 - 127.0.0.1 [16/Dec/2025:13:53:40 +0000] "GET /health HTTP/1.1" 200 476 "-" "curl/8.14.1"
 2025-12-16 13:53:58,207 - aiohttp.access - INFO - web_log.py:214 - 172.18.0.1 [16/Dec/2025:13:53:58 +0000] "GET /health HTTP/1.1" 200 477 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0 (Edition Yx GX)"
 2025-12-16 13:53:58,896 - aiohttp.access - INFO - web_log.py:214 - 172.18.0.1 [16/Dec/2025:13:53:58 +0000] "GET /health HTTP/1.1" 200 478 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0 (Edition Yx GX)"
+2025-12-22 01:16:12,027 - deadline_bot - INFO - bot.py:72 - Загружено 1 администраторов
+2025-12-22 01:16:12,631 - deadline_bot - INFO - logging_config.py:110 - ==================================================
+2025-12-22 01:16:12,633 - deadline_bot - INFO - logging_config.py:111 - DEADLINE BOT STARTING UP
+2025-12-22 01:16:12,633 - deadline_bot - INFO - logging_config.py:112 - ==================================================
+2025-12-22 01:16:12,634 - deadline_bot - INFO - logging_config.py:113 - Database URL: sqlite:///../data/deadlines.db
+2025-12-22 01:16:12,635 - deadline_bot - INFO - logging_config.py:114 - Telegram Bot Token: Configured
+2025-12-22 01:16:12,636 - deadline_bot - INFO - logging_config.py:115 - Yonote API Key: Configured
+2025-12-22 01:16:12,637 - deadline_bot - INFO - logging_config.py:116 - Update Interval: 30 minutes
+2025-12-22 01:16:12,637 - deadline_bot - INFO - logging_config.py:117 - Log Level: INFO
+2025-12-22 01:16:12,638 - deadline_bot - INFO - logging_config.py:118 - ==================================================
+2025-12-22 01:16:12,639 - deadline_bot - INFO - bot.py:1154 - Инициализация базы данных...
+2025-12-22 01:16:12,665 - deadline_bot - INFO - bot.py:1157 - База данных инициализирована
+2025-12-22 01:16:12,668 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-22 01:16:12,669 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-22 01:16:12,672 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Синхронизация дедлайнов из Yonote и проверка уведомлений" to job store "default"
+2025-12-22 01:16:12,673 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Очистка просроченных дедлайнов" to job store "default"
+2025-12-22 01:16:12,674 - apscheduler.scheduler - INFO - base.py:214 - Scheduler started
+2025-12-22 01:16:12,674 - deadline_bot - INFO - bot.py:1191 - Планировщик запущен: синхронизация и проверка уведомлений каждые 30 мин, очистка просроченных раз в день
+2025-12-22 01:16:12,675 - deadline_bot - INFO - bot.py:1194 - Запуск бота...
+2025-12-22 01:16:12,676 - aiogram.dispatcher - INFO - dispatcher.py:596 - Start polling
+2025-12-22 01:16:13,029 - aiogram.dispatcher - INFO - dispatcher.py:378 - Run polling for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-22 01:16:24,368 - deadline_bot - WARNING - bot.py:97 - Заблокированный пользователь 929644995 попытался использовать бота
+2025-12-22 01:16:24,369 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747190 is handled. Duration 2 ms by bot id=8358666814
+2025-12-22 01:16:30,429 - deadline_bot - WARNING - bot.py:97 - Заблокированный пользователь 929644995 попытался использовать бота
+2025-12-22 01:16:30,430 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747191 is handled. Duration 2 ms by bot id=8358666814
+2025-12-22 01:16:32,001 - deadline_bot - WARNING - bot.py:97 - Заблокированный пользователь 929644995 попытался использовать бота
+2025-12-22 01:16:32,002 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747192 is handled. Duration 1 ms by bot id=8358666814
+2025-12-22 01:16:38,829 - deadline_bot - WARNING - bot.py:97 - Заблокированный пользователь 929644995 попытался использовать бота
+2025-12-22 01:16:38,830 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747193 is handled. Duration 2 ms by bot id=8358666814
+2025-12-22 01:16:44,795 - deadline_bot - WARNING - bot.py:97 - Заблокированный пользователь 929644995 попытался использовать бота
+2025-12-22 01:16:44,795 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747194 is handled. Duration 1 ms by bot id=8358666814
+2025-12-22 01:46:12,680 - apscheduler.executors.default - INFO - base.py:179 - Running job "Синхронизация дедлайнов из Yonote и проверка уведомлений (trigger: interval[0:30:00], next run at: 2025-12-22 02:16:12 MSK)" (scheduled at 2025-12-22 01:46:12.668299+03:00)
+2025-12-22 01:46:12,682 - deadline_bot - INFO - bot.py:1097 - Начало синхронизации дедлайнов из Yonote...
+2025-12-22 01:46:12,711 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 1 по нику: VJ_Games
+2025-12-22 01:46:12,712 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для идентификатора: VJ_Games
+2025-12-22 01:46:12,949 - scripts.sync_deadlines - INFO - sync_deadlines.py:98 - Получено 3 дедлайнов из Yonote для пользователя 1
+2025-12-22 01:46:12,962 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'Тест на жопу абобы': дата изменена с 2025-12-31 00:00:00 на 2025-12-31 00:00:00+00:00
+2025-12-22 01:46:12,962 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: Тест на жопу абобы (ID: csv_88499386)
+2025-12-22 01:46:12,965 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'просто тест оповещения': дата изменена с 2025-12-16 16:45:00 на 2025-12-16 16:45:00+00:00
+2025-12-22 01:46:12,965 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: просто тест оповещения (ID: csv_-5463936)
+2025-12-22 01:46:12,969 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'стрей кидс': дата изменена с 2025-12-07 00:00:00 на 2025-12-07 00:00:00+00:00
+2025-12-22 01:46:12,970 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: стрей кидс (ID: csv_93194494)
+2025-12-22 01:46:12,977 - scripts.sync_deadlines - INFO - sync_deadlines.py:221 - Синхронизировано дедлайнов для пользователя 1: создано 0, обновлено 3
+2025-12-22 01:46:12,978 - scripts.sync_deadlines - INFO - sync_deadlines.py:259 - Синхронизация завершена: пользователей 1, создано дедлайнов 0, обновлено 3
+2025-12-22 01:46:12,978 - deadline_bot - INFO - bot.py:1099 - Синхронизация завершена: пользователей 1, создано 0, обновлено 3
+2025-12-22 01:46:12,979 - deadline_bot - INFO - bot.py:1105 - Начало проверки уведомлений после синхронизации...
+2025-12-22 01:46:12,990 - notifications - INFO - notifications.py:352 - Проверка уведомлений завершена: пользователей уведомлено 0, отправлено уведомлений 0
+2025-12-22 01:46:12,990 - deadline_bot - INFO - bot.py:1107 - Проверка уведомлений завершена: пользователей уведомлено 0, отправлено уведомлений 0
+2025-12-22 01:46:12,991 - apscheduler.executors.default - INFO - base.py:203 - Job "Синхронизация дедлайнов из Yonote и проверка уведомлений (trigger: interval[0:30:00], next run at: 2025-12-22 02:16:12 MSK)" executed successfully
+2025-12-22 01:58:06,678 - deadline_bot - WARNING - bot.py:97 - Заблокированный пользователь 929644995 попытался использовать бота
+2025-12-22 01:58:06,679 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747195 is handled. Duration 2 ms by bot id=8358666814
+2025-12-22 01:58:16,363 - aiogram.dispatcher - INFO - dispatcher.py:624 - Polling stopped
+2025-12-22 01:58:16,364 - aiogram.dispatcher - ERROR - dispatcher.py:225 - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2025-12-22 01:58:16,365 - aiogram.dispatcher - WARNING - dispatcher.py:227 - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8358666814)
+2025-12-22 01:58:16,631 - deadline_bot - INFO - bot.py:1200 - Планировщик остановлен
+2025-12-22 01:58:16,632 - apscheduler.scheduler - INFO - base.py:245 - Scheduler has been shut down
+2025-12-22 01:58:16,634 - aiogram.dispatcher - INFO - dispatcher.py:413 - Polling stopped for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-22 01:58:16,636 - deadline_bot - INFO - bot.py:1207 - Бот остановлен пользователем
+2025-12-22 02:00:16,853 - deadline_bot - INFO - bot.py:72 - Загружено 1 администраторов
+2025-12-22 02:00:17,405 - deadline_bot - INFO - logging_config.py:110 - ==================================================
+2025-12-22 02:00:17,406 - deadline_bot - INFO - logging_config.py:111 - DEADLINE BOT STARTING UP
+2025-12-22 02:00:17,406 - deadline_bot - INFO - logging_config.py:112 - ==================================================
+2025-12-22 02:00:17,407 - deadline_bot - INFO - logging_config.py:113 - Database URL: sqlite:///../data/deadlines.db
+2025-12-22 02:00:17,408 - deadline_bot - INFO - logging_config.py:114 - Telegram Bot Token: Configured
+2025-12-22 02:00:17,408 - deadline_bot - INFO - logging_config.py:115 - Yonote API Key: Configured
+2025-12-22 02:00:17,409 - deadline_bot - INFO - logging_config.py:116 - Update Interval: 30 minutes
+2025-12-22 02:00:17,409 - deadline_bot - INFO - logging_config.py:117 - Log Level: INFO
+2025-12-22 02:00:17,409 - deadline_bot - INFO - logging_config.py:118 - ==================================================
+2025-12-22 02:00:17,410 - deadline_bot - INFO - bot.py:1154 - Инициализация базы данных...
+2025-12-22 02:00:17,417 - deadline_bot - INFO - bot.py:1157 - База данных инициализирована
+2025-12-22 02:00:17,421 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-22 02:00:17,421 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-22 02:00:17,423 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Синхронизация дедлайнов из Yonote и проверка уведомлений" to job store "default"
+2025-12-22 02:00:17,424 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Очистка просроченных дедлайнов" to job store "default"
+2025-12-22 02:00:17,424 - apscheduler.scheduler - INFO - base.py:214 - Scheduler started
+2025-12-22 02:00:17,425 - deadline_bot - INFO - bot.py:1191 - Планировщик запущен: синхронизация и проверка уведомлений каждые 30 мин, очистка просроченных раз в день
+2025-12-22 02:00:17,425 - deadline_bot - INFO - bot.py:1194 - Запуск бота...
+2025-12-22 02:00:17,425 - aiogram.dispatcher - INFO - dispatcher.py:596 - Start polling
+2025-12-22 02:00:17,642 - aiogram.dispatcher - INFO - dispatcher.py:378 - Run polling for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-22 02:00:22,217 - deadline_bot - INFO - bot.py:208 - Пользователь 929644995 зарегистрирован/обновлён
+2025-12-22 02:00:22,218 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747196 is handled. Duration 262 ms by bot id=8358666814
+2025-12-22 02:00:27,715 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747197 is handled. Duration 109 ms by bot id=8358666814
+2025-12-22 02:00:33,057 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 1 по нику: VJ_Games
+2025-12-22 02:00:33,058 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для идентификатора: VJ_Games
+2025-12-22 02:00:33,255 - scripts.sync_deadlines - INFO - sync_deadlines.py:98 - Получено 3 дедлайнов из Yonote для пользователя 1
+2025-12-22 02:00:33,263 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'Тест на жопу абобы': дата изменена с 2025-12-31 00:00:00 на 2025-12-31 00:00:00+00:00
+2025-12-22 02:00:33,264 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: Тест на жопу абобы (ID: csv_53486527)
+2025-12-22 02:00:33,267 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'просто тест оповещения': дата изменена с 2025-12-16 16:45:00 на 2025-12-16 16:45:00+00:00
+2025-12-22 02:00:33,268 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: просто тест оповещения (ID: csv_-5839906)
+2025-12-22 02:00:33,271 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'стрей кидс': дата изменена с 2025-12-07 00:00:00 на 2025-12-07 00:00:00+00:00
+2025-12-22 02:00:33,271 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: стрей кидс (ID: csv_33114748)
+2025-12-22 02:00:33,281 - scripts.sync_deadlines - INFO - sync_deadlines.py:221 - Синхронизировано дедлайнов для пользователя 1: создано 0, обновлено 3
+2025-12-22 02:00:33,281 - deadline_bot - INFO - bot.py:316 - Синхронизация для /my_deadlines: создано 0, обновлено 3
+2025-12-22 02:00:33,403 - deadline_bot - INFO - bot.py:435 - Пользователь 929644995 запросил список дедлайнов: 1 шт.
+2025-12-22 02:00:33,404 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747198 is handled. Duration 499 ms by bot id=8358666814
+2025-12-22 02:01:27,740 - deadline_bot - WARNING - bot.py:97 - Заблокированный пользователь 929644995 попытался использовать бота
+2025-12-22 02:01:27,741 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747199 is handled. Duration 2 ms by bot id=8358666814
+2025-12-22 02:01:29,403 - deadline_bot - WARNING - bot.py:97 - Заблокированный пользователь 929644995 попытался использовать бота
+2025-12-22 02:01:29,403 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747200 is handled. Duration 1 ms by bot id=8358666814
+2025-12-22 02:01:32,911 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 1 по нику: VJ_Games
+2025-12-22 02:01:32,911 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для идентификатора: VJ_Games
+2025-12-22 02:01:33,026 - scripts.sync_deadlines - INFO - sync_deadlines.py:98 - Получено 3 дедлайнов из Yonote для пользователя 1
+2025-12-22 02:01:33,031 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'Тест на жопу абобы': дата изменена с 2025-12-31 00:00:00 на 2025-12-31 00:00:00+00:00
+2025-12-22 02:01:33,031 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: Тест на жопу абобы (ID: csv_53486527)
+2025-12-22 02:01:33,034 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'просто тест оповещения': дата изменена с 2025-12-16 16:45:00 на 2025-12-16 16:45:00+00:00
+2025-12-22 02:01:33,035 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: просто тест оповещения (ID: csv_-5839906)
+2025-12-22 02:01:33,039 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'стрей кидс': дата изменена с 2025-12-07 00:00:00 на 2025-12-07 00:00:00+00:00
+2025-12-22 02:01:33,039 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: стрей кидс (ID: csv_33114748)
+2025-12-22 02:01:33,044 - scripts.sync_deadlines - INFO - sync_deadlines.py:221 - Синхронизировано дедлайнов для пользователя 1: создано 0, обновлено 3
+2025-12-22 02:01:33,045 - deadline_bot - INFO - bot.py:316 - Синхронизация для /my_deadlines: создано 0, обновлено 3
+2025-12-22 02:01:33,143 - deadline_bot - INFO - bot.py:435 - Пользователь 929644995 запросил список дедлайнов: 1 шт.
+2025-12-22 02:01:33,144 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747201 is handled. Duration 319 ms by bot id=8358666814
+2025-12-22 02:01:40,468 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 1 по нику: VJ_Games
+2025-12-22 02:01:40,469 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для идентификатора: VJ_Games
+2025-12-22 02:01:40,610 - scripts.sync_deadlines - INFO - sync_deadlines.py:98 - Получено 3 дедлайнов из Yonote для пользователя 1
+2025-12-22 02:01:40,615 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'Тест на жопу абобы': дата изменена с 2025-12-31 00:00:00 на 2025-12-31 00:00:00+00:00
+2025-12-22 02:01:40,615 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: Тест на жопу абобы (ID: csv_53486527)
+2025-12-22 02:01:40,618 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'просто тест оповещения': дата изменена с 2025-12-16 16:45:00 на 2025-12-16 16:45:00+00:00
+2025-12-22 02:01:40,619 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: просто тест оповещения (ID: csv_-5839906)
+2025-12-22 02:01:40,621 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'стрей кидс': дата изменена с 2025-12-07 00:00:00 на 2025-12-07 00:00:00+00:00
+2025-12-22 02:01:40,621 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: стрей кидс (ID: csv_33114748)
+2025-12-22 02:01:40,626 - scripts.sync_deadlines - INFO - sync_deadlines.py:221 - Синхронизировано дедлайнов для пользователя 1: создано 0, обновлено 3
+2025-12-22 02:01:40,626 - deadline_bot - INFO - bot.py:316 - Синхронизация для /my_deadlines: создано 0, обновлено 3
+2025-12-22 02:01:40,718 - deadline_bot - INFO - bot.py:435 - Пользователь 929644995 запросил список дедлайнов: 1 шт.
+2025-12-22 02:01:40,719 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747202 is handled. Duration 334 ms by bot id=8358666814
+2025-12-22 02:02:53,853 - deadline_bot - INFO - bot.py:698 - Администратор 623980763 запросил список подписанных: найдено 1 пользователей
+2025-12-22 02:02:53,854 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747203 is handled. Duration 101 ms by bot id=8358666814
+2025-12-22 02:03:33,750 - deadline_bot - WARNING - bot.py:97 - Заблокированный пользователь 623980763 попытался использовать бота
+2025-12-22 02:03:33,752 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747204 is handled. Duration 2 ms by bot id=8358666814
+2025-12-22 02:03:56,085 - deadline_bot - WARNING - bot.py:97 - Заблокированный пользователь 623980763 попытался использовать бота
+2025-12-22 02:03:56,086 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747205 is handled. Duration 2 ms by bot id=8358666814
+2025-12-22 02:04:35,824 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747206 is handled. Duration 90 ms by bot id=8358666814
+2025-12-22 02:04:52,018 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747207 is handled. Duration 88 ms by bot id=8358666814
+2025-12-22 02:04:57,300 - deadline_bot - INFO - bot.py:208 - Пользователь 623980763 зарегистрирован/обновлён
+2025-12-22 02:04:57,301 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747208 is handled. Duration 112 ms by bot id=8358666814
+2025-12-22 02:05:03,418 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747209 is handled. Duration 102 ms by bot id=8358666814
+2025-12-22 02:05:25,196 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747210 is handled. Duration 85 ms by bot id=8358666814
+2025-12-22 02:05:28,608 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747211 is handled. Duration 102 ms by bot id=8358666814
+2025-12-22 02:05:31,327 - deadline_bot - INFO - bot.py:698 - Администратор 623980763 запросил список подписанных: найдено 1 пользователей
+2025-12-22 02:05:31,327 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747212 is handled. Duration 89 ms by bot id=8358666814
+2025-12-22 02:05:44,293 - deadline_bot - INFO - bot.py:698 - Администратор 623980763 запросил список подписанных: найдено 1 пользователей
+2025-12-22 02:05:44,294 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747213 is handled. Duration 90 ms by bot id=8358666814
+2025-12-22 02:05:53,302 - deadline_bot - INFO - bot.py:698 - Администратор 623980763 запросил список подписанных: найдено 1 пользователей
+2025-12-22 02:05:53,303 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747214 is handled. Duration 93 ms by bot id=8358666814
+2025-12-22 02:06:08,344 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747215 is handled. Duration 107 ms by bot id=8358666814
+2025-12-22 02:07:04,251 - aiogram.dispatcher - INFO - dispatcher.py:624 - Polling stopped
+2025-12-22 02:07:04,253 - aiogram.dispatcher - ERROR - dispatcher.py:225 - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2025-12-22 02:07:04,253 - aiogram.dispatcher - WARNING - dispatcher.py:227 - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8358666814)
+2025-12-22 02:07:04,509 - deadline_bot - INFO - bot.py:1200 - Планировщик остановлен
+2025-12-22 02:07:04,510 - apscheduler.scheduler - INFO - base.py:245 - Scheduler has been shut down
+2025-12-22 02:07:04,511 - aiogram.dispatcher - INFO - dispatcher.py:413 - Polling stopped for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-22 02:07:04,514 - deadline_bot - INFO - bot.py:1207 - Бот остановлен пользователем

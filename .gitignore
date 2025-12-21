@@ -4,4 +4,7 @@ __pycache__/
 .env
 .env.*
 blocked_users.txt
+logs/
+data/
+
 
