@@ -216,7 +216,23 @@ async def cmd_start(message: Message) -> None:
             "/subscribe - управление подписками"
         )
 
-        await message.answer(welcome_text)
+        # Создаем клавиатуру с основными командами
+        keyboard = InlineKeyboardMarkup(inline_keyboard=[
+            [
+                InlineKeyboardButton(text="📝 Регистрация", callback_data="cmd_register"),
+                InlineKeyboardButton(text="🔄 Синхронизация", callback_data="cmd_sync")
+            ],
+            [
+                InlineKeyboardButton(text="📅 Мои дедлайны", callback_data="cmd_my_deadlines"),
+                InlineKeyboardButton(text="⚙️ Настройки", callback_data="cmd_notifications")
+            ],
+            [
+                InlineKeyboardButton(text="📚 Помощь", callback_data="cmd_help"),
+                InlineKeyboardButton(text="📋 Справка", callback_data="cmd_help")
+            ]
+        ])
+
+        await message.answer(welcome_text, reply_markup=keyboard)
         logger.info(f"Пользователь {user.telegram_id} зарегистрирован/обновлён")
     except Exception as e:
         logger.error(f"Ошибка при регистрации пользователя: {e}", exc_info=True)
@@ -1179,7 +1195,7 @@ async def cmd_notifications(message: Message) -> None:
         await message.answer("❌ Произошла ошибка при получении настроек уведомлений.")
 
 
-@router.callback_query(lambda c: c.data.startswith(('toggle_', 'set_', 'reset_')))
+@router.callback_query(lambda c: c.data.startswith(('toggle_', 'set_', 'reset_', 'cmd_', 'back_to_main')))
 async def handle_notification_settings(callback: CallbackQuery) -> None:
     """Обработчик callback-запросов для управления настройками уведомлений."""
     if not callback.from_user:
@@ -1290,8 +1306,190 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
                 await callback.answer("Ошибка при сбросе настроек")
 
         elif action == "back_to_main":
-            # Просто отвечаем на callback, сообщение остается без изменений
-            await callback.answer("Вы в меню настроек")
+            # Показываем главное меню помощи вместо настроек
+            help_text = (
+                "📚 *Справка по командам бота*\n\n"
+                "*/start* - Регистрация в системе\n"
+                "*/help* - Показать эту справку\n"
+                "*/register* - Привязать ник к аккаунту\n"
+                "   Использование: `/register username`\n"
+                "*/logout* - Отписаться от уведомлений и сбросить данные\n"
+                "*/my_deadlines* - Показать все ваши дедлайны\n"
+                "*/sync* - Синхронизировать дедлайны из Yonote вручную\n"
+                "*/notifications* - Настройки персональных уведомлений\n"
+                "*/subscribe* - Включить/выключить уведомления о дедлайнах\n"
+                "*/broadcast* - Отправить сообщение всем подписанным (только для администраторов)\n"
+                "   Использование: `/broadcast текст сообщения`\n"
+                "*/subscribers* - Показать список всех подписанных (только для администраторов)\n"
+                "*/test_halfway* - Проверить напоминания за половину срока (только для администраторов)\n"
+                "*/check_notifications* - Ручная проверка и отправка уведомлений (только для администраторов)\n"
+                "*/block* - Заблокировать пользователя (только для администраторов)\n"
+                "   Использование: `/block telegram_id`\n"
+                "*/unblock* - Разблокировать пользователя (только для администраторов)\n"
+                "   Использование: `/unblock telegram_id`\n"
+                "*/blocked_users* - Показать список заблокированных пользователей (только для администраторов)\n\n"
+                "💡 *Совет*: После регистрации привяжите ваш ник, "
+                "чтобы получать персональные дедлайны. Используйте /sync для немедленной синхронизации."
+            )
+
+            # Создаем клавиатуру с основными командами
+            keyboard = InlineKeyboardMarkup(inline_keyboard=[
+                [
+                    InlineKeyboardButton(text="📝 Регистрация", callback_data="cmd_register"),
+                    InlineKeyboardButton(text="🔄 Синхронизация", callback_data="cmd_sync")
+                ],
+                [
+                    InlineKeyboardButton(text="📅 Мои дедлайны", callback_data="cmd_my_deadlines"),
+                    InlineKeyboardButton(text="⚙️ Настройки", callback_data="cmd_notifications")
+                ],
+                [
+                    InlineKeyboardButton(text="📚 Помощь", callback_data="cmd_help"),
+                    InlineKeyboardButton(text="📋 Справка", callback_data="cmd_help")
+                ]
+            ])
+
+            await callback.message.edit_text(
+                help_text,
+                reply_markup=keyboard,
+                parse_mode="Markdown"
+            )
+            await callback.answer()
+
+        elif action.startswith("cmd_"):
+            # Обработка команд из главного меню
+            cmd = action[4:]  # Убираем префикс "cmd_"
+
+            if cmd == "register":
+                await callback.message.answer(
+                    "📝 Для регистрации используйте команду:\n\n"
+                    "`/register ваш_ник_в_yonote`\n\n"
+                    "Пример: `/register username`",
+                    parse_mode="Markdown"
+                )
+            elif cmd == "sync":
+                await callback.message.answer(
+                    "🔄 Для синхронизации дедлайнов используйте:\n\n"
+                    "`/sync`\n\n"
+                    "Это загрузит ваши дедлайны из Yonote."
+                )
+            elif cmd == "my_deadlines":
+                await callback.message.answer(
+                    "📅 Для просмотра дедлайнов используйте:\n\n"
+                    "`/my_deadlines`\n\n"
+                    "Вы увидите все ваши активные дедлайны."
+                )
+            elif cmd == "notifications":
+                # Имитируем вызов команды /notifications
+                settings_text = get_notification_summary(user.id)
+                current_settings = get_user_notification_settings(user.id)
+                notifications_enabled = current_settings.notifications_enabled if current_settings else True
+
+                keyboard = InlineKeyboardMarkup(inline_keyboard=[
+                    [
+                        InlineKeyboardButton(
+                            text="🔔 ВКЛ/ВЫКЛ" if notifications_enabled else "🔕 ВКЛ/ВЫКЛ",
+                            callback_data="toggle_notifications"
+                        ),
+                        InlineKeyboardButton(
+                            text="⏰ Время",
+                            callback_data="set_time"
+                        )
+                    ],
+                    [
+                        InlineKeyboardButton(
+                            text="📅 Ежедневные",
+                            callback_data="toggle_daily"
+                        ),
+                        InlineKeyboardButton(
+                            text="📆 Еженедельные",
+                            callback_data="toggle_weekly"
+                        )
+                    ],
+                    [
+                        InlineKeyboardButton(
+                            text="⏳ Половина срока",
+                            callback_data="toggle_halfway"
+                        ),
+                        InlineKeyboardButton(
+                            text="⚠️ Дни предупреждения",
+                            callback_data="set_days_before"
+                        )
+                    ],
+                    [
+                        InlineKeyboardButton(
+                            text="📊 Дни недели",
+                            callback_data="set_weekly_days"
+                        ),
+                        InlineKeyboardButton(
+                            text="🌙 Тихий режим",
+                            callback_data="set_quiet_hours"
+                        )
+                    ],
+                    [
+                        InlineKeyboardButton(
+                            text="🔄 Сбросить",
+                            callback_data="reset_settings"
+                        ),
+                        InlineKeyboardButton(
+                            text="🔙 Назад",
+                            callback_data="back_to_main"
+                        )
+                    ]
+                ])
+
+                await callback.message.edit_text(
+                    settings_text,
+                    reply_markup=keyboard,
+                    parse_mode="Markdown"
+                )
+            elif cmd == "help":
+                help_text = (
+                    "📚 *Справка по командам бота*\n\n"
+                    "*/start* - Регистрация в системе\n"
+                    "*/help* - Показать эту справку\n"
+                    "*/register* - Привязать ник к аккаунту\n"
+                    "   Использование: `/register username`\n"
+                    "*/logout* - Отписаться от уведомлений и сбросить данные\n"
+                    "*/my_deadlines* - Показать все ваши дедлайны\n"
+                    "*/sync* - Синхронизировать дедлайны из Yonote вручную\n"
+                    "*/notifications* - Настройки персональных уведомлений\n"
+                    "*/subscribe* - Включить/выключить уведомления о дедлайнах\n"
+                    "*/broadcast* - Отправить сообщение всем подписанным (только для администраторов)\n"
+                    "   Использование: `/broadcast текст сообщения`\n"
+                    "*/subscribers* - Показать список всех подписанных (только для администраторов)\n"
+                    "*/test_halfway* - Проверить напоминания за половину срока (только для администраторов)\n"
+                    "*/check_notifications* - Ручная проверка и отправка уведомлений (только для администраторов)\n"
+                    "*/block* - Заблокировать пользователя (только для администраторов)\n"
+                    "   Использование: `/block telegram_id`\n"
+                    "*/unblock* - Разблокировать пользователя (только для администраторов)\n"
+                    "   Использование: `/unblock telegram_id`\n"
+                    "*/blocked_users* - Показать список заблокированных пользователей (только для администраторов)\n\n"
+                    "💡 *Совет*: После регистрации привяжите ваш ник, "
+                    "чтобы получать персональные дедлайны. Используйте /sync для немедленной синхронизации."
+                )
+
+                keyboard = InlineKeyboardMarkup(inline_keyboard=[
+                    [
+                        InlineKeyboardButton(text="📝 Регистрация", callback_data="cmd_register"),
+                        InlineKeyboardButton(text="🔄 Синхронизация", callback_data="cmd_sync")
+                    ],
+                    [
+                        InlineKeyboardButton(text="📅 Мои дедлайны", callback_data="cmd_my_deadlines"),
+                        InlineKeyboardButton(text="⚙️ Настройки", callback_data="cmd_notifications")
+                    ],
+                    [
+                        InlineKeyboardButton(text="📚 Помощь", callback_data="cmd_help"),
+                        InlineKeyboardButton(text="📋 Справка", callback_data="cmd_help")
+                    ]
+                ])
+
+                await callback.message.edit_text(
+                    help_text,
+                    reply_markup=keyboard,
+                    parse_mode="Markdown"
+                )
+
+            await callback.answer()
 
         # Обновляем сообщение с настройками
         if action != "set_time" and action != "set_days_before" and action != "set_weekly_days" and action != "set_quiet_hours":
