@@ -10,6 +10,7 @@ Telegram бот для управления дедлайнами.
 """
 
 import asyncio
+import json
 import logging
 import os
 import sys
@@ -18,7 +19,7 @@ from datetime import UTC, datetime, timezone, timedelta
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from aiogram import Bot, Dispatcher, Router
 from aiogram.filters import Command
-from aiogram.types import Message
+from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from dotenv import load_dotenv
 
 from db import init_db
@@ -40,6 +41,13 @@ from services import (
 )
 from scripts.sync_deadlines import sync_all_deadlines, sync_user_deadlines
 from block_utils import is_user_blocked, block_user, unblock_user, get_blocked_users
+from notification_settings import (
+    get_notification_summary,
+    update_user_notification_settings,
+    parse_weekly_days,
+    format_weekly_days,
+    reset_user_notification_settings,
+)
 
 # Настройка логирования
 logger = setup_logging(os.getenv("LOG_LEVEL", "INFO"))
@@ -80,6 +88,9 @@ MOSCOW_TZ = timezone(timedelta(hours=3))
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 router = Router()
+
+# Глобальное хранилище состояний пользователей для настройки уведомлений
+user_settings_states = {}  # telegram_id -> state
 
 
 async def block_check_middleware(handler, event, data):
@@ -223,6 +234,7 @@ async def cmd_help(message: Message) -> None:
         "*/logout* - Отписаться от уведомлений и сбросить данные\n"
         "*/my_deadlines* - Показать все ваши дедлайны\n"
         "*/sync* - Синхронизировать дедлайны из Yonote вручную\n"
+        "*/notifications* - Настройки персональных уведомлений\n"
         "*/subscribe* - Включить/выключить уведомления о дедлайнах\n"
         "*/broadcast* - Отправить сообщение всем подписанным (только для администраторов)\n"
         "   Использование: `/broadcast текст сообщения`\n"
@@ -1080,6 +1092,395 @@ async def cmd_blocked_users(message: Message) -> None:
     except Exception as e:
         logger.error(f"Ошибка в команде /blocked_users: {e}", exc_info=True)
         await message.answer("❌ Произошла ошибка при получении списка заблокированных пользователей.")
+
+
+@router.message(Command("notifications"))
+async def cmd_notifications(message: Message) -> None:
+    """Обработчик команды /notifications - показать настройки уведомлений."""
+    if not message.from_user:
+        return
+
+    try:
+        user = get_user_by_telegram_id(message.from_user.id)
+        if not user:
+            await message.answer("❌ Пользователь не найден. Используйте /start для регистрации.")
+            return
+
+        # Получаем настройки уведомлений
+        settings_text = get_notification_summary(user.id)
+
+        # Получаем текущие настройки для отображения статуса
+        from notification_settings import get_user_notification_settings
+        current_settings = get_user_notification_settings(user.id)
+
+        notifications_enabled = current_settings.notifications_enabled if current_settings else True
+
+        # Создаем клавиатуру для управления настройками
+        keyboard = InlineKeyboardMarkup(inline_keyboard=[
+            [
+                InlineKeyboardButton(
+                    text="🔔 ВКЛ/ВЫКЛ" if notifications_enabled else "🔕 ВКЛ/ВЫКЛ",
+                    callback_data="toggle_notifications"
+                ),
+                InlineKeyboardButton(
+                    text="⏰ Время",
+                    callback_data="set_time"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    text="📅 Ежедневные",
+                    callback_data="toggle_daily"
+                ),
+                InlineKeyboardButton(
+                    text="📆 Еженедельные",
+                    callback_data="toggle_weekly"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    text="⏳ Половина срока",
+                    callback_data="toggle_halfway"
+                ),
+                InlineKeyboardButton(
+                    text="⚠️ Дни предупреждения",
+                    callback_data="set_days_before"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    text="📊 Дни недели",
+                    callback_data="set_weekly_days"
+                ),
+                InlineKeyboardButton(
+                    text="🌙 Тихий режим",
+                    callback_data="set_quiet_hours"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    text="🔄 Сбросить",
+                    callback_data="reset_settings"
+                )
+            ]
+        ])
+
+        await message.answer(
+            settings_text,
+            reply_markup=keyboard,
+            parse_mode="Markdown"
+        )
+
+    except Exception as e:
+        logger.error(f"Ошибка в команде /notifications: {e}", exc_info=True)
+        await message.answer("❌ Произошла ошибка при получении настроек уведомлений.")
+
+
+@router.callback_query(lambda c: c.data.startswith(('toggle_', 'set_', 'reset_')))
+async def handle_notification_settings(callback: CallbackQuery) -> None:
+    """Обработчик callback-запросов для управления настройками уведомлений."""
+    if not callback.from_user:
+        return
+
+    try:
+        user = get_user_by_telegram_id(callback.from_user.id)
+        if not user:
+            await callback.answer("Пользователь не найден")
+            return
+
+        action = callback.data
+
+        if action == "toggle_notifications":
+            # Получаем текущие настройки
+            from notification_settings import get_user_notification_settings
+            settings = get_user_notification_settings(user.id)
+            new_state = not (settings.notifications_enabled if settings else True)
+
+            success = update_user_notification_settings(user.id, notifications_enabled=new_state)
+            if success:
+                status = "включены" if new_state else "отключены"
+                await callback.answer(f"Уведомления {status}")
+            else:
+                await callback.answer("Ошибка при обновлении настроек")
+
+        elif action == "toggle_daily":
+            settings = get_user_notification_settings(user.id)
+            new_state = not (settings.daily_reminders if settings else True)
+
+            success = update_user_notification_settings(user.id, daily_reminders=new_state)
+            if success:
+                status = "включены" if new_state else "отключены"
+                await callback.answer(f"Ежедневные напоминания {status}")
+            else:
+                await callback.answer("Ошибка при обновлении настроек")
+
+        elif action == "toggle_weekly":
+            settings = get_user_notification_settings(user.id)
+            new_state = not (settings.weekly_reminders if settings else True)
+
+            success = update_user_notification_settings(user.id, weekly_reminders=new_state)
+            if success:
+                status = "включены" if new_state else "отключены"
+                await callback.answer(f"Еженедельные напоминания {status}")
+            else:
+                await callback.answer("Ошибка при обновлении настроек")
+
+        elif action == "toggle_halfway":
+            settings = get_user_notification_settings(user.id)
+            new_state = not (settings.halfway_reminders if settings else True)
+
+            success = update_user_notification_settings(user.id, halfway_reminders=new_state)
+            if success:
+                status = "включены" if new_state else "отключены"
+                await callback.answer(f"Напоминания за половину срока {status}")
+            else:
+                await callback.answer("Ошибка при обновлении настроек")
+
+        elif action == "set_time":
+            # Запрашиваем новое время
+            await callback.message.answer(
+                "⏰ Укажите время отправки уведомлений в формате ЧЧ (0-23).\n\n"
+                "Например: `14` для отправки в 14:00",
+                parse_mode="Markdown"
+            )
+            # Сохраняем состояние ожидания ввода времени
+            user_settings_states[callback.from_user.id] = "waiting_time"
+
+        elif action == "set_days_before":
+            await callback.message.answer(
+                "⚠️ Укажите за сколько дней предупреждать о дедлайне (1-30).\n\n"
+                "Например: `3` для предупреждения за 3 дня",
+                parse_mode="Markdown"
+            )
+            user_settings_states[callback.from_user.id] = "waiting_days_before"
+
+        elif action == "set_weekly_days":
+            await callback.message.answer(
+                "📊 Укажите дни недели для еженедельных напоминаний.\n\n"
+                "Формат: `пн, вт-ср, пт`\n"
+                "Доступные дни: пн, вт, ср, чт, пт, сб, вс\n\n"
+                "Примеры:\n"
+                "`пн-пт` - будни\n"
+                "`пн, ср, пт` - понедельник, среда, пятница\n"
+                "`вт-чт, сб` - вторник-четверг, суббота",
+                parse_mode="Markdown"
+            )
+            user_settings_states[callback.from_user.id] = "waiting_weekly_days"
+
+        elif action == "set_quiet_hours":
+            await callback.message.answer(
+                "🌙 Настройка тихого режима (часы, когда не отправлять уведомления).\n\n"
+                "Формат: `22-08` (с 22:00 до 08:00)\n"
+                "Или `выключить` для отключения тихого режима",
+                parse_mode="Markdown"
+            )
+            user_settings_states[callback.from_user.id] = "waiting_quiet_hours"
+
+        elif action == "reset_settings":
+            from notification_settings import reset_user_notification_settings
+            success = reset_user_notification_settings(user.id)
+            if success:
+                await callback.answer("Настройки сброшены к значениям по умолчанию")
+            else:
+                await callback.answer("Ошибка при сбросе настроек")
+
+        # Обновляем сообщение с настройками
+        if action != "set_time" and action != "set_days_before" and action != "set_weekly_days" and action != "set_quiet_hours":
+            settings_text = get_notification_summary(user.id)
+            await callback.message.edit_text(
+                settings_text,
+                parse_mode="Markdown",
+                reply_markup=callback.message.reply_markup
+            )
+
+    except Exception as e:
+        logger.error(f"Ошибка в обработчике настроек уведомлений: {e}", exc_info=True)
+        await callback.answer("Произошла ошибка")
+
+
+@router.message()
+async def handle_notification_settings_input(message: Message) -> None:
+    """Обработчик ввода настроек уведомлений."""
+    if not message.from_user:
+        return
+
+    user_id = message.from_user.id
+    state = user_settings_states.get(user_id)
+
+    if not state:
+        # Не в состоянии настройки, пропускаем к следующему обработчику
+        return
+
+    try:
+        user = get_user_by_telegram_id(user_id)
+        if not user:
+            await message.answer("❌ Пользователь не найден.")
+            return
+
+        text = message.text.strip()
+
+        if state == "waiting_time":
+            try:
+                hour = int(text)
+                if 0 <= hour <= 23:
+                    success = update_user_notification_settings(user.id, notification_hour=hour)
+                    if success:
+                        await message.answer(f"✅ Время отправки уведомлений установлено на {hour:02d}:00")
+                    else:
+                        await message.answer("❌ Ошибка при сохранении настроек")
+                else:
+                    await message.answer("❌ Укажите час от 0 до 23")
+                    return
+            except ValueError:
+                await message.answer("❌ Укажите число от 0 до 23")
+                return
+
+        elif state == "waiting_days_before":
+            try:
+                days = int(text)
+                if 1 <= days <= 30:
+                    success = update_user_notification_settings(user.id, days_before_warning=days)
+                    if success:
+                        await message.answer(f"✅ Предупреждение установлено за {days} дней")
+                    else:
+                        await message.answer("❌ Ошибка при сохранении настроек")
+                else:
+                    await message.answer("❌ Укажите количество дней от 1 до 30")
+                    return
+            except ValueError:
+                await message.answer("❌ Укажите число от 1 до 30")
+                return
+
+        elif state == "waiting_weekly_days":
+            try:
+                days = parse_weekly_days(text)
+                if days:
+                    success = update_user_notification_settings(user.id, weekly_days=json.dumps(days))
+                    if success:
+                        formatted_days = format_weekly_days(days)
+                        await message.answer(f"✅ Дни недели установлены: {formatted_days}")
+                    else:
+                        await message.answer("❌ Ошибка при сохранении настроек")
+                else:
+                    await message.answer("❌ Не удалось распознать дни недели. Используйте формат: пн, вт-ср, пт")
+                    return
+            except Exception as e:
+                logger.error(f"Ошибка при парсинге дней недели: {e}")
+                await message.answer("❌ Ошибка при обработке дней недели")
+                return
+
+        elif state == "waiting_quiet_hours":
+            if text.lower() in ['выключить', 'отключить', 'disable', 'off']:
+                success = update_user_notification_settings(user.id,
+                                                         quiet_hours_start="00:00",
+                                                         quiet_hours_end="00:00")
+                if success:
+                    await message.answer("✅ Тихий режим отключен")
+                else:
+                    await message.answer("❌ Ошибка при сохранении настроек")
+            else:
+                # Парсим формат "22-08" или "22:00-08:00"
+                try:
+                    parts = text.replace(':', '-').split('-')
+                    if len(parts) == 2:
+                        start_hour = int(parts[0].strip())
+                        end_hour = int(parts[1].strip())
+
+                        if 0 <= start_hour <= 23 and 0 <= end_hour <= 23:
+                            start_time = f"{start_hour:02d}:00"
+                            end_time = f"{end_hour:02d}:00"
+
+                            success = update_user_notification_settings(user.id,
+                                                                     quiet_hours_start=start_time,
+                                                                     quiet_hours_end=end_time)
+                            if success:
+                                await message.answer(f"✅ Тихий режим установлен: {start_time}-{end_time}")
+                            else:
+                                await message.answer("❌ Ошибка при сохранении настроек")
+                        else:
+                            await message.answer("❌ Укажите часы от 0 до 23")
+                            return
+                    else:
+                        await message.answer("❌ Используйте формат: 22-08 или 22:00-08:00")
+                        return
+                except ValueError:
+                    await message.answer("❌ Неверный формат. Используйте: 22-08")
+                    return
+
+        # Очищаем состояние пользователя
+        user_settings_states.pop(user_id, None)
+
+        # Показываем обновленные настройки
+        await message.answer("Обновление настроек...")
+
+        # Имитируем вызов команды /notifications для показа обновленных настроек
+        settings_text = get_notification_summary(user.id)
+        from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+        from notification_settings import get_user_notification_settings
+
+        current_settings = get_user_notification_settings(user.id)
+        notifications_enabled = current_settings.notifications_enabled if current_settings else True
+
+        keyboard = InlineKeyboardMarkup(inline_keyboard=[
+            [
+                InlineKeyboardButton(
+                    text="🔔 ВКЛ/ВЫКЛ" if notifications_enabled else "🔕 ВКЛ/ВЫКЛ",
+                    callback_data="toggle_notifications"
+                ),
+                InlineKeyboardButton(
+                    text="⏰ Время",
+                    callback_data="set_time"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    text="📅 Ежедневные",
+                    callback_data="toggle_daily"
+                ),
+                InlineKeyboardButton(
+                    text="📆 Еженедельные",
+                    callback_data="toggle_weekly"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    text="⏳ Половина срока",
+                    callback_data="toggle_halfway"
+                ),
+                InlineKeyboardButton(
+                    text="⚠️ Дни предупреждения",
+                    callback_data="set_days_before"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    text="📊 Дни недели",
+                    callback_data="set_weekly_days"
+                ),
+                InlineKeyboardButton(
+                    text="🌙 Тихий режим",
+                    callback_data="set_quiet_hours"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    text="🔄 Сбросить",
+                    callback_data="reset_settings"
+                )
+            ]
+        ])
+
+        await message.answer(
+            settings_text,
+            reply_markup=keyboard,
+            parse_mode="Markdown"
+        )
+
+    except Exception as e:
+        logger.error(f"Ошибка в обработчике ввода настроек: {e}", exc_info=True)
+        await message.answer("❌ Произошла ошибка при обработке ввода")
+        # Очищаем состояние в случае ошибки
+        user_settings_states.pop(user_id, None)
 
 
 @router.message()

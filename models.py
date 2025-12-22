@@ -12,7 +12,7 @@ from __future__ import annotations
 
 from datetime import UTC, datetime
 
-from sqlalchemy import DateTime, ForeignKey, Integer, String, Text
+from sqlalchemy import Boolean, DateTime, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from db import Base
@@ -104,4 +104,46 @@ class BlockedUser(Base):
 
     created_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now, nullable=False)
 
+
+class UserNotificationSettings(Base):
+    """Настройки уведомлений для каждого пользователя."""
+
+    __tablename__ = "user_notification_settings"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False, unique=True, index=True)
+
+    # Основные настройки
+    notifications_enabled: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+    notification_hour: Mapped[int] = mapped_column(Integer, default=9, nullable=False)  # Час отправки (0-23)
+
+    # Тихий режим (часы когда не отправлять уведомления)
+    quiet_hours_start: Mapped[str] = mapped_column(String(5), default="22:00", nullable=False)  # Начало тихого режима (HH:MM)
+    quiet_hours_end: Mapped[str] = mapped_column(String(5), default="08:00", nullable=False)    # Конец тихого режима (HH:MM)
+
+    # Типы уведомлений
+    daily_reminders: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+    weekly_reminders: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+    halfway_reminders: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+
+    # Дни недели для еженедельных напоминаний (JSON строка с массивом номеров дней 0-6, где 0=понедельник)
+    weekly_days: Mapped[str] = mapped_column(String(255), default="[0,1,2,3,4]", nullable=False)
+
+    # Предупреждение за N дней до дедлайна
+    days_before_warning: Mapped[int] = mapped_column(Integer, default=1, nullable=False)
+
+    # Временные метки
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now, nullable=False)
+    updated_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now, onupdate=utc_now, nullable=False)
+
+    # Связи
+    user: Mapped["User"] = relationship("User", back_populates="notification_settings")
+
+
+# Добавить обратную связь в модель User
+User.notification_settings: Mapped["UserNotificationSettings | None"] = relationship(
+    "UserNotificationSettings",
+    back_populates="user",
+    uselist=False,  # Один к одному
+)
 
