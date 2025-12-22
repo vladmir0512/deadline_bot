@@ -1289,6 +1289,10 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
             else:
                 await callback.answer("Ошибка при сбросе настроек")
 
+        elif action == "back_to_main":
+            # Просто отвечаем на callback, сообщение остается без изменений
+            await callback.answer("Вы в меню настроек")
+
         # Обновляем сообщение с настройками
         if action != "set_time" and action != "set_days_before" and action != "set_weekly_days" and action != "set_quiet_hours":
             settings_text = get_notification_summary(user.id)
@@ -1473,6 +1477,10 @@ async def handle_notification_settings_input(message: Message) -> None:
                 InlineKeyboardButton(
                     text="🔄 Сбросить",
                     callback_data="reset_settings"
+                ),
+                InlineKeyboardButton(
+                    text="🔙 Назад",
+                    callback_data="back_to_main"
                 )
             ]
         ])
