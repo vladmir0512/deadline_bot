@@ -41,6 +41,7 @@ from services import (
 )
 from scripts.sync_deadlines import sync_all_deadlines, sync_user_deadlines
 from block_utils import is_user_blocked, block_user, unblock_user, get_blocked_users
+from models import DeadlineStatus
 from notification_settings import (
     get_notification_summary,
     get_user_notification_settings,
@@ -780,7 +781,6 @@ async def cmd_test_halfway(message: Message) -> None:
 
         # Получаем все активные дедлайны пользователя
         from services import get_user_deadlines
-        from models import DeadlineStatus
 
         deadlines = get_user_deadlines(user.id, status=DeadlineStatus.ACTIVE, only_future=True)
 
@@ -1367,17 +1367,156 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
                     parse_mode="Markdown"
                 )
             elif cmd == "sync":
-                await callback.message.answer(
-                    "🔄 Для синхронизации дедлайнов используйте:\n\n"
-                    "`/sync`\n\n"
-                    "Это загрузит ваши дедлайны из Yonote."
-                )
+                # Выполняем синхронизацию сразу
+                try:
+                    created, updated = await sync_user_deadlines(user)
+                    result_text = (
+                        f"✅ Синхронизация завершена!\n\n"
+                        f"📊 Статистика:\n"
+                        f"• Создано новых дедлайнов: {created}\n"
+                        f"• Обновлено дедлайнов: {updated}\n\n"
+                    )
+
+                    if created == 0 and updated == 0:
+                        result_text += (
+                            "💡 Если дедлайны не появились, проверьте:\n"
+                            "• Есть ли дедлайны в Yonote для вашего аккаунта\n"
+                            "• Настройки YONOTE_CALENDAR_ID в .env"
+                        )
+
+                    await callback.message.edit_text(
+                        result_text,
+                        reply_markup=InlineKeyboardMarkup(inline_keyboard=[
+                            [
+                                InlineKeyboardButton(text="📝 Регистрация", callback_data="cmd_register"),
+                                InlineKeyboardButton(text="🔄 Синхронизация", callback_data="cmd_sync")
+                            ],
+                            [
+                                InlineKeyboardButton(text="📅 Мои дедлайны", callback_data="cmd_my_deadlines"),
+                                InlineKeyboardButton(text="⚙️ Настройки", callback_data="cmd_notifications")
+                            ],
+                            [
+                                InlineKeyboardButton(text="📚 Помощь", callback_data="cmd_help"),
+                                InlineKeyboardButton(text="📋 Справка", callback_data="cmd_help")
+                            ]
+                        ])
+                    )
+                except Exception as e:
+                    await callback.message.edit_text(
+                        f"❌ Ошибка при синхронизации: {e}\n\nПопробуйте позже.",
+                        reply_markup=InlineKeyboardMarkup(inline_keyboard=[
+                            [
+                                InlineKeyboardButton(text="📝 Регистрация", callback_data="cmd_register"),
+                                InlineKeyboardButton(text="🔄 Синхронизация", callback_data="cmd_sync")
+                            ],
+                            [
+                                InlineKeyboardButton(text="📅 Мои дедлайны", callback_data="cmd_my_deadlines"),
+                                InlineKeyboardButton(text="⚙️ Настройки", callback_data="cmd_notifications")
+                            ],
+                            [
+                                InlineKeyboardButton(text="📚 Помощь", callback_data="cmd_help"),
+                                InlineKeyboardButton(text="📋 Справка", callback_data="cmd_help")
+                            ]
+                        ])
+                    )
             elif cmd == "my_deadlines":
-                await callback.message.answer(
-                    "📅 Для просмотра дедлайнов используйте:\n\n"
-                    "`/my_deadlines`\n\n"
-                    "Вы увидите все ваши активные дедлайны."
-                )
+                # Показываем дедлайны сразу
+                try:
+                    deadlines = get_user_deadlines(user.id, status=DeadlineStatus.ACTIVE, only_future=True)
+
+                    if not deadlines:
+                        result_text = (
+                            "📭 У вас нет активных дедлайнов.\n\n"
+                            "• Используйте `/sync` для синхронизации из Yonote\n"
+                            "• Или `/register ник` для привязки аккаунта"
+                        )
+                    else:
+                        # Группируем дедлайны
+                        today = []
+                        tomorrow = []
+                        week = []
+                        future = []
+
+                        now = datetime.now(UTC)
+                        today_end = (now + timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
+                        week_end = now + timedelta(days=7)
+
+                        for deadline in deadlines:
+                            due_date = deadline.due_date
+                            if due_date.tzinfo is None:
+                                due_date = due_date.replace(tzinfo=UTC)
+
+                            if due_date < today_end:
+                                today.append(deadline)
+                            elif due_date < today_end + timedelta(days=1):
+                                tomorrow.append(deadline)
+                            elif due_date < week_end:
+                                week.append(deadline)
+                            else:
+                                future.append(deadline)
+
+                        lines = [f"📅 *Ваши дедлайны* ({len(deadlines)}):\n"]
+
+                        if today:
+                            lines.append(f"\n🔴 *Сегодня* ({len(today)}):")
+                            for d in today[:3]:  # Показываем максимум 3
+                                lines.append(f"• {d.title}")
+
+                        if tomorrow:
+                            lines.append(f"\n🟡 *Завтра* ({len(tomorrow)}):")
+                            for d in tomorrow[:3]:
+                                lines.append(f"• {d.title}")
+
+                        if week:
+                            lines.append(f"\n🟢 *На этой неделе* ({len(week)}):")
+                            for d in week[:3]:
+                                lines.append(f"• {d.title}")
+
+                        if future:
+                            lines.append(f"\n🔵 *В будущем* ({len(future)})")
+                            if len(future) > 3:
+                                lines.append(f"• И ещё {len(future) - 3} дедлайнов")
+
+                        lines.append("
+💡 Используйте фильтры для подробного просмотра")
+                        result_text = "\n".join(lines)
+
+                    await callback.message.edit_text(
+                        result_text,
+                        reply_markup=InlineKeyboardMarkup(inline_keyboard=[
+                            [
+                                InlineKeyboardButton(text="📝 Регистрация", callback_data="cmd_register"),
+                                InlineKeyboardButton(text="🔄 Синхронизация", callback_data="cmd_sync")
+                            ],
+                            [
+                                InlineKeyboardButton(text="📅 Мои дедлайны", callback_data="cmd_my_deadlines"),
+                                InlineKeyboardButton(text="⚙️ Настройки", callback_data="cmd_notifications")
+                            ],
+                            [
+                                InlineKeyboardButton(text="📚 Помощь", callback_data="cmd_help"),
+                                InlineKeyboardButton(text="📋 Справка", callback_data="cmd_help")
+                            ]
+                        ]),
+                        parse_mode="Markdown"
+                    )
+                except Exception as e:
+                    await callback.message.edit_text(
+                        f"❌ Ошибка при получении дедлайнов: {e}",
+                        reply_markup=InlineKeyboardMarkup(inline_keyboard=[
+                            [
+                                InlineKeyboardButton(text="📝 Регистрация", callback_data="cmd_register"),
+                                InlineKeyboardButton(text="🔄 Синхронизация", callback_data="cmd_sync")
+                            ],
+                            [
+                                InlineKeyboardButton(text="📅 Мои дедлайны", callback_data="cmd_my_deadlines"),
+                                InlineKeyboardButton(text="⚙️ Настройки", callback_data="cmd_notifications")
+                            ],
+                            [
+                                InlineKeyboardButton(text="📚 Помощь", callback_data="cmd_help"),
+                                InlineKeyboardButton(text="📋 Справка", callback_data="cmd_help")
+                            ]
+                        ])
+                    )
             elif cmd == "notifications":
                 # Имитируем вызов команды /notifications
                 settings_text = get_notification_summary(user.id)
@@ -1443,6 +1582,7 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
                     parse_mode="Markdown"
                 )
             elif cmd == "help":
+                # Показываем справку (то же, что и команда /help)
                 help_text = (
                     "📚 *Справка по командам бота*\n\n"
                     "*/start* - Регистрация в системе\n"
