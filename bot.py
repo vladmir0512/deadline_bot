@@ -1559,7 +1559,7 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
                                 lines.append(f"• И ещё {len(future) - 3} дедлайнов")
 
                         lines.append("\n💡 Используйте фильтры для подробного просмотра")
-                        result_text = "\n".join(lines                        )
+                        result_text = "\n".join(lines)
 
                     await callback.message.edit_text(
                         result_text,
@@ -1569,24 +1569,11 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
                 except Exception as e:
                     await callback.message.edit_text(
                         f"❌ Ошибка при получении дедлайнов: {e}",
-                        reply_markup=InlineKeyboardMarkup(inline_keyboard=[
-                            [
-                                InlineKeyboardButton(text="📝 Регистрация", callback_data="cmd_register"),
-                                InlineKeyboardButton(text="🔄 Синхронизация", callback_data="cmd_sync")
-                            ],
-                            [
-                                InlineKeyboardButton(text="📅 Мои дедлайны", callback_data="cmd_my_deadlines"),
-                                InlineKeyboardButton(text="⚙️ Настройки", callback_data="cmd_notifications")
-                            ],
-                            [
-                                InlineKeyboardButton(text="📚 Помощь", callback_data="cmd_help"),
-                                InlineKeyboardButton(text="📋 Справка", callback_data="cmd_help")
-                            ]
-                        ])
+                        reply_markup=create_main_menu_keyboard()
                     )
             elif cmd == "notifications":
                 # Имитируем вызов команды /notifications
-            settings_text = get_notification_summary(user.id)
+                settings_text = get_notification_summary(user.id)
                 current_settings = get_user_notification_settings(user.id)
                 notifications_enabled = current_settings.notifications_enabled if current_settings else True
 
@@ -1643,13 +1630,13 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
                     ]
                 ])
 
-            await callback.message.edit_text(
-                settings_text,
+                await callback.message.edit_text(
+                    settings_text,
                     reply_markup=keyboard,
                     parse_mode="Markdown"
                 )
-            elif cmd == "help":
-                # Показываем справку (то же, что и команда /help)
+        elif cmd == "help":
+            # Показываем справку (то же, что и команда /help)
                 help_text = (
                     "📚 *Справка по командам бота*\n\n"
                     "*/start* - Регистрация в системе\n"
@@ -1683,7 +1670,7 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
                     parse_mode="Markdown"
                 )
 
-            elif cmd == "about":
+        elif cmd == "about":
                 # Показываем информацию о проекте
                 about_text = (
                     "🤖 *Deadline Bot* - ваш помощник в управлении дедлайнами!\n\n"
@@ -1713,7 +1700,7 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
                     parse_mode="Markdown"
                 )
 
-            elif cmd == "support":
+        elif cmd == "support":
                 # Показываем информацию о поддержке
                 support_text = (
                     "❓ *Поддержка и помощь*\n\n"
@@ -1742,7 +1729,7 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
                     parse_mode="Markdown"
                 )
 
-            await callback.answer()
+                await callback.answer()
 
     except Exception as e:
         logger.error(f"Ошибка в обработчике настроек уведомлений: {e}", exc_info=True)
