@@ -1212,6 +1212,71 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
         # Импорт функции для получения настроек
         from notification_settings import get_user_notification_settings
 
+        # Функция для обновления сообщения с настройками
+        async def update_settings_message():
+            settings_text = get_notification_summary(user.id)
+            current_settings = get_user_notification_settings(user.id)
+            notifications_enabled = current_settings.notifications_enabled if current_settings else True
+
+            keyboard = InlineKeyboardMarkup(inline_keyboard=[
+                [
+                    InlineKeyboardButton(
+                        text="🔔 ВКЛ/ВЫКЛ" if notifications_enabled else "🔕 ВКЛ/ВЫКЛ",
+                        callback_data="toggle_notifications"
+                    ),
+                    InlineKeyboardButton(
+                        text="⏰ Время",
+                        callback_data="set_time"
+                    )
+                ],
+                [
+                    InlineKeyboardButton(
+                        text="📅 Ежедневные",
+                        callback_data="toggle_daily"
+                    ),
+                    InlineKeyboardButton(
+                        text="📆 Еженедельные",
+                        callback_data="toggle_weekly"
+                    )
+                ],
+                [
+                    InlineKeyboardButton(
+                        text="⏳ Половина срока",
+                        callback_data="toggle_halfway"
+                    ),
+                    InlineKeyboardButton(
+                        text="⚠️ Дни предупреждения",
+                        callback_data="set_days_before"
+                    )
+                ],
+                [
+                    InlineKeyboardButton(
+                        text="📊 Дни недели",
+                        callback_data="set_weekly_days"
+                    ),
+                    InlineKeyboardButton(
+                        text="🌙 Тихий режим",
+                        callback_data="set_quiet_hours"
+                    )
+                ],
+                [
+                    InlineKeyboardButton(
+                        text="🔄 Сбросить",
+                        callback_data="reset_settings"
+                    ),
+                    InlineKeyboardButton(
+                        text="🔙 Назад",
+                        callback_data="back_to_main"
+                    )
+                ]
+            ])
+
+            await callback.message.edit_text(
+                settings_text,
+                reply_markup=keyboard,
+                parse_mode="Markdown"
+            )
+
         if action == "toggle_notifications":
             # Получаем текущие настройки
             settings = get_user_notification_settings(user.id)
@@ -1221,6 +1286,7 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
             if success:
                 status = "включены" if new_state else "отключены"
                 await callback.answer(f"Уведомления {status}")
+                await update_settings_message()
             else:
                 await callback.answer("Ошибка при обновлении настроек")
 
@@ -1232,6 +1298,7 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
             if success:
                 status = "включены" if new_state else "отключены"
                 await callback.answer(f"Ежедневные напоминания {status}")
+                await update_settings_message()
             else:
                 await callback.answer("Ошибка при обновлении настроек")
 
@@ -1243,6 +1310,7 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
             if success:
                 status = "включены" if new_state else "отключены"
                 await callback.answer(f"Еженедельные напоминания {status}")
+                await update_settings_message()
             else:
                 await callback.answer("Ошибка при обновлении настроек")
 
@@ -1254,6 +1322,7 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
             if success:
                 status = "включены" if new_state else "отключены"
                 await callback.answer(f"Напоминания за половину срока {status}")
+                await update_settings_message()
             else:
                 await callback.answer("Ошибка при обновлении настроек")
 
@@ -1302,6 +1371,7 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
             success = reset_user_notification_settings(user.id)
             if success:
                 await callback.answer("Настройки сброшены к значениям по умолчанию")
+                await update_settings_message()
             else:
                 await callback.answer("Ошибка при сбросе настроек")
 
@@ -1629,15 +1699,6 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
                 )
 
             await callback.answer()
-
-        # Обновляем сообщение с настройками
-        if action != "set_time" and action != "set_days_before" and action != "set_weekly_days" and action != "set_quiet_hours":
-            settings_text = get_notification_summary(user.id)
-            await callback.message.edit_text(
-                settings_text,
-                parse_mode="Markdown",
-                reply_markup=callback.message.reply_markup
-            )
 
     except Exception as e:
         logger.error(f"Ошибка в обработчике настроек уведомлений: {e}", exc_info=True)
