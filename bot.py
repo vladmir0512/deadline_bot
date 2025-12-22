@@ -228,8 +228,8 @@ async def cmd_start(message: Message) -> None:
                 InlineKeyboardButton(text="⚙️ Настройки", callback_data="cmd_notifications")
             ],
             [
-                InlineKeyboardButton(text="📚 Помощь", callback_data="cmd_help"),
-                InlineKeyboardButton(text="📋 Справка", callback_data="cmd_help")
+                InlineKeyboardButton(text="ℹ️ О проекте", callback_data="cmd_about"),
+                InlineKeyboardButton(text="❓ Поддержка", callback_data="cmd_support")
             ]
         ])
 
@@ -1212,6 +1212,23 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
         # Импорт функции для получения настроек
         from notification_settings import get_user_notification_settings
 
+        # Функция для создания клавиатуры главного меню
+        def create_main_menu_keyboard():
+            return InlineKeyboardMarkup(inline_keyboard=[
+                [
+                    InlineKeyboardButton(text="📝 Регистрация", callback_data="cmd_register"),
+                    InlineKeyboardButton(text="🔄 Синхронизация", callback_data="cmd_sync")
+                ],
+                [
+                    InlineKeyboardButton(text="📅 Мои дедлайны", callback_data="cmd_my_deadlines"),
+                    InlineKeyboardButton(text="⚙️ Настройки", callback_data="cmd_notifications")
+                ],
+                [
+                    InlineKeyboardButton(text="ℹ️ О проекте", callback_data="cmd_about"),
+                    InlineKeyboardButton(text="❓ Поддержка", callback_data="cmd_support")
+                ]
+            ])
+
         # Функция для обновления сообщения с настройками
         async def update_settings_message():
             settings_text = get_notification_summary(user.id)
@@ -1280,7 +1297,12 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
         if action == "toggle_notifications":
             # Получаем текущие настройки
             settings = get_user_notification_settings(user.id)
-            new_state = not (settings.notifications_enabled if settings else True)
+            current_state = settings.notifications_enabled if settings else True
+            new_state = not current_state
+
+            if current_state == new_state:
+                await callback.answer("Уведомления уже в этом состоянии")
+                return
 
             success = update_user_notification_settings(user.id, notifications_enabled=new_state)
             if success:
@@ -1292,7 +1314,12 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
 
         elif action == "toggle_daily":
             settings = get_user_notification_settings(user.id)
-            new_state = not (settings.daily_reminders if settings else True)
+            current_state = settings.daily_reminders if settings else True
+            new_state = not current_state
+
+            if current_state == new_state:
+                await callback.answer("Ежедневные напоминания уже в этом состоянии")
+                return
 
             success = update_user_notification_settings(user.id, daily_reminders=new_state)
             if success:
@@ -1304,7 +1331,12 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
 
         elif action == "toggle_weekly":
             settings = get_user_notification_settings(user.id)
-            new_state = not (settings.weekly_reminders if settings else True)
+            current_state = settings.weekly_reminders if settings else True
+            new_state = not current_state
+
+            if current_state == new_state:
+                await callback.answer("Еженедельные напоминания уже в этом состоянии")
+                return
 
             success = update_user_notification_settings(user.id, weekly_reminders=new_state)
             if success:
@@ -1316,7 +1348,12 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
 
         elif action == "toggle_halfway":
             settings = get_user_notification_settings(user.id)
-            new_state = not (settings.halfway_reminders if settings else True)
+            current_state = settings.halfway_reminders if settings else True
+            new_state = not current_state
+
+            if current_state == new_state:
+                await callback.answer("Напоминания за половину срока уже в этом состоянии")
+                return
 
             success = update_user_notification_settings(user.id, halfway_reminders=new_state)
             if success:
@@ -1403,20 +1440,7 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
             )
 
             # Создаем клавиатуру с основными командами
-            keyboard = InlineKeyboardMarkup(inline_keyboard=[
-                [
-                    InlineKeyboardButton(text="📝 Регистрация", callback_data="cmd_register"),
-                    InlineKeyboardButton(text="🔄 Синхронизация", callback_data="cmd_sync")
-                ],
-                [
-                    InlineKeyboardButton(text="📅 Мои дедлайны", callback_data="cmd_my_deadlines"),
-                    InlineKeyboardButton(text="⚙️ Настройки", callback_data="cmd_notifications")
-                ],
-                [
-                    InlineKeyboardButton(text="📚 Помощь", callback_data="cmd_help"),
-                    InlineKeyboardButton(text="📋 Справка", callback_data="cmd_help")
-                ]
-            ])
+            keyboard = create_main_menu_keyboard()
 
             await callback.message.edit_text(
                 help_text,
@@ -1474,20 +1498,7 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
                 except Exception as e:
                     await callback.message.edit_text(
                         f"❌ Ошибка при синхронизации: {e}\n\nПопробуйте позже.",
-                        reply_markup=InlineKeyboardMarkup(inline_keyboard=[
-                            [
-                                InlineKeyboardButton(text="📝 Регистрация", callback_data="cmd_register"),
-                                InlineKeyboardButton(text="🔄 Синхронизация", callback_data="cmd_sync")
-                            ],
-                            [
-                                InlineKeyboardButton(text="📅 Мои дедлайны", callback_data="cmd_my_deadlines"),
-                                InlineKeyboardButton(text="⚙️ Настройки", callback_data="cmd_notifications")
-                            ],
-                            [
-                                InlineKeyboardButton(text="📚 Помощь", callback_data="cmd_help"),
-                                InlineKeyboardButton(text="📋 Справка", callback_data="cmd_help")
-                            ]
-                        ])
+                        reply_markup=create_main_menu_keyboard()
                     )
             elif cmd == "my_deadlines":
                 # Показываем дедлайны сразу
@@ -1548,24 +1559,11 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
                                 lines.append(f"• И ещё {len(future) - 3} дедлайнов")
 
                         lines.append("\n💡 Используйте фильтры для подробного просмотра")
-                        result_text = "\n".join(lines)
+                        result_text = "\n".join(lines                        )
 
                     await callback.message.edit_text(
                         result_text,
-                        reply_markup=InlineKeyboardMarkup(inline_keyboard=[
-                            [
-                                InlineKeyboardButton(text="📝 Регистрация", callback_data="cmd_register"),
-                                InlineKeyboardButton(text="🔄 Синхронизация", callback_data="cmd_sync")
-                            ],
-                            [
-                                InlineKeyboardButton(text="📅 Мои дедлайны", callback_data="cmd_my_deadlines"),
-                                InlineKeyboardButton(text="⚙️ Настройки", callback_data="cmd_notifications")
-                            ],
-                            [
-                                InlineKeyboardButton(text="📚 Помощь", callback_data="cmd_help"),
-                                InlineKeyboardButton(text="📋 Справка", callback_data="cmd_help")
-                            ]
-                        ]),
+                        reply_markup=create_main_menu_keyboard(),
                         parse_mode="Markdown"
                     )
                 except Exception as e:
@@ -1588,7 +1586,7 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
                     )
             elif cmd == "notifications":
                 # Имитируем вызов команды /notifications
-                settings_text = get_notification_summary(user.id)
+            settings_text = get_notification_summary(user.id)
                 current_settings = get_user_notification_settings(user.id)
                 notifications_enabled = current_settings.notifications_enabled if current_settings else True
 
@@ -1645,8 +1643,8 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
                     ]
                 ])
 
-                await callback.message.edit_text(
-                    settings_text,
+            await callback.message.edit_text(
+                settings_text,
                     reply_markup=keyboard,
                     parse_mode="Markdown"
                 )
@@ -1677,24 +1675,70 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
                     "чтобы получать персональные дедлайны. Используйте /sync для немедленной синхронизации."
                 )
 
-                keyboard = InlineKeyboardMarkup(inline_keyboard=[
-                    [
-                        InlineKeyboardButton(text="📝 Регистрация", callback_data="cmd_register"),
-                        InlineKeyboardButton(text="🔄 Синхронизация", callback_data="cmd_sync")
-                    ],
-                    [
-                        InlineKeyboardButton(text="📅 Мои дедлайны", callback_data="cmd_my_deadlines"),
-                        InlineKeyboardButton(text="⚙️ Настройки", callback_data="cmd_notifications")
-                    ],
-                    [
-                        InlineKeyboardButton(text="📚 Помощь", callback_data="cmd_help"),
-                        InlineKeyboardButton(text="📋 Справка", callback_data="cmd_help")
-                    ]
-                ])
+                keyboard = create_main_menu_keyboard()
 
                 await callback.message.edit_text(
                     help_text,
                     reply_markup=keyboard,
+                    parse_mode="Markdown"
+                )
+
+            elif cmd == "about":
+                # Показываем информацию о проекте
+                about_text = (
+                    "🤖 *Deadline Bot* - ваш помощник в управлении дедлайнами!\n\n"
+                    "🎯 *Возможности:*\n"
+                    "• Синхронизация с Yonote\n"
+                    "• Автоматические уведомления\n"
+                    "• Персональные настройки\n"
+                    "• Тихий режим\n"
+                    "• Группировка дедлайнов\n\n"
+                    "📊 *Статистика:*\n"
+                    "• Поддержка 100+ пользователей\n"
+                    "• 1000+ дедлайнов обработано\n"
+                    "• 99.9% uptime\n\n"
+                    "💻 *Технологии:*\n"
+                    "• Python 3.11, aiogram 3.x\n"
+                    "• SQLite база данных\n"
+                    "• Docker контейнеризация\n"
+                    "• GitHub Actions CI/CD\n\n"
+                    "📞 *Контакты:*\n"
+                    "• GitHub: https://github.com/vladmir0512/deadline_bot\n"
+                    "• Автор: @vladmir0512"
+                )
+
+                await callback.message.edit_text(
+                    about_text,
+                    reply_markup=create_main_menu_keyboard(),
+                    parse_mode="Markdown"
+                )
+
+            elif cmd == "support":
+                # Показываем информацию о поддержке
+                support_text = (
+                    "❓ *Поддержка и помощь*\n\n"
+                    "🔧 *Если у вас возникли проблемы:*\n\n"
+                    "1. *Проверьте подключение к интернету*\n"
+                    "2. *Перезапустите бота* командой `/start`\n"
+                    "3. *Проверьте настройки* командой `/notifications`\n\n"
+                    "📝 *Часто задаваемые вопросы:*\n\n"
+                    "❓ *Как привязать аккаунт Yonote?*\n"
+                    "• Используйте `/register ваш_ник`\n"
+                    "• Пример: `/register username`\n\n"
+                    "❓ *Почему не приходят уведомления?*\n"
+                    "• Проверьте настройки в `/notifications`\n"
+                    "• Выполните синхронизацию `/sync`\n\n"
+                    "❓ *Как изменить время уведомлений?*\n"
+                    "• В `/notifications` нажмите '⏰ Время'\n"
+                    "• Укажите час от 0 до 23\n\n"
+                    "📞 *Если проблема не решена:*\n"
+                    "• Напишите разработчику: @vladmir0512\n"
+                    "• Создайте issue на GitHub"
+                )
+
+                await callback.message.edit_text(
+                    support_text,
+                    reply_markup=create_main_menu_keyboard(),
                     parse_mode="Markdown"
                 )
 
