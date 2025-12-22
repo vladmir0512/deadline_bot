@@ -1477,8 +1477,7 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
                             if len(future) > 3:
                                 lines.append(f"• И ещё {len(future) - 3} дедлайнов")
 
-                        lines.append("
-💡 Используйте фильтры для подробного просмотра")
+                        lines.append("\n💡 Используйте фильтры для подробного просмотра")
                         result_text = "\n".join(lines)
 
                     await callback.message.edit_text(
