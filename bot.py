@@ -43,6 +43,7 @@ from scripts.sync_deadlines import sync_all_deadlines, sync_user_deadlines
 from block_utils import is_user_blocked, block_user, unblock_user, get_blocked_users
 from notification_settings import (
     get_notification_summary,
+    get_user_notification_settings,
     update_user_notification_settings,
     parse_weekly_days,
     format_weekly_days,
@@ -1101,6 +1102,9 @@ async def cmd_notifications(message: Message) -> None:
         return
 
     try:
+        # Импорт функции для получения настроек
+        from notification_settings import get_user_notification_settings
+
         user = get_user_by_telegram_id(message.from_user.id)
         if not user:
             await message.answer("❌ Пользователь не найден. Используйте /start для регистрации.")
@@ -1110,7 +1114,6 @@ async def cmd_notifications(message: Message) -> None:
         settings_text = get_notification_summary(user.id)
 
         # Получаем текущие настройки для отображения статуса
-        from notification_settings import get_user_notification_settings
         current_settings = get_user_notification_settings(user.id)
 
         notifications_enabled = current_settings.notifications_enabled if current_settings else True
@@ -1190,9 +1193,11 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
 
         action = callback.data
 
+        # Импорт функции для получения настроек
+        from notification_settings import get_user_notification_settings
+
         if action == "toggle_notifications":
             # Получаем текущие настройки
-            from notification_settings import get_user_notification_settings
             settings = get_user_notification_settings(user.id)
             new_state = not (settings.notifications_enabled if settings else True)
 
@@ -1312,6 +1317,9 @@ async def handle_notification_settings_input(message: Message) -> None:
         return
 
     try:
+        # Импорт функции для получения настроек
+        from notification_settings import get_user_notification_settings
+
         user = get_user_by_telegram_id(user_id)
         if not user:
             await message.answer("❌ Пользователь не найден.")
@@ -1416,7 +1424,6 @@ async def handle_notification_settings_input(message: Message) -> None:
         # Имитируем вызов команды /notifications для показа обновленных настроек
         settings_text = get_notification_summary(user.id)
         from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-        from notification_settings import get_user_notification_settings
 
         current_settings = get_user_notification_settings(user.id)
         notifications_enabled = current_settings.notifications_enabled if current_settings else True
