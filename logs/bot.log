@@ -640,3 +640,1180 @@ NameError: name 'DATABASE_URL' is not defined
 2025-12-22 02:07:04,510 - apscheduler.scheduler - INFO - base.py:245 - Scheduler has been shut down
 2025-12-22 02:07:04,511 - aiogram.dispatcher - INFO - dispatcher.py:413 - Polling stopped for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
 2025-12-22 02:07:04,514 - deadline_bot - INFO - bot.py:1207 - Бот остановлен пользователем
+2025-12-23 02:33:44,517 - deadline_bot - INFO - bot.py:82 - Загружено 1 администраторов
+2025-12-23 02:33:45,073 - deadline_bot - INFO - logging_config.py:110 - ==================================================
+2025-12-23 02:33:45,073 - deadline_bot - INFO - logging_config.py:111 - DEADLINE BOT STARTING UP
+2025-12-23 02:33:45,073 - deadline_bot - INFO - logging_config.py:112 - ==================================================
+2025-12-23 02:33:45,073 - deadline_bot - INFO - logging_config.py:113 - Database URL: sqlite:///../data/deadlines.db
+2025-12-23 02:33:45,074 - deadline_bot - INFO - logging_config.py:114 - Telegram Bot Token: Configured
+2025-12-23 02:33:45,074 - deadline_bot - INFO - logging_config.py:115 - Yonote API Key: Configured
+2025-12-23 02:33:45,074 - deadline_bot - INFO - logging_config.py:116 - Update Interval: 30 minutes
+2025-12-23 02:33:45,074 - deadline_bot - INFO - logging_config.py:117 - Log Level: INFO
+2025-12-23 02:33:45,075 - deadline_bot - INFO - logging_config.py:118 - ==================================================
+2025-12-23 02:33:45,075 - deadline_bot - INFO - bot.py:2012 - Инициализация базы данных...
+2025-12-23 02:33:45,081 - deadline_bot - INFO - bot.py:2015 - База данных инициализирована
+2025-12-23 02:33:45,084 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 02:33:45,084 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 02:33:45,086 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Синхронизация дедлайнов из Yonote и проверка уведомлений" to job store "default"
+2025-12-23 02:33:45,087 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Очистка просроченных дедлайнов" to job store "default"
+2025-12-23 02:33:45,087 - apscheduler.scheduler - INFO - base.py:214 - Scheduler started
+2025-12-23 02:33:45,088 - deadline_bot - INFO - bot.py:2049 - Планировщик запущен: синхронизация и проверка уведомлений каждые 30 мин, очистка просроченных раз в день
+2025-12-23 02:33:45,088 - deadline_bot - INFO - bot.py:2052 - Запуск бота...
+2025-12-23 02:33:45,089 - aiogram.dispatcher - INFO - dispatcher.py:596 - Start polling
+2025-12-23 02:33:45,345 - aiogram.dispatcher - INFO - dispatcher.py:378 - Run polling for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 02:33:45,662 - deadline_bot - INFO - bot.py:237 - Пользователь 929644995 зарегистрирован/обновлён
+2025-12-23 02:33:45,662 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747396 is handled. Duration 244 ms by bot id=8358666814
+2025-12-23 02:33:45,681 - deadline_bot - INFO - bot.py:237 - Пользователь 929644995 зарегистрирован/обновлён
+2025-12-23 02:33:45,681 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747397 is handled. Duration 240 ms by bot id=8358666814
+2025-12-23 02:33:53,166 - deadline_bot - ERROR - bot.py:1748 - Ошибка в обработчике настроек уведомлений: cannot access local variable 'settings_text' where it is not associated with a value
+Traceback (most recent call last):
+  File "C:\Users\vj\Documents\deadline_bot\bot.py", line 1647, in handle_notification_settings
+    settings_text,
+    ^^^^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'settings_text' where it is not associated with a value
+2025-12-23 02:33:53,241 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747398 is handled. Duration 164 ms by bot id=8358666814
+2025-12-23 02:36:12,211 - aiogram.dispatcher - INFO - dispatcher.py:624 - Polling stopped
+2025-12-23 02:36:12,212 - aiogram.dispatcher - ERROR - dispatcher.py:225 - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2025-12-23 02:36:12,213 - aiogram.dispatcher - WARNING - dispatcher.py:227 - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8358666814)
+2025-12-23 02:36:12,470 - deadline_bot - INFO - bot.py:2058 - Планировщик остановлен
+2025-12-23 02:36:12,471 - apscheduler.scheduler - INFO - base.py:245 - Scheduler has been shut down
+2025-12-23 02:36:12,476 - aiogram.dispatcher - INFO - dispatcher.py:413 - Polling stopped for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 02:36:12,478 - deadline_bot - INFO - bot.py:2065 - Бот остановлен пользователем
+2025-12-23 02:36:19,280 - deadline_bot - INFO - bot.py:82 - Загружено 1 администраторов
+2025-12-23 02:36:19,807 - deadline_bot - INFO - logging_config.py:110 - ==================================================
+2025-12-23 02:36:19,808 - deadline_bot - INFO - logging_config.py:111 - DEADLINE BOT STARTING UP
+2025-12-23 02:36:19,808 - deadline_bot - INFO - logging_config.py:112 - ==================================================
+2025-12-23 02:36:19,808 - deadline_bot - INFO - logging_config.py:113 - Database URL: sqlite:///../data/deadlines.db
+2025-12-23 02:36:19,808 - deadline_bot - INFO - logging_config.py:114 - Telegram Bot Token: Configured
+2025-12-23 02:36:19,809 - deadline_bot - INFO - logging_config.py:115 - Yonote API Key: Configured
+2025-12-23 02:36:19,809 - deadline_bot - INFO - logging_config.py:116 - Update Interval: 30 minutes
+2025-12-23 02:36:19,809 - deadline_bot - INFO - logging_config.py:117 - Log Level: INFO
+2025-12-23 02:36:19,809 - deadline_bot - INFO - logging_config.py:118 - ==================================================
+2025-12-23 02:36:19,810 - deadline_bot - INFO - bot.py:1999 - Инициализация базы данных...
+2025-12-23 02:36:19,813 - deadline_bot - INFO - bot.py:2002 - База данных инициализирована
+2025-12-23 02:36:19,815 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 02:36:19,815 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 02:36:19,817 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Синхронизация дедлайнов из Yonote и проверка уведомлений" to job store "default"
+2025-12-23 02:36:19,818 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Очистка просроченных дедлайнов" to job store "default"
+2025-12-23 02:36:19,818 - apscheduler.scheduler - INFO - base.py:214 - Scheduler started
+2025-12-23 02:36:19,819 - deadline_bot - INFO - bot.py:2036 - Планировщик запущен: синхронизация и проверка уведомлений каждые 30 мин, очистка просроченных раз в день
+2025-12-23 02:36:19,819 - deadline_bot - INFO - bot.py:2039 - Запуск бота...
+2025-12-23 02:36:19,819 - aiogram.dispatcher - INFO - dispatcher.py:596 - Start polling
+2025-12-23 02:36:20,030 - aiogram.dispatcher - INFO - dispatcher.py:378 - Run polling for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 02:36:27,199 - deadline_bot - INFO - bot.py:237 - Пользователь 929644995 зарегистрирован/обновлён
+2025-12-23 02:36:27,199 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747399 is handled. Duration 246 ms by bot id=8358666814
+2025-12-23 02:36:35,912 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747400 is handled. Duration 82 ms by bot id=8358666814
+2025-12-23 02:36:52,050 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747401 is handled. Duration 86 ms by bot id=8358666814
+2025-12-23 02:36:55,490 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747402 is handled. Duration 157 ms by bot id=8358666814
+2025-12-23 02:37:09,521 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747403 is handled. Duration 164 ms by bot id=8358666814
+2025-12-23 02:37:24,288 - deadline_bot - INFO - bot.py:237 - Пользователь 929644995 зарегистрирован/обновлён
+2025-12-23 02:37:24,289 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747404 is handled. Duration 87 ms by bot id=8358666814
+2025-12-23 02:37:25,958 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 1 по нику: VJ_Games
+2025-12-23 02:37:25,959 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для идентификатора: VJ_Games
+2025-12-23 02:37:26,208 - scripts.sync_deadlines - INFO - sync_deadlines.py:98 - Получено 3 дедлайнов из Yonote для пользователя 1
+2025-12-23 02:37:26,216 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'Тест на жопу абобы': дата изменена с 2025-12-31 00:00:00 на 2025-12-31 00:00:00+00:00
+2025-12-23 02:37:26,217 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: Тест на жопу абобы (ID: csv_-5553455)
+2025-12-23 02:37:26,220 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'просто тест оповещения': дата изменена с 2025-12-16 16:45:00 на 2025-12-16 16:45:00+00:00
+2025-12-23 02:37:26,220 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: просто тест оповещения (ID: csv_-6064448)
+2025-12-23 02:37:26,223 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'стрей кидс': дата изменена с 2025-12-07 00:00:00 на 2025-12-07 00:00:00+00:00
+2025-12-23 02:37:26,224 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: стрей кидс (ID: csv_-5151168)
+2025-12-23 02:37:26,232 - scripts.sync_deadlines - INFO - sync_deadlines.py:221 - Синхронизировано дедлайнов для пользователя 1: создано 0, обновлено 3
+2025-12-23 02:37:26,318 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747405 is handled. Duration 361 ms by bot id=8358666814
+2025-12-23 02:37:29,881 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747406 is handled. Duration 88 ms by bot id=8358666814
+2025-12-23 02:37:36,186 - notification_settings - INFO - notification_settings.py:204 - Обновлены настройки уведомлений для пользователя 1
+2025-12-23 02:37:36,346 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747407 is handled. Duration 168 ms by bot id=8358666814
+2025-12-23 02:37:37,389 - notification_settings - INFO - notification_settings.py:204 - Обновлены настройки уведомлений для пользователя 1
+2025-12-23 02:37:37,543 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747408 is handled. Duration 162 ms by bot id=8358666814
+2025-12-23 02:37:41,258 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747409 is handled. Duration 205 ms by bot id=8358666814
+2025-12-23 02:37:45,785 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747410 is handled. Duration 2 ms by bot id=8358666814
+2025-12-23 02:37:48,963 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747411 is handled. Duration 1 ms by bot id=8358666814
+2025-12-23 02:38:22,191 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747412 is handled. Duration 2 ms by bot id=8358666814
+2025-12-23 02:42:40,421 - aiogram.dispatcher - INFO - dispatcher.py:624 - Polling stopped
+2025-12-23 02:42:40,423 - aiogram.dispatcher - ERROR - dispatcher.py:225 - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2025-12-23 02:42:40,424 - aiogram.dispatcher - WARNING - dispatcher.py:227 - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8358666814)
+2025-12-23 02:42:40,690 - deadline_bot - INFO - bot.py:2045 - Планировщик остановлен
+2025-12-23 02:42:40,691 - apscheduler.scheduler - INFO - base.py:245 - Scheduler has been shut down
+2025-12-23 02:42:40,692 - aiogram.dispatcher - INFO - dispatcher.py:413 - Polling stopped for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 02:42:40,694 - deadline_bot - INFO - bot.py:2052 - Бот остановлен пользователем
+2025-12-23 02:42:47,869 - deadline_bot - INFO - bot.py:82 - Загружено 1 администраторов
+2025-12-23 02:42:48,380 - deadline_bot - INFO - logging_config.py:110 - ==================================================
+2025-12-23 02:42:48,380 - deadline_bot - INFO - logging_config.py:111 - DEADLINE BOT STARTING UP
+2025-12-23 02:42:48,380 - deadline_bot - INFO - logging_config.py:112 - ==================================================
+2025-12-23 02:42:48,381 - deadline_bot - INFO - logging_config.py:113 - Database URL: sqlite:///../data/deadlines.db
+2025-12-23 02:42:48,381 - deadline_bot - INFO - logging_config.py:114 - Telegram Bot Token: Configured
+2025-12-23 02:42:48,381 - deadline_bot - INFO - logging_config.py:115 - Yonote API Key: Configured
+2025-12-23 02:42:48,382 - deadline_bot - INFO - logging_config.py:116 - Update Interval: 30 minutes
+2025-12-23 02:42:48,382 - deadline_bot - INFO - logging_config.py:117 - Log Level: INFO
+2025-12-23 02:42:48,382 - deadline_bot - INFO - logging_config.py:118 - ==================================================
+2025-12-23 02:42:48,382 - deadline_bot - INFO - bot.py:1995 - Инициализация базы данных...
+2025-12-23 02:42:48,388 - deadline_bot - INFO - bot.py:1998 - База данных инициализирована
+2025-12-23 02:42:48,391 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 02:42:48,392 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 02:42:48,393 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Синхронизация дедлайнов из Yonote и проверка уведомлений" to job store "default"
+2025-12-23 02:42:48,394 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Очистка просроченных дедлайнов" to job store "default"
+2025-12-23 02:42:48,394 - apscheduler.scheduler - INFO - base.py:214 - Scheduler started
+2025-12-23 02:42:48,395 - deadline_bot - INFO - bot.py:2032 - Планировщик запущен: синхронизация и проверка уведомлений каждые 30 мин, очистка просроченных раз в день
+2025-12-23 02:42:48,395 - deadline_bot - INFO - bot.py:2035 - Запуск бота...
+2025-12-23 02:42:48,396 - aiogram.dispatcher - INFO - dispatcher.py:596 - Start polling
+2025-12-23 02:42:48,615 - aiogram.dispatcher - INFO - dispatcher.py:378 - Run polling for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 02:42:50,017 - deadline_bot - INFO - bot.py:233 - Пользователь 929644995 зарегистрирован/обновлён
+2025-12-23 02:42:50,017 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747413 is handled. Duration 247 ms by bot id=8358666814
+2025-12-23 02:42:53,253 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747414 is handled. Duration 84 ms by bot id=8358666814
+2025-12-23 02:46:15,469 - aiogram.dispatcher - INFO - dispatcher.py:624 - Polling stopped
+2025-12-23 02:46:15,470 - aiogram.dispatcher - ERROR - dispatcher.py:225 - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2025-12-23 02:46:15,471 - aiogram.dispatcher - WARNING - dispatcher.py:227 - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8358666814)
+2025-12-23 02:46:15,724 - deadline_bot - INFO - bot.py:2041 - Планировщик остановлен
+2025-12-23 02:46:15,725 - apscheduler.scheduler - INFO - base.py:245 - Scheduler has been shut down
+2025-12-23 02:46:15,726 - aiogram.dispatcher - INFO - dispatcher.py:413 - Polling stopped for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 02:46:15,728 - deadline_bot - INFO - bot.py:2048 - Бот остановлен пользователем
+2025-12-23 02:46:22,183 - deadline_bot - INFO - bot.py:82 - Загружено 1 администраторов
+2025-12-23 02:46:22,743 - deadline_bot - INFO - logging_config.py:110 - ==================================================
+2025-12-23 02:46:22,744 - deadline_bot - INFO - logging_config.py:111 - DEADLINE BOT STARTING UP
+2025-12-23 02:46:22,744 - deadline_bot - INFO - logging_config.py:112 - ==================================================
+2025-12-23 02:46:22,744 - deadline_bot - INFO - logging_config.py:113 - Database URL: sqlite:///../data/deadlines.db
+2025-12-23 02:46:22,745 - deadline_bot - INFO - logging_config.py:114 - Telegram Bot Token: Configured
+2025-12-23 02:46:22,745 - deadline_bot - INFO - logging_config.py:115 - Yonote API Key: Configured
+2025-12-23 02:46:22,746 - deadline_bot - INFO - logging_config.py:116 - Update Interval: 30 minutes
+2025-12-23 02:46:22,746 - deadline_bot - INFO - logging_config.py:117 - Log Level: INFO
+2025-12-23 02:46:22,746 - deadline_bot - INFO - logging_config.py:118 - ==================================================
+2025-12-23 02:46:22,747 - deadline_bot - INFO - bot.py:2000 - Инициализация базы данных...
+2025-12-23 02:46:22,756 - deadline_bot - INFO - bot.py:2003 - База данных инициализирована
+2025-12-23 02:46:22,759 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 02:46:22,760 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 02:46:22,762 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Синхронизация дедлайнов из Yonote и проверка уведомлений" to job store "default"
+2025-12-23 02:46:22,763 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Очистка просроченных дедлайнов" to job store "default"
+2025-12-23 02:46:22,763 - apscheduler.scheduler - INFO - base.py:214 - Scheduler started
+2025-12-23 02:46:22,764 - deadline_bot - INFO - bot.py:2037 - Планировщик запущен: синхронизация и проверка уведомлений каждые 30 мин, очистка просроченных раз в день
+2025-12-23 02:46:22,764 - deadline_bot - INFO - bot.py:2040 - Запуск бота...
+2025-12-23 02:46:22,765 - aiogram.dispatcher - INFO - dispatcher.py:596 - Start polling
+2025-12-23 02:46:22,987 - aiogram.dispatcher - INFO - dispatcher.py:378 - Run polling for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 02:46:26,318 - deadline_bot - INFO - bot.py:233 - Пользователь 929644995 зарегистрирован/обновлён
+2025-12-23 02:46:26,318 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747415 is handled. Duration 274 ms by bot id=8358666814
+2025-12-23 02:46:27,796 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747416 is handled. Duration 101 ms by bot id=8358666814
+2025-12-23 02:47:33,729 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747417 is handled. Duration 143 ms by bot id=8358666814
+2025-12-23 02:47:36,226 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747418 is handled. Duration 2 ms by bot id=8358666814
+2025-12-23 02:51:11,531 - aiogram.dispatcher - INFO - dispatcher.py:624 - Polling stopped
+2025-12-23 02:51:11,533 - aiogram.dispatcher - ERROR - dispatcher.py:225 - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2025-12-23 02:51:11,534 - aiogram.dispatcher - WARNING - dispatcher.py:227 - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8358666814)
+2025-12-23 02:51:11,797 - deadline_bot - INFO - bot.py:2046 - Планировщик остановлен
+2025-12-23 02:51:11,797 - apscheduler.scheduler - INFO - base.py:245 - Scheduler has been shut down
+2025-12-23 02:51:11,798 - aiogram.dispatcher - INFO - dispatcher.py:413 - Polling stopped for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 02:51:11,800 - deadline_bot - INFO - bot.py:2053 - Бот остановлен пользователем
+2025-12-23 02:51:18,042 - deadline_bot - INFO - bot.py:82 - Загружено 1 администраторов
+2025-12-23 02:51:18,545 - deadline_bot - INFO - logging_config.py:110 - ==================================================
+2025-12-23 02:51:18,545 - deadline_bot - INFO - logging_config.py:111 - DEADLINE BOT STARTING UP
+2025-12-23 02:51:18,545 - deadline_bot - INFO - logging_config.py:112 - ==================================================
+2025-12-23 02:51:18,546 - deadline_bot - INFO - logging_config.py:113 - Database URL: sqlite:///../data/deadlines.db
+2025-12-23 02:51:18,546 - deadline_bot - INFO - logging_config.py:114 - Telegram Bot Token: Configured
+2025-12-23 02:51:18,546 - deadline_bot - INFO - logging_config.py:115 - Yonote API Key: Configured
+2025-12-23 02:51:18,547 - deadline_bot - INFO - logging_config.py:116 - Update Interval: 30 minutes
+2025-12-23 02:51:18,547 - deadline_bot - INFO - logging_config.py:117 - Log Level: INFO
+2025-12-23 02:51:18,547 - deadline_bot - INFO - logging_config.py:118 - ==================================================
+2025-12-23 02:51:18,547 - deadline_bot - INFO - bot.py:2001 - Инициализация базы данных...
+2025-12-23 02:51:18,551 - deadline_bot - INFO - bot.py:2004 - База данных инициализирована
+2025-12-23 02:51:18,553 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 02:51:18,553 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 02:51:18,555 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Синхронизация дедлайнов из Yonote и проверка уведомлений" to job store "default"
+2025-12-23 02:51:18,556 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Очистка просроченных дедлайнов" to job store "default"
+2025-12-23 02:51:18,556 - apscheduler.scheduler - INFO - base.py:214 - Scheduler started
+2025-12-23 02:51:18,557 - deadline_bot - INFO - bot.py:2038 - Планировщик запущен: синхронизация и проверка уведомлений каждые 30 мин, очистка просроченных раз в день
+2025-12-23 02:51:18,557 - deadline_bot - INFO - bot.py:2041 - Запуск бота...
+2025-12-23 02:51:18,558 - aiogram.dispatcher - INFO - dispatcher.py:596 - Start polling
+2025-12-23 02:51:18,774 - aiogram.dispatcher - INFO - dispatcher.py:378 - Run polling for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 02:51:20,610 - deadline_bot - INFO - bot.py:233 - Пользователь 929644995 зарегистрирован/обновлён
+2025-12-23 02:51:20,611 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747419 is handled. Duration 258 ms by bot id=8358666814
+2025-12-23 02:51:21,753 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 1 по нику: VJ_Games
+2025-12-23 02:51:21,753 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для идентификатора: VJ_Games
+2025-12-23 02:51:21,869 - scripts.sync_deadlines - INFO - sync_deadlines.py:98 - Получено 3 дедлайнов из Yonote для пользователя 1
+2025-12-23 02:51:21,877 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'Тест на жопу абобы': дата изменена с 2025-12-31 00:00:00 на 2025-12-31 00:00:00+00:00
+2025-12-23 02:51:21,878 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: Тест на жопу абобы (ID: csv_-6706862)
+2025-12-23 02:51:21,881 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'просто тест оповещения': дата изменена с 2025-12-16 16:45:00 на 2025-12-16 16:45:00+00:00
+2025-12-23 02:51:21,881 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: просто тест оповещения (ID: csv_-7176057)
+2025-12-23 02:51:21,884 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'стрей кидс': дата изменена с 2025-12-07 00:00:00 на 2025-12-07 00:00:00+00:00
+2025-12-23 02:51:21,884 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: стрей кидс (ID: csv_-6543153)
+2025-12-23 02:51:21,892 - scripts.sync_deadlines - INFO - sync_deadlines.py:221 - Синхронизировано дедлайнов для пользователя 1: создано 0, обновлено 3
+2025-12-23 02:51:21,979 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747420 is handled. Duration 229 ms by bot id=8358666814
+2025-12-23 02:53:54,740 - aiogram.dispatcher - INFO - dispatcher.py:624 - Polling stopped
+2025-12-23 02:53:54,741 - aiogram.dispatcher - ERROR - dispatcher.py:225 - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2025-12-23 02:53:54,742 - aiogram.dispatcher - WARNING - dispatcher.py:227 - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8358666814)
+2025-12-23 02:53:55,001 - deadline_bot - INFO - bot.py:2047 - Планировщик остановлен
+2025-12-23 02:53:55,002 - apscheduler.scheduler - INFO - base.py:245 - Scheduler has been shut down
+2025-12-23 02:53:55,002 - aiogram.dispatcher - INFO - dispatcher.py:413 - Polling stopped for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 02:53:55,004 - deadline_bot - INFO - bot.py:2054 - Бот остановлен пользователем
+2025-12-23 02:54:17,058 - deadline_bot - INFO - bot.py:82 - Загружено 1 администраторов
+2025-12-23 02:54:17,589 - deadline_bot - INFO - logging_config.py:110 - ==================================================
+2025-12-23 02:54:17,589 - deadline_bot - INFO - logging_config.py:111 - DEADLINE BOT STARTING UP
+2025-12-23 02:54:17,589 - deadline_bot - INFO - logging_config.py:112 - ==================================================
+2025-12-23 02:54:17,590 - deadline_bot - INFO - logging_config.py:113 - Database URL: sqlite:///../data/deadlines.db
+2025-12-23 02:54:17,590 - deadline_bot - INFO - logging_config.py:114 - Telegram Bot Token: Configured
+2025-12-23 02:54:17,590 - deadline_bot - INFO - logging_config.py:115 - Yonote API Key: Configured
+2025-12-23 02:54:17,591 - deadline_bot - INFO - logging_config.py:116 - Update Interval: 30 minutes
+2025-12-23 02:54:17,591 - deadline_bot - INFO - logging_config.py:117 - Log Level: INFO
+2025-12-23 02:54:17,591 - deadline_bot - INFO - logging_config.py:118 - ==================================================
+2025-12-23 02:54:17,592 - deadline_bot - INFO - bot.py:1990 - Инициализация базы данных...
+2025-12-23 02:54:17,600 - deadline_bot - INFO - bot.py:1993 - База данных инициализирована
+2025-12-23 02:54:17,603 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 02:54:17,603 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 02:54:17,605 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Синхронизация дедлайнов из Yonote и проверка уведомлений" to job store "default"
+2025-12-23 02:54:17,606 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Очистка просроченных дедлайнов" to job store "default"
+2025-12-23 02:54:17,606 - apscheduler.scheduler - INFO - base.py:214 - Scheduler started
+2025-12-23 02:54:17,607 - deadline_bot - INFO - bot.py:2027 - Планировщик запущен: синхронизация и проверка уведомлений каждые 30 мин, очистка просроченных раз в день
+2025-12-23 02:54:17,607 - deadline_bot - INFO - bot.py:2030 - Запуск бота...
+2025-12-23 02:54:17,608 - aiogram.dispatcher - INFO - dispatcher.py:596 - Start polling
+2025-12-23 02:54:17,839 - aiogram.dispatcher - INFO - dispatcher.py:378 - Run polling for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 02:54:18,688 - deadline_bot - INFO - bot.py:233 - Пользователь 929644995 зарегистрирован/обновлён
+2025-12-23 02:54:18,689 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747421 is handled. Duration 259 ms by bot id=8358666814
+2025-12-23 02:54:21,320 - deadline_bot - ERROR - bot.py:1726 - Ошибка в обработчике настроек уведомлений: 11 validation errors for InlineKeyboardMarkup
+inline_keyboard.0.0
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('text', 'Назад'), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.1
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('url', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.2
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('callback_data', 'cmd_start'), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.3
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('web_app', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.4
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('login_url', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.5
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('switch_inline_query', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.6
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('switch_inline_query_current_chat', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.7
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('switch_inline_query_chosen_chat', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.8
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('copy_text', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.9
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('callback_game', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.10
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('pay', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+Traceback (most recent call last):
+  File "C:\Users\vj\Documents\deadline_bot\bot.py", line 1463, in handle_notification_settings
+    reply_markup = InlineKeyboardMarkup(inline_keyboard=[InlineKeyboardButton(text="Назад", callback_data="cmd_start")])
+                   ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vj\Documents\deadline_bot\.venv\Lib\site-packages\pydantic\main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 11 validation errors for InlineKeyboardMarkup
+inline_keyboard.0.0
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('text', 'Назад'), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.1
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('url', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.2
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('callback_data', 'cmd_start'), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.3
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('web_app', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.4
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('login_url', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.5
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('switch_inline_query', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.6
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('switch_inline_query_current_chat', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.7
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('switch_inline_query_chosen_chat', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.8
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('copy_text', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.9
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('callback_game', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.10
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('pay', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+2025-12-23 02:54:21,408 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747422 is handled. Duration 94 ms by bot id=8358666814
+2025-12-23 02:55:46,992 - aiogram.dispatcher - INFO - dispatcher.py:624 - Polling stopped
+2025-12-23 02:55:46,993 - aiogram.dispatcher - ERROR - dispatcher.py:225 - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2025-12-23 02:55:46,994 - aiogram.dispatcher - WARNING - dispatcher.py:227 - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8358666814)
+2025-12-23 02:55:47,249 - deadline_bot - INFO - bot.py:2036 - Планировщик остановлен
+2025-12-23 02:55:47,250 - apscheduler.scheduler - INFO - base.py:245 - Scheduler has been shut down
+2025-12-23 02:55:47,250 - aiogram.dispatcher - INFO - dispatcher.py:413 - Polling stopped for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 02:55:47,252 - deadline_bot - INFO - bot.py:2043 - Бот остановлен пользователем
+2025-12-23 02:55:53,697 - deadline_bot - INFO - bot.py:82 - Загружено 1 администраторов
+2025-12-23 02:55:54,207 - deadline_bot - INFO - logging_config.py:110 - ==================================================
+2025-12-23 02:55:54,208 - deadline_bot - INFO - logging_config.py:111 - DEADLINE BOT STARTING UP
+2025-12-23 02:55:54,208 - deadline_bot - INFO - logging_config.py:112 - ==================================================
+2025-12-23 02:55:54,208 - deadline_bot - INFO - logging_config.py:113 - Database URL: sqlite:///../data/deadlines.db
+2025-12-23 02:55:54,209 - deadline_bot - INFO - logging_config.py:114 - Telegram Bot Token: Configured
+2025-12-23 02:55:54,209 - deadline_bot - INFO - logging_config.py:115 - Yonote API Key: Configured
+2025-12-23 02:55:54,209 - deadline_bot - INFO - logging_config.py:116 - Update Interval: 30 minutes
+2025-12-23 02:55:54,210 - deadline_bot - INFO - logging_config.py:117 - Log Level: INFO
+2025-12-23 02:55:54,210 - deadline_bot - INFO - logging_config.py:118 - ==================================================
+2025-12-23 02:55:54,210 - deadline_bot - INFO - bot.py:1990 - Инициализация базы данных...
+2025-12-23 02:55:54,215 - deadline_bot - INFO - bot.py:1993 - База данных инициализирована
+2025-12-23 02:55:54,217 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 02:55:54,218 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 02:55:54,219 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Синхронизация дедлайнов из Yonote и проверка уведомлений" to job store "default"
+2025-12-23 02:55:54,220 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Очистка просроченных дедлайнов" to job store "default"
+2025-12-23 02:55:54,220 - apscheduler.scheduler - INFO - base.py:214 - Scheduler started
+2025-12-23 02:55:54,221 - deadline_bot - INFO - bot.py:2027 - Планировщик запущен: синхронизация и проверка уведомлений каждые 30 мин, очистка просроченных раз в день
+2025-12-23 02:55:54,221 - deadline_bot - INFO - bot.py:2030 - Запуск бота...
+2025-12-23 02:55:54,221 - aiogram.dispatcher - INFO - dispatcher.py:596 - Start polling
+2025-12-23 02:55:54,436 - aiogram.dispatcher - INFO - dispatcher.py:378 - Run polling for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 02:55:58,000 - deadline_bot - INFO - bot.py:233 - Пользователь 929644995 зарегистрирован/обновлён
+2025-12-23 02:55:58,001 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747423 is handled. Duration 338 ms by bot id=8358666814
+2025-12-23 02:55:59,299 - deadline_bot - ERROR - bot.py:1726 - Ошибка в обработчике настроек уведомлений: 11 validation errors for InlineKeyboardMarkup
+inline_keyboard.0.0
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('text', 'Назад'), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.1
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('url', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.2
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('callback_data', 'cmd_start'), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.3
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('web_app', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.4
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('login_url', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.5
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('switch_inline_query', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.6
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('switch_inline_query_current_chat', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.7
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('switch_inline_query_chosen_chat', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.8
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('copy_text', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.9
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('callback_game', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.10
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('pay', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+Traceback (most recent call last):
+  File "C:\Users\vj\Documents\deadline_bot\bot.py", line 1456, in handle_notification_settings
+    keyboard=[[InlineKeyboardMarkup(inline_keyboard=[InlineKeyboardButton(text="Назад", callback_data="cmd_start")])]]
+               ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vj\Documents\deadline_bot\.venv\Lib\site-packages\pydantic\main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 11 validation errors for InlineKeyboardMarkup
+inline_keyboard.0.0
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('text', 'Назад'), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.1
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('url', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.2
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('callback_data', 'cmd_start'), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.3
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('web_app', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.4
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('login_url', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.5
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('switch_inline_query', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.6
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('switch_inline_query_current_chat', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.7
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('switch_inline_query_chosen_chat', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.8
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('copy_text', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.9
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('callback_game', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.10
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('pay', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+2025-12-23 02:55:59,387 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747424 is handled. Duration 90 ms by bot id=8358666814
+2025-12-23 02:59:36,494 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747425 is handled. Duration 90 ms by bot id=8358666814
+2025-12-23 02:59:37,932 - deadline_bot - ERROR - bot.py:1726 - Ошибка в обработчике настроек уведомлений: 11 validation errors for InlineKeyboardMarkup
+inline_keyboard.0.0
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('text', 'Назад'), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.1
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('url', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.2
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('callback_data', 'cmd_start'), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.3
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('web_app', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.4
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('login_url', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.5
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('switch_inline_query', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.6
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('switch_inline_query_current_chat', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.7
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('switch_inline_query_chosen_chat', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.8
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('copy_text', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.9
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('callback_game', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.10
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('pay', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+Traceback (most recent call last):
+  File "C:\Users\vj\Documents\deadline_bot\bot.py", line 1456, in handle_notification_settings
+    keyboard=[[InlineKeyboardMarkup(inline_keyboard=[InlineKeyboardButton(text="Назад", callback_data="cmd_start")])]]
+               ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vj\Documents\deadline_bot\.venv\Lib\site-packages\pydantic\main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 11 validation errors for InlineKeyboardMarkup
+inline_keyboard.0.0
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('text', 'Назад'), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.1
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('url', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.2
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('callback_data', 'cmd_start'), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.3
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('web_app', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.4
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('login_url', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.5
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('switch_inline_query', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.6
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('switch_inline_query_current_chat', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.7
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('switch_inline_query_chosen_chat', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.8
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('copy_text', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.9
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('callback_game', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+inline_keyboard.0.10
+  Input should be a valid dictionary or instance of InlineKeyboardButton [type=model_type, input_value=('pay', None), input_type=tuple]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+2025-12-23 02:59:38,011 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747426 is handled. Duration 82 ms by bot id=8358666814
+2025-12-23 03:01:44,829 - aiogram.dispatcher - INFO - dispatcher.py:624 - Polling stopped
+2025-12-23 03:01:44,832 - aiogram.dispatcher - ERROR - dispatcher.py:225 - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2025-12-23 03:01:44,832 - aiogram.dispatcher - WARNING - dispatcher.py:227 - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8358666814)
+2025-12-23 03:01:45,090 - deadline_bot - INFO - bot.py:2036 - Планировщик остановлен
+2025-12-23 03:01:45,091 - apscheduler.scheduler - INFO - base.py:245 - Scheduler has been shut down
+2025-12-23 03:01:45,091 - aiogram.dispatcher - INFO - dispatcher.py:413 - Polling stopped for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 03:01:45,093 - deadline_bot - INFO - bot.py:2043 - Бот остановлен пользователем
+2025-12-23 03:01:54,609 - deadline_bot - INFO - bot.py:82 - Загружено 1 администраторов
+2025-12-23 03:01:55,158 - deadline_bot - INFO - logging_config.py:110 - ==================================================
+2025-12-23 03:01:55,158 - deadline_bot - INFO - logging_config.py:111 - DEADLINE BOT STARTING UP
+2025-12-23 03:01:55,159 - deadline_bot - INFO - logging_config.py:112 - ==================================================
+2025-12-23 03:01:55,159 - deadline_bot - INFO - logging_config.py:113 - Database URL: sqlite:///../data/deadlines.db
+2025-12-23 03:01:55,159 - deadline_bot - INFO - logging_config.py:114 - Telegram Bot Token: Configured
+2025-12-23 03:01:55,160 - deadline_bot - INFO - logging_config.py:115 - Yonote API Key: Configured
+2025-12-23 03:01:55,160 - deadline_bot - INFO - logging_config.py:116 - Update Interval: 30 minutes
+2025-12-23 03:01:55,160 - deadline_bot - INFO - logging_config.py:117 - Log Level: INFO
+2025-12-23 03:01:55,161 - deadline_bot - INFO - logging_config.py:118 - ==================================================
+2025-12-23 03:01:55,161 - deadline_bot - INFO - bot.py:1987 - Инициализация базы данных...
+2025-12-23 03:01:55,165 - deadline_bot - INFO - bot.py:1990 - База данных инициализирована
+2025-12-23 03:01:55,167 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 03:01:55,167 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 03:01:55,169 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Синхронизация дедлайнов из Yonote и проверка уведомлений" to job store "default"
+2025-12-23 03:01:55,170 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Очистка просроченных дедлайнов" to job store "default"
+2025-12-23 03:01:55,170 - apscheduler.scheduler - INFO - base.py:214 - Scheduler started
+2025-12-23 03:01:55,171 - deadline_bot - INFO - bot.py:2024 - Планировщик запущен: синхронизация и проверка уведомлений каждые 30 мин, очистка просроченных раз в день
+2025-12-23 03:01:55,171 - deadline_bot - INFO - bot.py:2027 - Запуск бота...
+2025-12-23 03:01:55,171 - aiogram.dispatcher - INFO - dispatcher.py:596 - Start polling
+2025-12-23 03:01:55,392 - aiogram.dispatcher - INFO - dispatcher.py:378 - Run polling for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 03:01:59,033 - deadline_bot - INFO - bot.py:233 - Пользователь 929644995 зарегистрирован/обновлён
+2025-12-23 03:01:59,034 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747427 is handled. Duration 245 ms by bot id=8358666814
+2025-12-23 03:02:01,627 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747428 is handled. Duration 85 ms by bot id=8358666814
+2025-12-23 03:02:15,163 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747429 is handled. Duration 83 ms by bot id=8358666814
+2025-12-23 03:02:16,237 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747430 is handled. Duration 82 ms by bot id=8358666814
+2025-12-23 03:02:18,620 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747431 is handled. Duration 228 ms by bot id=8358666814
+2025-12-23 03:02:28,729 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747432 is handled. Duration 1 ms by bot id=8358666814
+2025-12-23 03:02:29,445 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747433 is handled. Duration 2 ms by bot id=8358666814
+2025-12-23 03:02:57,899 - deadline_bot - INFO - bot.py:233 - Пользователь 929644995 зарегистрирован/обновлён
+2025-12-23 03:02:57,900 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747434 is handled. Duration 92 ms by bot id=8358666814
+2025-12-23 03:05:12,950 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747435 is handled. Duration 88 ms by bot id=8358666814
+2025-12-23 03:05:13,754 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747436 is handled. Duration 3 ms by bot id=8358666814
+2025-12-23 03:06:56,881 - aiogram.dispatcher - INFO - dispatcher.py:624 - Polling stopped
+2025-12-23 03:06:56,884 - aiogram.dispatcher - ERROR - dispatcher.py:225 - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2025-12-23 03:06:56,884 - aiogram.dispatcher - WARNING - dispatcher.py:227 - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8358666814)
+2025-12-23 03:06:57,149 - deadline_bot - INFO - bot.py:2033 - Планировщик остановлен
+2025-12-23 03:06:57,160 - apscheduler.scheduler - INFO - base.py:245 - Scheduler has been shut down
+2025-12-23 03:06:57,161 - aiogram.dispatcher - INFO - dispatcher.py:413 - Polling stopped for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 03:06:57,196 - deadline_bot - INFO - bot.py:2040 - Бот остановлен пользователем
+2025-12-23 03:07:05,407 - deadline_bot - INFO - bot.py:82 - Загружено 1 администраторов
+2025-12-23 03:07:05,913 - deadline_bot - INFO - logging_config.py:110 - ==================================================
+2025-12-23 03:07:05,913 - deadline_bot - INFO - logging_config.py:111 - DEADLINE BOT STARTING UP
+2025-12-23 03:07:05,913 - deadline_bot - INFO - logging_config.py:112 - ==================================================
+2025-12-23 03:07:05,914 - deadline_bot - INFO - logging_config.py:113 - Database URL: sqlite:///../data/deadlines.db
+2025-12-23 03:07:05,914 - deadline_bot - INFO - logging_config.py:114 - Telegram Bot Token: Configured
+2025-12-23 03:07:05,914 - deadline_bot - INFO - logging_config.py:115 - Yonote API Key: Configured
+2025-12-23 03:07:05,915 - deadline_bot - INFO - logging_config.py:116 - Update Interval: 30 minutes
+2025-12-23 03:07:05,915 - deadline_bot - INFO - logging_config.py:117 - Log Level: INFO
+2025-12-23 03:07:05,915 - deadline_bot - INFO - logging_config.py:118 - ==================================================
+2025-12-23 03:07:05,915 - deadline_bot - INFO - bot.py:1989 - Инициализация базы данных...
+2025-12-23 03:07:05,919 - deadline_bot - INFO - bot.py:1992 - База данных инициализирована
+2025-12-23 03:07:05,921 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 03:07:05,921 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 03:07:05,923 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Синхронизация дедлайнов из Yonote и проверка уведомлений" to job store "default"
+2025-12-23 03:07:05,923 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Очистка просроченных дедлайнов" to job store "default"
+2025-12-23 03:07:05,924 - apscheduler.scheduler - INFO - base.py:214 - Scheduler started
+2025-12-23 03:07:05,924 - deadline_bot - INFO - bot.py:2026 - Планировщик запущен: синхронизация и проверка уведомлений каждые 30 мин, очистка просроченных раз в день
+2025-12-23 03:07:05,925 - deadline_bot - INFO - bot.py:2029 - Запуск бота...
+2025-12-23 03:07:05,925 - aiogram.dispatcher - INFO - dispatcher.py:596 - Start polling
+2025-12-23 03:07:06,148 - aiogram.dispatcher - INFO - dispatcher.py:378 - Run polling for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 03:07:06,480 - deadline_bot - INFO - bot.py:233 - Пользователь 929644995 зарегистрирован/обновлён
+2025-12-23 03:07:06,480 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747437 is handled. Duration 261 ms by bot id=8358666814
+2025-12-23 03:07:09,769 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747438 is handled. Duration 90 ms by bot id=8358666814
+2025-12-23 03:07:10,878 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747439 is handled. Duration 2 ms by bot id=8358666814
+2025-12-23 03:07:25,530 - aiogram.dispatcher - INFO - dispatcher.py:624 - Polling stopped
+2025-12-23 03:07:25,532 - aiogram.dispatcher - ERROR - dispatcher.py:225 - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2025-12-23 03:07:25,533 - aiogram.dispatcher - WARNING - dispatcher.py:227 - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8358666814)
+2025-12-23 03:07:25,785 - deadline_bot - INFO - bot.py:2035 - Планировщик остановлен
+2025-12-23 03:07:25,785 - apscheduler.scheduler - INFO - base.py:245 - Scheduler has been shut down
+2025-12-23 03:07:25,786 - aiogram.dispatcher - INFO - dispatcher.py:413 - Polling stopped for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 03:07:25,788 - deadline_bot - INFO - bot.py:2042 - Бот остановлен пользователем
+2025-12-23 03:07:31,809 - deadline_bot - INFO - bot.py:82 - Загружено 1 администраторов
+2025-12-23 03:07:32,297 - deadline_bot - INFO - logging_config.py:110 - ==================================================
+2025-12-23 03:07:32,297 - deadline_bot - INFO - logging_config.py:111 - DEADLINE BOT STARTING UP
+2025-12-23 03:07:32,297 - deadline_bot - INFO - logging_config.py:112 - ==================================================
+2025-12-23 03:07:32,297 - deadline_bot - INFO - logging_config.py:113 - Database URL: sqlite:///../data/deadlines.db
+2025-12-23 03:07:32,298 - deadline_bot - INFO - logging_config.py:114 - Telegram Bot Token: Configured
+2025-12-23 03:07:32,298 - deadline_bot - INFO - logging_config.py:115 - Yonote API Key: Configured
+2025-12-23 03:07:32,298 - deadline_bot - INFO - logging_config.py:116 - Update Interval: 30 minutes
+2025-12-23 03:07:32,298 - deadline_bot - INFO - logging_config.py:117 - Log Level: INFO
+2025-12-23 03:07:32,299 - deadline_bot - INFO - logging_config.py:118 - ==================================================
+2025-12-23 03:07:32,299 - deadline_bot - INFO - bot.py:1989 - Инициализация базы данных...
+2025-12-23 03:07:32,303 - deadline_bot - INFO - bot.py:1992 - База данных инициализирована
+2025-12-23 03:07:32,305 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 03:07:32,305 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 03:07:32,307 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Синхронизация дедлайнов из Yonote и проверка уведомлений" to job store "default"
+2025-12-23 03:07:32,308 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Очистка просроченных дедлайнов" to job store "default"
+2025-12-23 03:07:32,308 - apscheduler.scheduler - INFO - base.py:214 - Scheduler started
+2025-12-23 03:07:32,309 - deadline_bot - INFO - bot.py:2026 - Планировщик запущен: синхронизация и проверка уведомлений каждые 30 мин, очистка просроченных раз в день
+2025-12-23 03:07:32,309 - deadline_bot - INFO - bot.py:2029 - Запуск бота...
+2025-12-23 03:07:32,309 - aiogram.dispatcher - INFO - dispatcher.py:596 - Start polling
+2025-12-23 03:07:32,521 - aiogram.dispatcher - INFO - dispatcher.py:378 - Run polling for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 03:07:50,370 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747440 is handled. Duration 236 ms by bot id=8358666814
+2025-12-23 03:07:51,351 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747441 is handled. Duration 22 ms by bot id=8358666814
+2025-12-23 03:10:21,660 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747442 is handled. Duration 129 ms by bot id=8358666814
+2025-12-23 03:10:25,747 - deadline_bot - INFO - bot.py:233 - Пользователь 929644995 зарегистрирован/обновлён
+2025-12-23 03:10:25,748 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747443 is handled. Duration 88 ms by bot id=8358666814
+2025-12-23 03:10:28,074 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747444 is handled. Duration 103 ms by bot id=8358666814
+2025-12-23 03:11:04,875 - aiogram.dispatcher - INFO - dispatcher.py:624 - Polling stopped
+2025-12-23 03:11:04,877 - aiogram.dispatcher - ERROR - dispatcher.py:225 - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2025-12-23 03:11:04,878 - aiogram.dispatcher - WARNING - dispatcher.py:227 - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8358666814)
+2025-12-23 03:11:05,140 - deadline_bot - INFO - bot.py:2035 - Планировщик остановлен
+2025-12-23 03:11:05,141 - apscheduler.scheduler - INFO - base.py:245 - Scheduler has been shut down
+2025-12-23 03:11:05,141 - aiogram.dispatcher - INFO - dispatcher.py:413 - Polling stopped for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 03:11:05,143 - deadline_bot - INFO - bot.py:2042 - Бот остановлен пользователем
+2025-12-23 03:11:11,481 - deadline_bot - INFO - bot.py:82 - Загружено 1 администраторов
+2025-12-23 03:11:11,989 - deadline_bot - INFO - logging_config.py:110 - ==================================================
+2025-12-23 03:11:11,989 - deadline_bot - INFO - logging_config.py:111 - DEADLINE BOT STARTING UP
+2025-12-23 03:11:11,989 - deadline_bot - INFO - logging_config.py:112 - ==================================================
+2025-12-23 03:11:11,990 - deadline_bot - INFO - logging_config.py:113 - Database URL: sqlite:///../data/deadlines.db
+2025-12-23 03:11:11,990 - deadline_bot - INFO - logging_config.py:114 - Telegram Bot Token: Configured
+2025-12-23 03:11:11,990 - deadline_bot - INFO - logging_config.py:115 - Yonote API Key: Configured
+2025-12-23 03:11:11,991 - deadline_bot - INFO - logging_config.py:116 - Update Interval: 30 minutes
+2025-12-23 03:11:11,991 - deadline_bot - INFO - logging_config.py:117 - Log Level: INFO
+2025-12-23 03:11:11,991 - deadline_bot - INFO - logging_config.py:118 - ==================================================
+2025-12-23 03:11:11,991 - deadline_bot - INFO - bot.py:1985 - Инициализация базы данных...
+2025-12-23 03:11:11,995 - deadline_bot - INFO - bot.py:1988 - База данных инициализирована
+2025-12-23 03:11:11,997 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 03:11:11,997 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 03:11:11,998 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Синхронизация дедлайнов из Yonote и проверка уведомлений" to job store "default"
+2025-12-23 03:11:11,999 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Очистка просроченных дедлайнов" to job store "default"
+2025-12-23 03:11:11,999 - apscheduler.scheduler - INFO - base.py:214 - Scheduler started
+2025-12-23 03:11:11,999 - deadline_bot - INFO - bot.py:2022 - Планировщик запущен: синхронизация и проверка уведомлений каждые 30 мин, очистка просроченных раз в день
+2025-12-23 03:11:12,000 - deadline_bot - INFO - bot.py:2025 - Запуск бота...
+2025-12-23 03:11:12,000 - aiogram.dispatcher - INFO - dispatcher.py:596 - Start polling
+2025-12-23 03:11:12,223 - aiogram.dispatcher - INFO - dispatcher.py:378 - Run polling for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 03:11:12,888 - deadline_bot - INFO - bot.py:233 - Пользователь 929644995 зарегистрирован/обновлён
+2025-12-23 03:11:12,888 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747445 is handled. Duration 247 ms by bot id=8358666814
+2025-12-23 03:11:14,697 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747446 is handled. Duration 92 ms by bot id=8358666814
+2025-12-23 03:15:31,963 - aiogram.dispatcher - INFO - dispatcher.py:624 - Polling stopped
+2025-12-23 03:15:31,966 - aiogram.dispatcher - ERROR - dispatcher.py:225 - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2025-12-23 03:15:31,966 - aiogram.dispatcher - WARNING - dispatcher.py:227 - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8358666814)
+2025-12-23 03:15:32,229 - deadline_bot - INFO - bot.py:2031 - Планировщик остановлен
+2025-12-23 03:15:32,230 - apscheduler.scheduler - INFO - base.py:245 - Scheduler has been shut down
+2025-12-23 03:15:32,231 - aiogram.dispatcher - INFO - dispatcher.py:413 - Polling stopped for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 03:15:32,232 - deadline_bot - INFO - bot.py:2038 - Бот остановлен пользователем
+2025-12-23 03:15:39,223 - deadline_bot - INFO - bot.py:82 - Загружено 1 администраторов
+2025-12-23 03:15:39,740 - deadline_bot - INFO - logging_config.py:110 - ==================================================
+2025-12-23 03:15:39,741 - deadline_bot - INFO - logging_config.py:111 - DEADLINE BOT STARTING UP
+2025-12-23 03:15:39,741 - deadline_bot - INFO - logging_config.py:112 - ==================================================
+2025-12-23 03:15:39,741 - deadline_bot - INFO - logging_config.py:113 - Database URL: sqlite:///../data/deadlines.db
+2025-12-23 03:15:39,742 - deadline_bot - INFO - logging_config.py:114 - Telegram Bot Token: Configured
+2025-12-23 03:15:39,742 - deadline_bot - INFO - logging_config.py:115 - Yonote API Key: Configured
+2025-12-23 03:15:39,742 - deadline_bot - INFO - logging_config.py:116 - Update Interval: 30 minutes
+2025-12-23 03:15:39,742 - deadline_bot - INFO - logging_config.py:117 - Log Level: INFO
+2025-12-23 03:15:39,743 - deadline_bot - INFO - logging_config.py:118 - ==================================================
+2025-12-23 03:15:39,743 - deadline_bot - INFO - bot.py:1992 - Инициализация базы данных...
+2025-12-23 03:15:39,747 - deadline_bot - INFO - bot.py:1995 - База данных инициализирована
+2025-12-23 03:15:39,749 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 03:15:39,750 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 03:15:39,752 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Синхронизация дедлайнов из Yonote и проверка уведомлений" to job store "default"
+2025-12-23 03:15:39,753 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Очистка просроченных дедлайнов" to job store "default"
+2025-12-23 03:15:39,753 - apscheduler.scheduler - INFO - base.py:214 - Scheduler started
+2025-12-23 03:15:39,754 - deadline_bot - INFO - bot.py:2029 - Планировщик запущен: синхронизация и проверка уведомлений каждые 30 мин, очистка просроченных раз в день
+2025-12-23 03:15:39,754 - deadline_bot - INFO - bot.py:2032 - Запуск бота...
+2025-12-23 03:15:39,755 - aiogram.dispatcher - INFO - dispatcher.py:596 - Start polling
+2025-12-23 03:15:39,978 - aiogram.dispatcher - INFO - dispatcher.py:378 - Run polling for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 03:15:40,393 - deadline_bot - INFO - bot.py:233 - Пользователь 929644995 зарегистрирован/обновлён
+2025-12-23 03:15:40,394 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747447 is handled. Duration 255 ms by bot id=8358666814
+2025-12-23 03:15:41,641 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747448 is handled. Duration 99 ms by bot id=8358666814
+2025-12-23 03:15:43,784 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747449 is handled. Duration 2 ms by bot id=8358666814
+2025-12-23 03:16:21,939 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747450 is handled. Duration 2 ms by bot id=8358666814
+2025-12-23 03:18:00,710 - aiogram.dispatcher - INFO - dispatcher.py:624 - Polling stopped
+2025-12-23 03:18:00,712 - aiogram.dispatcher - ERROR - dispatcher.py:225 - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2025-12-23 03:18:00,713 - aiogram.dispatcher - WARNING - dispatcher.py:227 - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8358666814)
+2025-12-23 03:18:00,972 - deadline_bot - INFO - bot.py:2038 - Планировщик остановлен
+2025-12-23 03:18:00,973 - apscheduler.scheduler - INFO - base.py:245 - Scheduler has been shut down
+2025-12-23 03:18:00,974 - aiogram.dispatcher - INFO - dispatcher.py:413 - Polling stopped for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 03:18:00,976 - deadline_bot - INFO - bot.py:2045 - Бот остановлен пользователем
+2025-12-23 03:18:09,034 - deadline_bot - INFO - bot.py:82 - Загружено 1 администраторов
+2025-12-23 03:18:09,634 - deadline_bot - INFO - logging_config.py:110 - ==================================================
+2025-12-23 03:18:09,634 - deadline_bot - INFO - logging_config.py:111 - DEADLINE BOT STARTING UP
+2025-12-23 03:18:09,635 - deadline_bot - INFO - logging_config.py:112 - ==================================================
+2025-12-23 03:18:09,635 - deadline_bot - INFO - logging_config.py:113 - Database URL: sqlite:///../data/deadlines.db
+2025-12-23 03:18:09,635 - deadline_bot - INFO - logging_config.py:114 - Telegram Bot Token: Configured
+2025-12-23 03:18:09,636 - deadline_bot - INFO - logging_config.py:115 - Yonote API Key: Configured
+2025-12-23 03:18:09,636 - deadline_bot - INFO - logging_config.py:116 - Update Interval: 30 minutes
+2025-12-23 03:18:09,636 - deadline_bot - INFO - logging_config.py:117 - Log Level: INFO
+2025-12-23 03:18:09,637 - deadline_bot - INFO - logging_config.py:118 - ==================================================
+2025-12-23 03:18:09,637 - deadline_bot - INFO - bot.py:2017 - Инициализация базы данных...
+2025-12-23 03:18:09,641 - deadline_bot - INFO - bot.py:2020 - База данных инициализирована
+2025-12-23 03:18:09,642 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 03:18:09,643 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 03:18:09,644 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Синхронизация дедлайнов из Yonote и проверка уведомлений" to job store "default"
+2025-12-23 03:18:09,645 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Очистка просроченных дедлайнов" to job store "default"
+2025-12-23 03:18:09,645 - apscheduler.scheduler - INFO - base.py:214 - Scheduler started
+2025-12-23 03:18:09,646 - deadline_bot - INFO - bot.py:2054 - Планировщик запущен: синхронизация и проверка уведомлений каждые 30 мин, очистка просроченных раз в день
+2025-12-23 03:18:09,646 - deadline_bot - INFO - bot.py:2057 - Запуск бота...
+2025-12-23 03:18:09,647 - aiogram.dispatcher - INFO - dispatcher.py:596 - Start polling
+2025-12-23 03:18:09,865 - aiogram.dispatcher - INFO - dispatcher.py:378 - Run polling for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 03:18:13,286 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747451 is handled. Duration 245 ms by bot id=8358666814
+2025-12-23 03:19:35,726 - aiogram.dispatcher - INFO - dispatcher.py:624 - Polling stopped
+2025-12-23 03:19:35,727 - aiogram.dispatcher - ERROR - dispatcher.py:225 - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2025-12-23 03:19:35,728 - aiogram.dispatcher - WARNING - dispatcher.py:227 - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8358666814)
+2025-12-23 03:19:35,980 - deadline_bot - INFO - bot.py:2063 - Планировщик остановлен
+2025-12-23 03:19:35,980 - apscheduler.scheduler - INFO - base.py:245 - Scheduler has been shut down
+2025-12-23 03:19:35,981 - aiogram.dispatcher - INFO - dispatcher.py:413 - Polling stopped for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 03:19:35,983 - deadline_bot - INFO - bot.py:2070 - Бот остановлен пользователем
+2025-12-23 03:19:45,571 - deadline_bot - INFO - bot.py:82 - Загружено 1 администраторов
+2025-12-23 03:19:46,208 - deadline_bot - INFO - logging_config.py:110 - ==================================================
+2025-12-23 03:19:46,208 - deadline_bot - INFO - logging_config.py:111 - DEADLINE BOT STARTING UP
+2025-12-23 03:19:46,208 - deadline_bot - INFO - logging_config.py:112 - ==================================================
+2025-12-23 03:19:46,209 - deadline_bot - INFO - logging_config.py:113 - Database URL: sqlite:///../data/deadlines.db
+2025-12-23 03:19:46,209 - deadline_bot - INFO - logging_config.py:114 - Telegram Bot Token: Configured
+2025-12-23 03:19:46,209 - deadline_bot - INFO - logging_config.py:115 - Yonote API Key: Configured
+2025-12-23 03:19:46,210 - deadline_bot - INFO - logging_config.py:116 - Update Interval: 30 minutes
+2025-12-23 03:19:46,210 - deadline_bot - INFO - logging_config.py:117 - Log Level: INFO
+2025-12-23 03:19:46,210 - deadline_bot - INFO - logging_config.py:118 - ==================================================
+2025-12-23 03:19:46,210 - deadline_bot - INFO - bot.py:2038 - Инициализация базы данных...
+2025-12-23 03:19:46,214 - deadline_bot - INFO - bot.py:2041 - База данных инициализирована
+2025-12-23 03:19:46,216 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 03:19:46,217 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 03:19:46,219 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Синхронизация дедлайнов из Yonote и проверка уведомлений" to job store "default"
+2025-12-23 03:19:46,220 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Очистка просроченных дедлайнов" to job store "default"
+2025-12-23 03:19:46,220 - apscheduler.scheduler - INFO - base.py:214 - Scheduler started
+2025-12-23 03:19:46,221 - deadline_bot - INFO - bot.py:2075 - Планировщик запущен: синхронизация и проверка уведомлений каждые 30 мин, очистка просроченных раз в день
+2025-12-23 03:19:46,221 - deadline_bot - INFO - bot.py:2078 - Запуск бота...
+2025-12-23 03:19:46,222 - aiogram.dispatcher - INFO - dispatcher.py:596 - Start polling
+2025-12-23 03:19:46,437 - aiogram.dispatcher - INFO - dispatcher.py:378 - Run polling for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 03:19:52,743 - deadline_bot - INFO - bot.py:233 - Пользователь 929644995 зарегистрирован/обновлён
+2025-12-23 03:19:52,744 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747452 is handled. Duration 244 ms by bot id=8358666814
+2025-12-23 03:19:54,081 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747453 is handled. Duration 87 ms by bot id=8358666814
+2025-12-23 03:19:55,273 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747454 is handled. Duration 83 ms by bot id=8358666814
+2025-12-23 03:19:58,760 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747455 is handled. Duration 83 ms by bot id=8358666814
+2025-12-23 03:20:00,995 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747456 is handled. Duration 84 ms by bot id=8358666814
+2025-12-23 03:20:02,781 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747457 is handled. Duration 84 ms by bot id=8358666814
+2025-12-23 03:20:04,301 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747458 is handled. Duration 83 ms by bot id=8358666814
+2025-12-23 03:20:07,260 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747459 is handled. Duration 89 ms by bot id=8358666814
+2025-12-23 03:22:03,011 - aiogram.dispatcher - INFO - dispatcher.py:624 - Polling stopped
+2025-12-23 03:22:03,013 - aiogram.dispatcher - ERROR - dispatcher.py:225 - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2025-12-23 03:22:03,014 - aiogram.dispatcher - WARNING - dispatcher.py:227 - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8358666814)
+2025-12-23 03:22:03,266 - deadline_bot - INFO - bot.py:2084 - Планировщик остановлен
+2025-12-23 03:22:03,267 - apscheduler.scheduler - INFO - base.py:245 - Scheduler has been shut down
+2025-12-23 03:22:03,268 - aiogram.dispatcher - INFO - dispatcher.py:413 - Polling stopped for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 03:22:03,273 - deadline_bot - INFO - bot.py:2091 - Бот остановлен пользователем
+2025-12-23 03:22:10,553 - deadline_bot - INFO - bot.py:82 - Загружено 1 администраторов
+2025-12-23 03:22:11,211 - deadline_bot - INFO - logging_config.py:110 - ==================================================
+2025-12-23 03:22:11,212 - deadline_bot - INFO - logging_config.py:111 - DEADLINE BOT STARTING UP
+2025-12-23 03:22:11,212 - deadline_bot - INFO - logging_config.py:112 - ==================================================
+2025-12-23 03:22:11,212 - deadline_bot - INFO - logging_config.py:113 - Database URL: sqlite:///../data/deadlines.db
+2025-12-23 03:22:11,213 - deadline_bot - INFO - logging_config.py:114 - Telegram Bot Token: Configured
+2025-12-23 03:22:11,213 - deadline_bot - INFO - logging_config.py:115 - Yonote API Key: Configured
+2025-12-23 03:22:11,213 - deadline_bot - INFO - logging_config.py:116 - Update Interval: 30 minutes
+2025-12-23 03:22:11,213 - deadline_bot - INFO - logging_config.py:117 - Log Level: INFO
+2025-12-23 03:22:11,214 - deadline_bot - INFO - logging_config.py:118 - ==================================================
+2025-12-23 03:22:11,214 - deadline_bot - INFO - bot.py:2107 - Инициализация базы данных...
+2025-12-23 03:22:11,218 - deadline_bot - INFO - bot.py:2110 - База данных инициализирована
+2025-12-23 03:22:11,220 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 03:22:11,221 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 03:22:11,223 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Синхронизация дедлайнов из Yonote и проверка уведомлений" to job store "default"
+2025-12-23 03:22:11,223 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Очистка просроченных дедлайнов" to job store "default"
+2025-12-23 03:22:11,223 - apscheduler.scheduler - INFO - base.py:214 - Scheduler started
+2025-12-23 03:22:11,224 - deadline_bot - INFO - bot.py:2144 - Планировщик запущен: синхронизация и проверка уведомлений каждые 30 мин, очистка просроченных раз в день
+2025-12-23 03:22:11,224 - deadline_bot - INFO - bot.py:2147 - Запуск бота...
+2025-12-23 03:22:11,225 - aiogram.dispatcher - INFO - dispatcher.py:596 - Start polling
+2025-12-23 03:22:11,456 - aiogram.dispatcher - INFO - dispatcher.py:378 - Run polling for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 03:22:13,006 - deadline_bot - INFO - bot.py:233 - Пользователь 929644995 зарегистрирован/обновлён
+2025-12-23 03:22:13,007 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747460 is handled. Duration 257 ms by bot id=8358666814
+2025-12-23 03:22:16,084 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747461 is handled. Duration 88 ms by bot id=8358666814
+2025-12-23 03:22:17,329 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747462 is handled. Duration 92 ms by bot id=8358666814
+2025-12-23 03:22:18,478 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 1 по нику: VJ_Games
+2025-12-23 03:22:18,479 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для идентификатора: VJ_Games
+2025-12-23 03:22:18,697 - scripts.sync_deadlines - INFO - sync_deadlines.py:98 - Получено 3 дедлайнов из Yonote для пользователя 1
+2025-12-23 03:22:18,707 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'Тест на жопу абобы': дата изменена с 2025-12-31 00:00:00 на 2025-12-31 00:00:00+00:00
+2025-12-23 03:22:18,708 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: Тест на жопу абобы (ID: csv_-8630487)
+2025-12-23 03:22:18,710 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'просто тест оповещения': дата изменена с 2025-12-16 16:45:00 на 2025-12-16 16:45:00+00:00
+2025-12-23 03:22:18,710 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: просто тест оповещения (ID: csv_-2754484)
+2025-12-23 03:22:18,712 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'стрей кидс': дата изменена с 2025-12-07 00:00:00 на 2025-12-07 00:00:00+00:00
+2025-12-23 03:22:18,713 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: стрей кидс (ID: csv_-5342912)
+2025-12-23 03:22:18,722 - scripts.sync_deadlines - INFO - sync_deadlines.py:221 - Синхронизировано дедлайнов для пользователя 1: создано 0, обновлено 3
+2025-12-23 03:22:18,723 - deadline_bot - INFO - bot.py:1561 - Синхронизация для cmd_my_deadlines: создано 0, обновлено 3
+2025-12-23 03:22:18,823 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747463 is handled. Duration 346 ms by bot id=8358666814
+2025-12-23 03:24:39,868 - aiogram.dispatcher - INFO - dispatcher.py:624 - Polling stopped
+2025-12-23 03:24:39,871 - aiogram.dispatcher - ERROR - dispatcher.py:225 - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2025-12-23 03:24:39,872 - aiogram.dispatcher - WARNING - dispatcher.py:227 - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8358666814)
+2025-12-23 03:24:40,126 - deadline_bot - INFO - bot.py:2153 - Планировщик остановлен
+2025-12-23 03:24:40,127 - apscheduler.scheduler - INFO - base.py:245 - Scheduler has been shut down
+2025-12-23 03:24:40,128 - aiogram.dispatcher - INFO - dispatcher.py:413 - Polling stopped for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 03:24:40,130 - deadline_bot - INFO - bot.py:2160 - Бот остановлен пользователем
+2025-12-23 03:24:47,810 - deadline_bot - INFO - bot.py:82 - Загружено 1 администраторов
+2025-12-23 03:24:48,325 - deadline_bot - INFO - logging_config.py:110 - ==================================================
+2025-12-23 03:24:48,325 - deadline_bot - INFO - logging_config.py:111 - DEADLINE BOT STARTING UP
+2025-12-23 03:24:48,326 - deadline_bot - INFO - logging_config.py:112 - ==================================================
+2025-12-23 03:24:48,326 - deadline_bot - INFO - logging_config.py:113 - Database URL: sqlite:///../data/deadlines.db
+2025-12-23 03:24:48,326 - deadline_bot - INFO - logging_config.py:114 - Telegram Bot Token: Configured
+2025-12-23 03:24:48,326 - deadline_bot - INFO - logging_config.py:115 - Yonote API Key: Configured
+2025-12-23 03:24:48,327 - deadline_bot - INFO - logging_config.py:116 - Update Interval: 30 minutes
+2025-12-23 03:24:48,327 - deadline_bot - INFO - logging_config.py:117 - Log Level: INFO
+2025-12-23 03:24:48,327 - deadline_bot - INFO - logging_config.py:118 - ==================================================
+2025-12-23 03:24:48,327 - deadline_bot - INFO - bot.py:2112 - Инициализация базы данных...
+2025-12-23 03:24:48,332 - deadline_bot - INFO - bot.py:2115 - База данных инициализирована
+2025-12-23 03:24:48,334 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 03:24:48,335 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 03:24:48,337 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Синхронизация дедлайнов из Yonote и проверка уведомлений" to job store "default"
+2025-12-23 03:24:48,337 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Очистка просроченных дедлайнов" to job store "default"
+2025-12-23 03:24:48,337 - apscheduler.scheduler - INFO - base.py:214 - Scheduler started
+2025-12-23 03:24:48,338 - deadline_bot - INFO - bot.py:2149 - Планировщик запущен: синхронизация и проверка уведомлений каждые 30 мин, очистка просроченных раз в день
+2025-12-23 03:24:48,338 - deadline_bot - INFO - bot.py:2152 - Запуск бота...
+2025-12-23 03:24:48,339 - aiogram.dispatcher - INFO - dispatcher.py:596 - Start polling
+2025-12-23 03:24:48,564 - aiogram.dispatcher - INFO - dispatcher.py:378 - Run polling for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 03:24:50,663 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 1 по нику: VJ_Games
+2025-12-23 03:24:50,663 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для идентификатора: VJ_Games
+2025-12-23 03:24:50,807 - scripts.sync_deadlines - INFO - sync_deadlines.py:98 - Получено 3 дедлайнов из Yonote для пользователя 1
+2025-12-23 03:24:50,816 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'Тест на жопу абобы': дата изменена с 2025-12-31 00:00:00 на 2025-12-31 00:00:00+00:00
+2025-12-23 03:24:50,817 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: Тест на жопу абобы (ID: csv_-2488248)
+2025-12-23 03:24:50,819 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'просто тест оповещения': дата изменена с 2025-12-16 16:45:00 на 2025-12-16 16:45:00+00:00
+2025-12-23 03:24:50,820 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: просто тест оповещения (ID: csv_45226929)
+2025-12-23 03:24:50,823 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'стрей кидс': дата изменена с 2025-12-07 00:00:00 на 2025-12-07 00:00:00+00:00
+2025-12-23 03:24:50,824 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: стрей кидс (ID: csv_75796133)
+2025-12-23 03:24:50,830 - scripts.sync_deadlines - INFO - sync_deadlines.py:221 - Синхронизировано дедлайнов для пользователя 1: создано 0, обновлено 3
+2025-12-23 03:24:50,831 - deadline_bot - INFO - bot.py:347 - Синхронизация для /my_deadlines: создано 0, обновлено 3
+2025-12-23 03:24:50,923 - deadline_bot - INFO - bot.py:466 - Пользователь 929644995 запросил список дедлайнов: 1 шт.
+2025-12-23 03:24:50,924 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747464 is handled. Duration 530 ms by bot id=8358666814
+2025-12-23 03:25:00,726 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 1 по нику: VJ_Games
+2025-12-23 03:25:00,726 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для идентификатора: VJ_Games
+2025-12-23 03:25:00,867 - scripts.sync_deadlines - INFO - sync_deadlines.py:98 - Получено 3 дедлайнов из Yonote для пользователя 1
+2025-12-23 03:25:00,872 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'Тест на жопу абобы': дата изменена с 2025-12-31 00:00:00 на 2025-12-31 00:00:00+00:00
+2025-12-23 03:25:00,872 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: Тест на жопу абобы (ID: csv_-2488248)
+2025-12-23 03:25:00,874 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'просто тест оповещения': дата изменена с 2025-12-16 16:45:00 на 2025-12-16 16:45:00+00:00
+2025-12-23 03:25:00,875 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: просто тест оповещения (ID: csv_45226929)
+2025-12-23 03:25:00,877 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'стрей кидс': дата изменена с 2025-12-07 00:00:00 на 2025-12-07 00:00:00+00:00
+2025-12-23 03:25:00,878 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: стрей кидс (ID: csv_75796133)
+2025-12-23 03:25:00,884 - scripts.sync_deadlines - INFO - sync_deadlines.py:221 - Синхронизировано дедлайнов для пользователя 1: создано 0, обновлено 3
+2025-12-23 03:25:00,884 - deadline_bot - INFO - bot.py:1566 - Синхронизация для cmd_my_deadlines: создано 0, обновлено 3
+2025-12-23 03:25:01,056 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747465 is handled. Duration 332 ms by bot id=8358666814
+2025-12-23 03:25:05,651 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 1 по нику: VJ_Games
+2025-12-23 03:25:05,653 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для идентификатора: VJ_Games
+2025-12-23 03:25:05,775 - scripts.sync_deadlines - INFO - sync_deadlines.py:98 - Получено 3 дедлайнов из Yonote для пользователя 1
+2025-12-23 03:25:05,778 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'Тест на жопу абобы': дата изменена с 2025-12-31 00:00:00 на 2025-12-31 00:00:00+00:00
+2025-12-23 03:25:05,779 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: Тест на жопу абобы (ID: csv_-2488248)
+2025-12-23 03:25:05,781 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'просто тест оповещения': дата изменена с 2025-12-16 16:45:00 на 2025-12-16 16:45:00+00:00
+2025-12-23 03:25:05,782 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: просто тест оповещения (ID: csv_45226929)
+2025-12-23 03:25:05,784 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'стрей кидс': дата изменена с 2025-12-07 00:00:00 на 2025-12-07 00:00:00+00:00
+2025-12-23 03:25:05,784 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: стрей кидс (ID: csv_75796133)
+2025-12-23 03:25:05,789 - scripts.sync_deadlines - INFO - sync_deadlines.py:221 - Синхронизировано дедлайнов для пользователя 1: создано 0, обновлено 3
+2025-12-23 03:25:05,790 - deadline_bot - INFO - bot.py:1566 - Синхронизация для cmd_my_deadlines: создано 0, обновлено 3
+2025-12-23 03:25:05,879 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747466 is handled. Duration 230 ms by bot id=8358666814
+2025-12-23 03:25:11,035 - deadline_bot - INFO - bot.py:233 - Пользователь 929644995 зарегистрирован/обновлён
+2025-12-23 03:25:11,035 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747467 is handled. Duration 90 ms by bot id=8358666814
+2025-12-23 03:25:12,466 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 1 по нику: VJ_Games
+2025-12-23 03:25:12,467 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для идентификатора: VJ_Games
+2025-12-23 03:25:12,582 - scripts.sync_deadlines - INFO - sync_deadlines.py:98 - Получено 3 дедлайнов из Yonote для пользователя 1
+2025-12-23 03:25:12,586 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'Тест на жопу абобы': дата изменена с 2025-12-31 00:00:00 на 2025-12-31 00:00:00+00:00
+2025-12-23 03:25:12,586 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: Тест на жопу абобы (ID: csv_-2488248)
+2025-12-23 03:25:12,589 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'просто тест оповещения': дата изменена с 2025-12-16 16:45:00 на 2025-12-16 16:45:00+00:00
+2025-12-23 03:25:12,589 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: просто тест оповещения (ID: csv_45226929)
+2025-12-23 03:25:12,591 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'стрей кидс': дата изменена с 2025-12-07 00:00:00 на 2025-12-07 00:00:00+00:00
+2025-12-23 03:25:12,592 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: стрей кидс (ID: csv_75796133)
+2025-12-23 03:25:12,597 - scripts.sync_deadlines - INFO - sync_deadlines.py:221 - Синхронизировано дедлайнов для пользователя 1: создано 0, обновлено 3
+2025-12-23 03:25:12,597 - deadline_bot - INFO - bot.py:1566 - Синхронизация для cmd_my_deadlines: создано 0, обновлено 3
+2025-12-23 03:25:12,694 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747468 is handled. Duration 229 ms by bot id=8358666814
+2025-12-23 03:28:03,338 - aiogram.dispatcher - INFO - dispatcher.py:624 - Polling stopped
+2025-12-23 03:28:03,339 - aiogram.dispatcher - ERROR - dispatcher.py:225 - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2025-12-23 03:28:03,340 - aiogram.dispatcher - WARNING - dispatcher.py:227 - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8358666814)
+2025-12-23 03:28:03,594 - deadline_bot - INFO - bot.py:2158 - Планировщик остановлен
+2025-12-23 03:28:03,595 - apscheduler.scheduler - INFO - base.py:245 - Scheduler has been shut down
+2025-12-23 03:28:03,595 - aiogram.dispatcher - INFO - dispatcher.py:413 - Polling stopped for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 03:28:03,597 - deadline_bot - INFO - bot.py:2165 - Бот остановлен пользователем
+2025-12-23 03:28:09,862 - deadline_bot - INFO - bot.py:82 - Загружено 1 администраторов
+2025-12-23 03:28:10,391 - deadline_bot - INFO - logging_config.py:110 - ==================================================
+2025-12-23 03:28:10,392 - deadline_bot - INFO - logging_config.py:111 - DEADLINE BOT STARTING UP
+2025-12-23 03:28:10,392 - deadline_bot - INFO - logging_config.py:112 - ==================================================
+2025-12-23 03:28:10,392 - deadline_bot - INFO - logging_config.py:113 - Database URL: sqlite:///../data/deadlines.db
+2025-12-23 03:28:10,393 - deadline_bot - INFO - logging_config.py:114 - Telegram Bot Token: Configured
+2025-12-23 03:28:10,393 - deadline_bot - INFO - logging_config.py:115 - Yonote API Key: Configured
+2025-12-23 03:28:10,393 - deadline_bot - INFO - logging_config.py:116 - Update Interval: 30 minutes
+2025-12-23 03:28:10,394 - deadline_bot - INFO - logging_config.py:117 - Log Level: INFO
+2025-12-23 03:28:10,394 - deadline_bot - INFO - logging_config.py:118 - ==================================================
+2025-12-23 03:28:10,394 - deadline_bot - INFO - bot.py:2117 - Инициализация базы данных...
+2025-12-23 03:28:10,399 - deadline_bot - INFO - bot.py:2120 - База данных инициализирована
+2025-12-23 03:28:10,401 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 03:28:10,402 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 03:28:10,404 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Синхронизация дедлайнов из Yonote и проверка уведомлений" to job store "default"
+2025-12-23 03:28:10,405 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Очистка просроченных дедлайнов" to job store "default"
+2025-12-23 03:28:10,405 - apscheduler.scheduler - INFO - base.py:214 - Scheduler started
+2025-12-23 03:28:10,406 - deadline_bot - INFO - bot.py:2154 - Планировщик запущен: синхронизация и проверка уведомлений каждые 30 мин, очистка просроченных раз в день
+2025-12-23 03:28:10,406 - deadline_bot - INFO - bot.py:2157 - Запуск бота...
+2025-12-23 03:28:10,407 - aiogram.dispatcher - INFO - dispatcher.py:596 - Start polling
+2025-12-23 03:28:10,620 - aiogram.dispatcher - INFO - dispatcher.py:378 - Run polling for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 03:28:13,710 - deadline_bot - INFO - bot.py:233 - Пользователь 929644995 зарегистрирован/обновлён
+2025-12-23 03:28:13,711 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747469 is handled. Duration 246 ms by bot id=8358666814
+2025-12-23 03:28:15,344 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747470 is handled. Duration 81 ms by bot id=8358666814
+2025-12-23 03:28:16,751 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747471 is handled. Duration 88 ms by bot id=8358666814
+2025-12-23 03:28:18,261 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 1 по нику: VJ_Games
+2025-12-23 03:28:18,262 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для идентификатора: VJ_Games
+2025-12-23 03:28:18,400 - scripts.sync_deadlines - INFO - sync_deadlines.py:98 - Получено 3 дедлайнов из Yonote для пользователя 1
+2025-12-23 03:28:18,409 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'Тест на жопу абобы': дата изменена с 2025-12-31 00:00:00 на 2025-12-31 00:00:00+00:00
+2025-12-23 03:28:18,409 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: Тест на жопу абобы (ID: csv_-6124781)
+2025-12-23 03:28:18,413 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'просто тест оповещения': дата изменена с 2025-12-16 16:45:00 на 2025-12-16 16:45:00+00:00
+2025-12-23 03:28:18,414 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: просто тест оповещения (ID: csv_71151906)
+2025-12-23 03:28:18,417 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'стрей кидс': дата изменена с 2025-12-07 00:00:00 на 2025-12-07 00:00:00+00:00
+2025-12-23 03:28:18,417 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: стрей кидс (ID: csv_59674563)
+2025-12-23 03:28:18,424 - scripts.sync_deadlines - INFO - sync_deadlines.py:221 - Синхронизировано дедлайнов для пользователя 1: создано 0, обновлено 3
+2025-12-23 03:28:18,425 - deadline_bot - INFO - bot.py:1566 - Синхронизация для cmd_my_deadlines: создано 0, обновлено 3
+2025-12-23 03:28:18,517 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747472 is handled. Duration 257 ms by bot id=8358666814
+2025-12-23 03:28:20,357 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747473 is handled. Duration 83 ms by bot id=8358666814
+2025-12-23 03:28:22,045 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 1 по нику: VJ_Games
+2025-12-23 03:28:22,046 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для идентификатора: VJ_Games
+2025-12-23 03:28:22,228 - scripts.sync_deadlines - INFO - sync_deadlines.py:98 - Получено 3 дедлайнов из Yonote для пользователя 1
+2025-12-23 03:28:22,233 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'Тест на жопу абобы': дата изменена с 2025-12-31 00:00:00 на 2025-12-31 00:00:00+00:00
+2025-12-23 03:28:22,233 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: Тест на жопу абобы (ID: csv_-6124781)
+2025-12-23 03:28:22,235 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'просто тест оповещения': дата изменена с 2025-12-16 16:45:00 на 2025-12-16 16:45:00+00:00
+2025-12-23 03:28:22,236 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: просто тест оповещения (ID: csv_71151906)
+2025-12-23 03:28:22,238 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'стрей кидс': дата изменена с 2025-12-07 00:00:00 на 2025-12-07 00:00:00+00:00
+2025-12-23 03:28:22,239 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: стрей кидс (ID: csv_59674563)
+2025-12-23 03:28:22,243 - scripts.sync_deadlines - INFO - sync_deadlines.py:221 - Синхронизировано дедлайнов для пользователя 1: создано 0, обновлено 3
+2025-12-23 03:28:22,244 - deadline_bot - INFO - bot.py:1566 - Синхронизация для cmd_my_deadlines: создано 0, обновлено 3
+2025-12-23 03:28:22,329 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747474 is handled. Duration 285 ms by bot id=8358666814
+2025-12-23 03:28:23,760 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747475 is handled. Duration 84 ms by bot id=8358666814
+2025-12-23 03:28:27,524 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747476 is handled. Duration 78 ms by bot id=8358666814
+2025-12-23 03:28:37,129 - deadline_bot - ERROR - bot.py:1853 - Ошибка в обработчике настроек уведомлений: Telegram server says - Bad Request: message is not modified: specified new message content and reply markup are exactly the same as a current content and reply markup of the message
+Traceback (most recent call last):
+  File "C:\Users\vj\Documents\deadline_bot\bot.py", line 1518, in handle_notification_settings
+    created, updated = await sync_user_deadlines(user)
+                             ^^^^^^^^^^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'sync_user_deadlines' where it is not associated with a value
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\vj\Documents\deadline_bot\bot.py", line 1538, in handle_notification_settings
+    await callback.message.edit_text(
+    ...<2 lines>...
+    )
+  File "C:\Users\vj\Documents\deadline_bot\.venv\Lib\site-packages\aiogram\methods\base.py", line 84, in emit
+    return await bot(self)
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\vj\Documents\deadline_bot\.venv\Lib\site-packages\aiogram\client\bot.py", line 485, in __call__
+    return await self.session(self, method, timeout=request_timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vj\Documents\deadline_bot\.venv\Lib\site-packages\aiogram\client\session\base.py", line 259, in __call__
+    return cast(TelegramType, await middleware(bot, method))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vj\Documents\deadline_bot\.venv\Lib\site-packages\aiogram\client\session\aiohttp.py", line 177, in make_request
+    response = self.check_response(
+        bot=bot,
+    ...<2 lines>...
+        content=raw_result,
+    )
+  File "C:\Users\vj\Documents\deadline_bot\.venv\Lib\site-packages\aiogram\client\session\base.py", line 121, in check_response
+    raise TelegramBadRequest(method=method, message=description)
+aiogram.exceptions.TelegramBadRequest: Telegram server says - Bad Request: message is not modified: specified new message content and reply markup are exactly the same as a current content and reply markup of the message
+2025-12-23 03:28:37,281 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747477 is handled. Duration 321 ms by bot id=8358666814
+2025-12-23 03:29:37,202 - aiogram.dispatcher - INFO - dispatcher.py:624 - Polling stopped
+2025-12-23 03:29:37,204 - aiogram.dispatcher - ERROR - dispatcher.py:225 - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2025-12-23 03:29:37,204 - aiogram.dispatcher - WARNING - dispatcher.py:227 - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8358666814)
+2025-12-23 03:29:37,460 - deadline_bot - INFO - bot.py:2163 - Планировщик остановлен
+2025-12-23 03:29:37,461 - apscheduler.scheduler - INFO - base.py:245 - Scheduler has been shut down
+2025-12-23 03:29:37,462 - aiogram.dispatcher - INFO - dispatcher.py:413 - Polling stopped for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 03:29:37,464 - deadline_bot - INFO - bot.py:2170 - Бот остановлен пользователем
+2025-12-23 03:29:50,946 - deadline_bot - INFO - bot.py:82 - Загружено 1 администраторов
+2025-12-23 03:29:52,263 - deadline_bot - INFO - logging_config.py:110 - ==================================================
+2025-12-23 03:29:52,264 - deadline_bot - INFO - logging_config.py:111 - DEADLINE BOT STARTING UP
+2025-12-23 03:29:52,264 - deadline_bot - INFO - logging_config.py:112 - ==================================================
+2025-12-23 03:29:52,265 - deadline_bot - INFO - logging_config.py:113 - Database URL: sqlite:///../data/deadlines.db
+2025-12-23 03:29:52,265 - deadline_bot - INFO - logging_config.py:114 - Telegram Bot Token: Configured
+2025-12-23 03:29:52,266 - deadline_bot - INFO - logging_config.py:115 - Yonote API Key: Configured
+2025-12-23 03:29:52,266 - deadline_bot - INFO - logging_config.py:116 - Update Interval: 30 minutes
+2025-12-23 03:29:52,276 - deadline_bot - INFO - logging_config.py:117 - Log Level: INFO
+2025-12-23 03:29:52,277 - deadline_bot - INFO - logging_config.py:118 - ==================================================
+2025-12-23 03:29:52,278 - deadline_bot - INFO - bot.py:2116 - Инициализация базы данных...
+2025-12-23 03:29:52,290 - deadline_bot - INFO - bot.py:2119 - База данных инициализирована
+2025-12-23 03:29:52,300 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 03:29:52,305 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 03:29:52,309 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Синхронизация дедлайнов из Yonote и проверка уведомлений" to job store "default"
+2025-12-23 03:29:52,312 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Очистка просроченных дедлайнов" to job store "default"
+2025-12-23 03:29:52,313 - apscheduler.scheduler - INFO - base.py:214 - Scheduler started
+2025-12-23 03:29:52,314 - deadline_bot - INFO - bot.py:2153 - Планировщик запущен: синхронизация и проверка уведомлений каждые 30 мин, очистка просроченных раз в день
+2025-12-23 03:29:52,315 - deadline_bot - INFO - bot.py:2156 - Запуск бота...
+2025-12-23 03:29:52,316 - aiogram.dispatcher - INFO - dispatcher.py:596 - Start polling
+2025-12-23 03:29:52,556 - aiogram.dispatcher - INFO - dispatcher.py:378 - Run polling for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 03:29:52,921 - deadline_bot - INFO - bot.py:233 - Пользователь 929644995 зарегистрирован/обновлён
+2025-12-23 03:29:52,922 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747478 is handled. Duration 286 ms by bot id=8358666814
+2025-12-23 03:29:54,947 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 1 по нику: VJ_Games
+2025-12-23 03:29:54,948 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для идентификатора: VJ_Games
+2025-12-23 03:29:55,097 - scripts.sync_deadlines - INFO - sync_deadlines.py:98 - Получено 3 дедлайнов из Yonote для пользователя 1
+2025-12-23 03:29:55,112 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'Тест на жопу абобы': дата изменена с 2025-12-31 00:00:00 на 2025-12-31 00:00:00+00:00
+2025-12-23 03:29:55,112 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: Тест на жопу абобы (ID: csv_84130440)
+2025-12-23 03:29:55,116 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'просто тест оповещения': дата изменена с 2025-12-16 16:45:00 на 2025-12-16 16:45:00+00:00
+2025-12-23 03:29:55,117 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: просто тест оповещения (ID: csv_-8559585)
+2025-12-23 03:29:55,121 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'стрей кидс': дата изменена с 2025-12-07 00:00:00 на 2025-12-07 00:00:00+00:00
+2025-12-23 03:29:55,121 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: стрей кидс (ID: csv_32476699)
+2025-12-23 03:29:55,131 - scripts.sync_deadlines - INFO - sync_deadlines.py:221 - Синхронизировано дедлайнов для пользователя 1: создано 0, обновлено 3
+2025-12-23 03:29:55,224 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747479 is handled. Duration 280 ms by bot id=8358666814
+2025-12-23 03:29:59,167 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 1 по нику: VJ_Games
+2025-12-23 03:29:59,167 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для идентификатора: VJ_Games
+2025-12-23 03:29:59,315 - scripts.sync_deadlines - INFO - sync_deadlines.py:98 - Получено 3 дедлайнов из Yonote для пользователя 1
+2025-12-23 03:29:59,320 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'Тест на жопу абобы': дата изменена с 2025-12-31 00:00:00 на 2025-12-31 00:00:00+00:00
+2025-12-23 03:29:59,321 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: Тест на жопу абобы (ID: csv_84130440)
+2025-12-23 03:29:59,325 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'просто тест оповещения': дата изменена с 2025-12-16 16:45:00 на 2025-12-16 16:45:00+00:00
+2025-12-23 03:29:59,325 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: просто тест оповещения (ID: csv_-8559585)
+2025-12-23 03:29:59,331 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'стрей кидс': дата изменена с 2025-12-07 00:00:00 на 2025-12-07 00:00:00+00:00
+2025-12-23 03:29:59,331 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: стрей кидс (ID: csv_32476699)
+2025-12-23 03:29:59,337 - scripts.sync_deadlines - INFO - sync_deadlines.py:221 - Синхронизировано дедлайнов для пользователя 1: создано 0, обновлено 3
+2025-12-23 03:29:59,552 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747480 is handled. Duration 387 ms by bot id=8358666814
+2025-12-23 03:30:08,683 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 1 по нику: VJ_Games
+2025-12-23 03:30:08,683 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для идентификатора: VJ_Games
+2025-12-23 03:30:08,827 - scripts.sync_deadlines - INFO - sync_deadlines.py:98 - Получено 3 дедлайнов из Yonote для пользователя 1
+2025-12-23 03:30:08,834 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'Тест на жопу абобы': дата изменена с 2025-12-31 00:00:00 на 2025-12-31 00:00:00+00:00
+2025-12-23 03:30:08,836 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: Тест на жопу абобы (ID: csv_84130440)
+2025-12-23 03:30:08,839 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'просто тест оповещения': дата изменена с 2025-12-16 16:45:00 на 2025-12-16 16:45:00+00:00
+2025-12-23 03:30:08,840 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: просто тест оповещения (ID: csv_-8559585)
+2025-12-23 03:30:08,844 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'стрей кидс': дата изменена с 2025-12-07 00:00:00 на 2025-12-07 00:00:00+00:00
+2025-12-23 03:30:08,844 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: стрей кидс (ID: csv_32476699)
+2025-12-23 03:30:08,851 - scripts.sync_deadlines - INFO - sync_deadlines.py:221 - Синхронизировано дедлайнов для пользователя 1: создано 0, обновлено 3
+2025-12-23 03:30:08,936 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747481 is handled. Duration 256 ms by bot id=8358666814
+2025-12-23 03:31:35,362 - aiogram.dispatcher - INFO - dispatcher.py:624 - Polling stopped
+2025-12-23 03:31:35,363 - aiogram.dispatcher - ERROR - dispatcher.py:225 - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2025-12-23 03:31:35,364 - aiogram.dispatcher - WARNING - dispatcher.py:227 - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8358666814)
+2025-12-23 03:31:35,627 - deadline_bot - INFO - bot.py:2162 - Планировщик остановлен
+2025-12-23 03:31:35,628 - apscheduler.scheduler - INFO - base.py:245 - Scheduler has been shut down
+2025-12-23 03:31:35,628 - aiogram.dispatcher - INFO - dispatcher.py:413 - Polling stopped for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 03:31:35,630 - deadline_bot - INFO - bot.py:2169 - Бот остановлен пользователем
+2025-12-23 03:31:42,522 - deadline_bot - INFO - bot.py:82 - Загружено 1 администраторов
+2025-12-23 03:31:43,028 - deadline_bot - INFO - logging_config.py:110 - ==================================================
+2025-12-23 03:31:43,028 - deadline_bot - INFO - logging_config.py:111 - DEADLINE BOT STARTING UP
+2025-12-23 03:31:43,029 - deadline_bot - INFO - logging_config.py:112 - ==================================================
+2025-12-23 03:31:43,029 - deadline_bot - INFO - logging_config.py:113 - Database URL: sqlite:///../data/deadlines.db
+2025-12-23 03:31:43,029 - deadline_bot - INFO - logging_config.py:114 - Telegram Bot Token: Configured
+2025-12-23 03:31:43,030 - deadline_bot - INFO - logging_config.py:115 - Yonote API Key: Configured
+2025-12-23 03:31:43,030 - deadline_bot - INFO - logging_config.py:116 - Update Interval: 30 minutes
+2025-12-23 03:31:43,030 - deadline_bot - INFO - logging_config.py:117 - Log Level: INFO
+2025-12-23 03:31:43,031 - deadline_bot - INFO - logging_config.py:118 - ==================================================
+2025-12-23 03:31:43,031 - deadline_bot - INFO - bot.py:2126 - Инициализация базы данных...
+2025-12-23 03:31:43,038 - deadline_bot - INFO - bot.py:2129 - База данных инициализирована
+2025-12-23 03:31:43,040 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 03:31:43,040 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 03:31:43,042 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Синхронизация дедлайнов из Yonote и проверка уведомлений" to job store "default"
+2025-12-23 03:31:43,043 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Очистка просроченных дедлайнов" to job store "default"
+2025-12-23 03:31:43,043 - apscheduler.scheduler - INFO - base.py:214 - Scheduler started
+2025-12-23 03:31:43,043 - deadline_bot - INFO - bot.py:2163 - Планировщик запущен: синхронизация и проверка уведомлений каждые 30 мин, очистка просроченных раз в день
+2025-12-23 03:31:43,044 - deadline_bot - INFO - bot.py:2166 - Запуск бота...
+2025-12-23 03:31:43,044 - aiogram.dispatcher - INFO - dispatcher.py:596 - Start polling
+2025-12-23 03:31:43,268 - aiogram.dispatcher - INFO - dispatcher.py:378 - Run polling for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 03:31:44,945 - deadline_bot - INFO - bot.py:233 - Пользователь 929644995 зарегистрирован/обновлён
+2025-12-23 03:31:44,946 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747482 is handled. Duration 246 ms by bot id=8358666814
+2025-12-23 03:31:45,986 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747483 is handled. Duration 83 ms by bot id=8358666814
+2025-12-23 03:31:47,407 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747484 is handled. Duration 101 ms by bot id=8358666814
+2025-12-23 03:31:49,039 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 1 по нику: VJ_Games
+2025-12-23 03:31:49,039 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для идентификатора: VJ_Games
+2025-12-23 03:31:49,179 - scripts.sync_deadlines - INFO - sync_deadlines.py:98 - Получено 3 дедлайнов из Yonote для пользователя 1
+2025-12-23 03:31:49,187 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'Тест на жопу абобы': дата изменена с 2025-12-31 00:00:00 на 2025-12-31 00:00:00+00:00
+2025-12-23 03:31:49,188 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: Тест на жопу абобы (ID: csv_63936828)
+2025-12-23 03:31:49,190 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'просто тест оповещения': дата изменена с 2025-12-16 16:45:00 на 2025-12-16 16:45:00+00:00
+2025-12-23 03:31:49,190 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: просто тест оповещения (ID: csv_-9061869)
+2025-12-23 03:31:49,193 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'стрей кидс': дата изменена с 2025-12-07 00:00:00 на 2025-12-07 00:00:00+00:00
+2025-12-23 03:31:49,193 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: стрей кидс (ID: csv_-6713140)
+2025-12-23 03:31:49,200 - scripts.sync_deadlines - INFO - sync_deadlines.py:221 - Синхронизировано дедлайнов для пользователя 1: создано 0, обновлено 3
+2025-12-23 03:31:49,279 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747485 is handled. Duration 242 ms by bot id=8358666814
+2025-12-23 03:31:50,588 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747486 is handled. Duration 81 ms by bot id=8358666814
+2025-12-23 03:31:51,568 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 1 по нику: VJ_Games
+2025-12-23 03:31:51,568 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для идентификатора: VJ_Games
+2025-12-23 03:31:51,707 - scripts.sync_deadlines - INFO - sync_deadlines.py:98 - Получено 3 дедлайнов из Yonote для пользователя 1
+2025-12-23 03:31:51,711 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'Тест на жопу абобы': дата изменена с 2025-12-31 00:00:00 на 2025-12-31 00:00:00+00:00
+2025-12-23 03:31:51,711 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: Тест на жопу абобы (ID: csv_63936828)
+2025-12-23 03:31:51,714 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'просто тест оповещения': дата изменена с 2025-12-16 16:45:00 на 2025-12-16 16:45:00+00:00
+2025-12-23 03:31:51,714 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: просто тест оповещения (ID: csv_-9061869)
+2025-12-23 03:31:51,717 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'стрей кидс': дата изменена с 2025-12-07 00:00:00 на 2025-12-07 00:00:00+00:00
+2025-12-23 03:31:51,717 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: стрей кидс (ID: csv_-6713140)
+2025-12-23 03:31:51,721 - scripts.sync_deadlines - INFO - sync_deadlines.py:221 - Синхронизировано дедлайнов для пользователя 1: создано 0, обновлено 3
+2025-12-23 03:31:51,722 - deadline_bot - INFO - bot.py:1575 - Синхронизация для cmd_my_deadlines: создано 0, обновлено 3
+2025-12-23 03:31:51,918 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747487 is handled. Duration 351 ms by bot id=8358666814
+2025-12-23 03:31:53,047 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747488 is handled. Duration 86 ms by bot id=8358666814
+2025-12-23 03:31:54,218 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747489 is handled. Duration 90 ms by bot id=8358666814
+2025-12-23 03:31:56,329 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747490 is handled. Duration 161 ms by bot id=8358666814
+2025-12-23 03:32:03,960 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747491 is handled. Duration 84 ms by bot id=8358666814
+2025-12-23 03:32:13,544 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747492 is handled. Duration 118 ms by bot id=8358666814
+2025-12-23 03:34:22,209 - aiogram.dispatcher - INFO - dispatcher.py:624 - Polling stopped
+2025-12-23 03:34:22,211 - aiogram.dispatcher - ERROR - dispatcher.py:225 - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2025-12-23 03:34:22,211 - aiogram.dispatcher - WARNING - dispatcher.py:227 - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8358666814)
+2025-12-23 03:34:22,477 - deadline_bot - INFO - bot.py:2172 - Планировщик остановлен
+2025-12-23 03:34:22,477 - apscheduler.scheduler - INFO - base.py:245 - Scheduler has been shut down
+2025-12-23 03:34:22,478 - aiogram.dispatcher - INFO - dispatcher.py:413 - Polling stopped for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 03:34:22,480 - deadline_bot - INFO - bot.py:2179 - Бот остановлен пользователем
+2025-12-23 03:34:28,773 - deadline_bot - INFO - bot.py:82 - Загружено 1 администраторов
+2025-12-23 03:34:29,267 - deadline_bot - INFO - logging_config.py:110 - ==================================================
+2025-12-23 03:34:29,268 - deadline_bot - INFO - logging_config.py:111 - DEADLINE BOT STARTING UP
+2025-12-23 03:34:29,268 - deadline_bot - INFO - logging_config.py:112 - ==================================================
+2025-12-23 03:34:29,268 - deadline_bot - INFO - logging_config.py:113 - Database URL: sqlite:///../data/deadlines.db
+2025-12-23 03:34:29,268 - deadline_bot - INFO - logging_config.py:114 - Telegram Bot Token: Configured
+2025-12-23 03:34:29,269 - deadline_bot - INFO - logging_config.py:115 - Yonote API Key: Configured
+2025-12-23 03:34:29,269 - deadline_bot - INFO - logging_config.py:116 - Update Interval: 30 minutes
+2025-12-23 03:34:29,269 - deadline_bot - INFO - logging_config.py:117 - Log Level: INFO
+2025-12-23 03:34:29,269 - deadline_bot - INFO - logging_config.py:118 - ==================================================
+2025-12-23 03:34:29,270 - deadline_bot - INFO - bot.py:2131 - Инициализация базы данных...
+2025-12-23 03:34:29,275 - deadline_bot - INFO - bot.py:2134 - База данных инициализирована
+2025-12-23 03:34:29,276 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 03:34:29,277 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 03:34:29,278 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Синхронизация дедлайнов из Yonote и проверка уведомлений" to job store "default"
+2025-12-23 03:34:29,279 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Очистка просроченных дедлайнов" to job store "default"
+2025-12-23 03:34:29,279 - apscheduler.scheduler - INFO - base.py:214 - Scheduler started
+2025-12-23 03:34:29,279 - deadline_bot - INFO - bot.py:2168 - Планировщик запущен: синхронизация и проверка уведомлений каждые 30 мин, очистка просроченных раз в день
+2025-12-23 03:34:29,280 - deadline_bot - INFO - bot.py:2171 - Запуск бота...
+2025-12-23 03:34:29,280 - aiogram.dispatcher - INFO - dispatcher.py:596 - Start polling
+2025-12-23 03:34:29,495 - aiogram.dispatcher - INFO - dispatcher.py:378 - Run polling for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 03:34:41,909 - deadline_bot - INFO - bot.py:233 - Пользователь 929644995 зарегистрирован/обновлён
+2025-12-23 03:34:41,909 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747493 is handled. Duration 249 ms by bot id=8358666814
+2025-12-23 03:34:44,192 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747494 is handled. Duration 95 ms by bot id=8358666814
+2025-12-23 03:34:46,650 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747495 is handled. Duration 89 ms by bot id=8358666814
+2025-12-23 03:34:48,671 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747496 is handled. Duration 88 ms by bot id=8358666814
+2025-12-23 03:34:50,429 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747497 is handled. Duration 91 ms by bot id=8358666814
+2025-12-23 03:34:51,160 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747498 is handled. Duration 90 ms by bot id=8358666814
+2025-12-23 03:34:53,307 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747499 is handled. Duration 85 ms by bot id=8358666814
+2025-12-23 03:35:10,610 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 1 по нику: VJ_Games
+2025-12-23 03:35:10,610 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для идентификатора: VJ_Games
+2025-12-23 03:35:10,744 - scripts.sync_deadlines - INFO - sync_deadlines.py:98 - Получено 3 дедлайнов из Yonote для пользователя 1
+2025-12-23 03:35:10,753 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'Тест на жопу абобы': дата изменена с 2025-12-31 00:00:00 на 2025-12-31 00:00:00+00:00
+2025-12-23 03:35:10,753 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: Тест на жопу абобы (ID: csv_-1338822)
+2025-12-23 03:35:10,755 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'просто тест оповещения': дата изменена с 2025-12-16 16:45:00 на 2025-12-16 16:45:00+00:00
+2025-12-23 03:35:10,756 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: просто тест оповещения (ID: csv_-7446230)
+2025-12-23 03:35:10,758 - scripts.sync_deadlines - INFO - sync_deadlines.py:181 - Дедлайн 'стрей кидс': дата изменена с 2025-12-07 00:00:00 на 2025-12-07 00:00:00+00:00
+2025-12-23 03:35:10,759 - scripts.sync_deadlines - INFO - sync_deadlines.py:197 - [OK] Обновлён дедлайн: стрей кидс (ID: csv_57546626)
+2025-12-23 03:35:10,765 - scripts.sync_deadlines - INFO - sync_deadlines.py:221 - Синхронизировано дедлайнов для пользователя 1: создано 0, обновлено 3
+2025-12-23 03:35:10,766 - deadline_bot - INFO - bot.py:347 - Синхронизация для /my_deadlines: создано 0, обновлено 3
+2025-12-23 03:35:10,869 - deadline_bot - INFO - bot.py:466 - Пользователь 929644995 запросил список дедлайнов: 1 шт.
+2025-12-23 03:35:10,870 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747500 is handled. Duration 340 ms by bot id=8358666814
+2025-12-23 03:35:22,932 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747501 is handled. Duration 92 ms by bot id=8358666814
+2025-12-23 03:35:26,461 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747502 is handled. Duration 95 ms by bot id=8358666814
+2025-12-23 03:35:37,833 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747503 is handled. Duration 84 ms by bot id=8358666814
+2025-12-23 03:35:42,988 - deadline_bot - INFO - bot.py:233 - Пользователь 929644995 зарегистрирован/обновлён
+2025-12-23 03:35:42,989 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747504 is handled. Duration 96 ms by bot id=8358666814
+2025-12-23 03:37:29,651 - aiogram.dispatcher - INFO - dispatcher.py:624 - Polling stopped
+2025-12-23 03:37:29,653 - aiogram.dispatcher - ERROR - dispatcher.py:225 - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2025-12-23 03:37:29,653 - aiogram.dispatcher - WARNING - dispatcher.py:227 - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8358666814)
+2025-12-23 03:37:29,919 - deadline_bot - INFO - bot.py:2177 - Планировщик остановлен
+2025-12-23 03:37:29,919 - apscheduler.scheduler - INFO - base.py:245 - Scheduler has been shut down
+2025-12-23 03:37:29,920 - aiogram.dispatcher - INFO - dispatcher.py:413 - Polling stopped for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 03:37:29,922 - deadline_bot - INFO - bot.py:2184 - Бот остановлен пользователем
+2025-12-23 03:37:36,103 - deadline_bot - INFO - bot.py:82 - Загружено 1 администраторов
+2025-12-23 03:37:36,606 - deadline_bot - INFO - logging_config.py:110 - ==================================================
+2025-12-23 03:37:36,606 - deadline_bot - INFO - logging_config.py:111 - DEADLINE BOT STARTING UP
+2025-12-23 03:37:36,607 - deadline_bot - INFO - logging_config.py:112 - ==================================================
+2025-12-23 03:37:36,607 - deadline_bot - INFO - logging_config.py:113 - Database URL: sqlite:///../data/deadlines.db
+2025-12-23 03:37:36,607 - deadline_bot - INFO - logging_config.py:114 - Telegram Bot Token: Configured
+2025-12-23 03:37:36,607 - deadline_bot - INFO - logging_config.py:115 - Yonote API Key: Configured
+2025-12-23 03:37:36,608 - deadline_bot - INFO - logging_config.py:116 - Update Interval: 30 minutes
+2025-12-23 03:37:36,608 - deadline_bot - INFO - logging_config.py:117 - Log Level: INFO
+2025-12-23 03:37:36,608 - deadline_bot - INFO - logging_config.py:118 - ==================================================
+2025-12-23 03:37:36,608 - deadline_bot - INFO - bot.py:2135 - Инициализация базы данных...
+2025-12-23 03:37:36,613 - deadline_bot - INFO - bot.py:2138 - База данных инициализирована
+2025-12-23 03:37:36,615 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 03:37:36,616 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 03:37:36,617 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Синхронизация дедлайнов из Yonote и проверка уведомлений" to job store "default"
+2025-12-23 03:37:36,618 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Очистка просроченных дедлайнов" to job store "default"
+2025-12-23 03:37:36,618 - apscheduler.scheduler - INFO - base.py:214 - Scheduler started
+2025-12-23 03:37:36,618 - deadline_bot - INFO - bot.py:2172 - Планировщик запущен: синхронизация и проверка уведомлений каждые 30 мин, очистка просроченных раз в день
+2025-12-23 03:37:36,619 - deadline_bot - INFO - bot.py:2175 - Запуск бота...
+2025-12-23 03:37:36,619 - aiogram.dispatcher - INFO - dispatcher.py:596 - Start polling
+2025-12-23 03:37:36,835 - aiogram.dispatcher - INFO - dispatcher.py:378 - Run polling for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 03:37:41,320 - deadline_bot - INFO - bot.py:237 - Пользователь 929644995 зарегистрирован/обновлён
+2025-12-23 03:37:41,320 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747505 is handled. Duration 246 ms by bot id=8358666814
+2025-12-23 03:37:43,287 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747506 is handled. Duration 2 ms by bot id=8358666814
+2025-12-23 03:40:28,656 - aiogram.dispatcher - INFO - dispatcher.py:624 - Polling stopped
+2025-12-23 03:40:28,661 - aiogram.dispatcher - ERROR - dispatcher.py:225 - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2025-12-23 03:40:28,663 - aiogram.dispatcher - WARNING - dispatcher.py:227 - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8358666814)
+2025-12-23 03:40:28,928 - deadline_bot - INFO - bot.py:2181 - Планировщик остановлен
+2025-12-23 03:40:28,928 - apscheduler.scheduler - INFO - base.py:245 - Scheduler has been shut down
+2025-12-23 03:40:28,929 - aiogram.dispatcher - INFO - dispatcher.py:413 - Polling stopped for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 03:40:28,931 - deadline_bot - INFO - bot.py:2188 - Бот остановлен пользователем
+2025-12-23 03:40:34,957 - deadline_bot - INFO - bot.py:82 - Загружено 1 администраторов
+2025-12-23 03:40:35,521 - deadline_bot - INFO - logging_config.py:110 - ==================================================
+2025-12-23 03:40:35,523 - deadline_bot - INFO - logging_config.py:111 - DEADLINE BOT STARTING UP
+2025-12-23 03:40:35,523 - deadline_bot - INFO - logging_config.py:112 - ==================================================
+2025-12-23 03:40:35,524 - deadline_bot - INFO - logging_config.py:113 - Database URL: sqlite:///../data/deadlines.db
+2025-12-23 03:40:35,524 - deadline_bot - INFO - logging_config.py:114 - Telegram Bot Token: Configured
+2025-12-23 03:40:35,525 - deadline_bot - INFO - logging_config.py:115 - Yonote API Key: Configured
+2025-12-23 03:40:35,525 - deadline_bot - INFO - logging_config.py:116 - Update Interval: 30 minutes
+2025-12-23 03:40:35,526 - deadline_bot - INFO - logging_config.py:117 - Log Level: INFO
+2025-12-23 03:40:35,527 - deadline_bot - INFO - logging_config.py:118 - ==================================================
+2025-12-23 03:40:35,527 - deadline_bot - INFO - bot.py:2135 - Инициализация базы данных...
+2025-12-23 03:40:35,535 - deadline_bot - INFO - bot.py:2138 - База данных инициализирована
+2025-12-23 03:40:35,539 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 03:40:35,540 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-23 03:40:35,542 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Синхронизация дедлайнов из Yonote и проверка уведомлений" to job store "default"
+2025-12-23 03:40:35,543 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Очистка просроченных дедлайнов" to job store "default"
+2025-12-23 03:40:35,544 - apscheduler.scheduler - INFO - base.py:214 - Scheduler started
+2025-12-23 03:40:35,544 - deadline_bot - INFO - bot.py:2172 - Планировщик запущен: синхронизация и проверка уведомлений каждые 30 мин, очистка просроченных раз в день
+2025-12-23 03:40:35,545 - deadline_bot - INFO - bot.py:2175 - Запуск бота...
+2025-12-23 03:40:35,545 - aiogram.dispatcher - INFO - dispatcher.py:596 - Start polling
+2025-12-23 03:40:35,765 - aiogram.dispatcher - INFO - dispatcher.py:378 - Run polling for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 03:40:42,752 - deadline_bot - INFO - bot.py:237 - Пользователь 929644995 зарегистрирован/обновлён
+2025-12-23 03:40:42,753 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747507 is handled. Duration 244 ms by bot id=8358666814
+2025-12-23 03:40:43,743 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747508 is handled. Duration 2 ms by bot id=8358666814
+2025-12-23 03:41:27,954 - aiogram.dispatcher - INFO - dispatcher.py:624 - Polling stopped
+2025-12-23 03:41:27,955 - aiogram.dispatcher - ERROR - dispatcher.py:225 - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2025-12-23 03:41:27,956 - aiogram.dispatcher - WARNING - dispatcher.py:227 - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8358666814)
+2025-12-23 03:41:28,222 - deadline_bot - INFO - bot.py:2181 - Планировщик остановлен
+2025-12-23 03:41:28,223 - apscheduler.scheduler - INFO - base.py:245 - Scheduler has been shut down
+2025-12-23 03:41:28,223 - aiogram.dispatcher - INFO - dispatcher.py:413 - Polling stopped for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-23 03:41:28,225 - deadline_bot - INFO - bot.py:2188 - Бот остановлен пользователем

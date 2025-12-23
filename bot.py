@@ -1181,6 +1181,11 @@ async def cmd_notifications(message: Message) -> None:
                 InlineKeyboardButton(
                     text="🔄 Сбросить",
                     callback_data="reset_settings"
+                ),
+                
+                InlineKeyboardButton(
+                    text="🔙 Назад",
+                    callback_data="cmd_start"
                 )
             ]
         ])
@@ -1280,7 +1285,7 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
                     ),
                     InlineKeyboardButton(
                         text="🔙 Назад",
-                        callback_data="back_to_main"
+                        callback_data="cmd_start"
                     )
                 ]
             ])
@@ -1532,12 +1537,22 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
 
                     await callback.message.edit_text(
                         result_text,
-                        reply_markup=create_main_menu_keyboard()
+                       reply_markup= InlineKeyboardMarkup(inline_keyboard=[
+                        [InlineKeyboardButton(
+                            text="🔙 Назад",
+                            callback_data="cmd_start"
+                        )]
+                    ])
                     )
                 except Exception as e:
                     await callback.message.edit_text(
                         f"❌ Ошибка при синхронизации: {e}\n\nПопробуйте позже.",
-                        reply_markup=create_main_menu_keyboard()
+                        reply_markup= InlineKeyboardMarkup(inline_keyboard=[
+                        [InlineKeyboardButton(
+                            text="🔙 Назад",
+                            callback_data="cmd_start"
+                        )]
+                    ])
                     )
             elif cmd == "my_deadlines":
                 # Имитируем команду /my_deadlines - полная логика
@@ -1742,7 +1757,7 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
                         ),
                         InlineKeyboardButton(
                             text="🔙 Назад",
-                            callback_data="back_to_main"
+                            callback_data="cmd_start"
                         )
                     ]
                 ])
@@ -2026,7 +2041,7 @@ async def handle_notification_settings_input(message: Message) -> None:
                 ),
                 InlineKeyboardButton(
                     text="🔙 Назад",
-                    callback_data="back_to_main"
+                    callback_data="cmd_start"
                 )
             ]
         ])
