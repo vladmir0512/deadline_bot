@@ -243,7 +243,7 @@ async def cmd_help(message: Message) -> None:
             [
                 InlineKeyboardButton(text="🏠 Главное меню", callback_data="cmd_start") 
             ]
-        ])
+    ])
     help_text = (
         "📚 *Справка по командам бота*\n\n"
         "*/start* - Регистрация в системе\n"
@@ -1223,10 +1223,6 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
                 [
                     InlineKeyboardButton(text="📅 Мои дедлайны", callback_data="cmd_my_deadlines"),
                     InlineKeyboardButton(text="⚙️ Настройки", callback_data="cmd_notifications")
-                ],
-                [
-                    InlineKeyboardButton(text="ℹ️ О проекте", callback_data="cmd_about"),
-                    InlineKeyboardButton(text="❓ Поддержка", callback_data="cmd_support")
                 ]
             ])
 
@@ -1441,7 +1437,9 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
             )
 
             # Создаем клавиатуру с основными командами
-            keyboard = create_main_menu_keyboard()
+            keyboard = InlineKeyboardMarkup(inline_keyboard=[
+                    [InlineKeyboardButton(text="Назад", callback_data="cmd_start")]
+            ])
 
             await callback.message.edit_text(
                 help_text,
@@ -1453,14 +1451,46 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
         elif action.startswith("cmd_"):
             # Обработка команд из главного меню
             cmd = action[4:]  # Убираем префикс "cmd_"
-            if cmd == "register":
+
+            if cmd == "start":
+                # Имитируем команду /start - показываем приветствие с клавиатурой
+                user = get_user_by_telegram_id(callback.from_user.id)
+                if not user:
+                    await callback.answer("Пользователь не найден")
+                    return
+
+                welcome_text = f"👋 Привет, {callback.from_user.first_name}!\n\n"
+
+                # Определяем статус регистрации
+                if user.username:
+                    welcome_text += f"Вы зарегистрированы как: {user.username}\n\n"
+                    welcome_text += "Используйте кнопки ниже для быстрого доступа к функциям:"
+                else:
+                    welcome_text += "Вы не зарегистрированы.\n\n"
+                    welcome_text += "Используйте кнопки ниже для быстрого доступа к функциям:"
+
+                keyboard = create_main_menu_keyboard()
+
+                await callback.message.edit_text(
+                    welcome_text,
+                    reply_markup=keyboard
+                )
+
+            elif cmd == "register":
                 await callback.message.answer(
                     "📝 Для регистрации используйте команду:\n\n"
                     "`/register ваш_ник_в_yonote`\n\n"
                     "Пример: `/register username`",
-                    reply_markup=create_main_menu_keyboard(),
+                    reply_markup= InlineKeyboardMarkup(inline_keyboard=[
+                        [InlineKeyboardButton(
+                            text="🔙 Назад",
+                            callback_data="cmd_start"
+                        )]
+                    ]),
                     parse_mode="Markdown"
                 )
+
+
             elif cmd == "sync":
                 # Выполняем синхронизацию сразу
                 try:
