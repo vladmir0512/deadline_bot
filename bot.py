@@ -226,10 +226,6 @@ async def cmd_start(message: Message) -> None:
             [
                 InlineKeyboardButton(text="📅 Мои дедлайны", callback_data="cmd_my_deadlines"),
                 InlineKeyboardButton(text="⚙️ Настройки", callback_data="cmd_notifications")
-            ],
-            [
-                InlineKeyboardButton(text="ℹ️ О проекте", callback_data="cmd_about"),
-                InlineKeyboardButton(text="❓ Поддержка", callback_data="cmd_support")
             ]
         ])
 
@@ -243,6 +239,11 @@ async def cmd_start(message: Message) -> None:
 @router.message(Command("help"))
 async def cmd_help(message: Message) -> None:
     """Обработчик команды /help - справка."""
+    keyboard = InlineKeyboardMarkup(inline_keyboard=[
+            [
+                InlineKeyboardButton(text="🏠 Главное меню", callback_data="cmd_start") 
+            ]
+        ])
     help_text = (
         "📚 *Справка по командам бота*\n\n"
         "*/start* - Регистрация в системе\n"
@@ -267,7 +268,7 @@ async def cmd_help(message: Message) -> None:
         "💡 *Совет*: После регистрации привяжите ваш ник, "
         "чтобы получать персональные дедлайны. Используйте /sync для немедленной синхронизации."
     )
-    await message.answer(help_text, parse_mode="Markdown")
+    await message.answer(help_text, parse_mode="Markdown", reply_markup=keyboard)
 
 
 @router.message(Command("register"))
@@ -1452,12 +1453,12 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
         elif action.startswith("cmd_"):
             # Обработка команд из главного меню
             cmd = action[4:]  # Убираем префикс "cmd_"
-
             if cmd == "register":
                 await callback.message.answer(
                     "📝 Для регистрации используйте команду:\n\n"
                     "`/register ваш_ник_в_yonote`\n\n"
                     "Пример: `/register username`",
+                    reply_markup=create_main_menu_keyboard(),
                     parse_mode="Markdown"
                 )
             elif cmd == "sync":
@@ -1480,20 +1481,7 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
 
                     await callback.message.edit_text(
                         result_text,
-                        reply_markup=InlineKeyboardMarkup(inline_keyboard=[
-                            [
-                                InlineKeyboardButton(text="📝 Регистрация", callback_data="cmd_register"),
-                                InlineKeyboardButton(text="🔄 Синхронизация", callback_data="cmd_sync")
-                            ],
-                            [
-                                InlineKeyboardButton(text="📅 Мои дедлайны", callback_data="cmd_my_deadlines"),
-                                InlineKeyboardButton(text="⚙️ Настройки", callback_data="cmd_notifications")
-                            ],
-                            [
-                                InlineKeyboardButton(text="📚 Помощь", callback_data="cmd_help"),
-                                InlineKeyboardButton(text="📋 Справка", callback_data="cmd_help")
-                            ]
-                        ])
+                        reply_markup=create_main_menu_keyboard()
                     )
                 except Exception as e:
                     await callback.message.edit_text(
