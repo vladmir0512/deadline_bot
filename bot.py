@@ -1453,21 +1453,42 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
             cmd = action[4:]  # Убираем префикс "cmd_"
 
             if cmd == "start":
-                # Имитируем команду /start - показываем приветствие с клавиатурой
+                # Имитируем команду /start - показываем полное приветствие
                 user = get_user_by_telegram_id(callback.from_user.id)
                 if not user:
                     await callback.answer("Пользователь не найден")
                     return
 
-                welcome_text = f"👋 Привет, {callback.from_user.first_name}!\n\n"
+                user_info = []
+                if user.email:
+                    user_info.append(f"📧 Email: {user.email}")
+                if user.username:
+                    user_info.append(f"👤 Ник: {user.username}")
+
+                user_info_str = " (" + ", ".join(user_info) + ")" if user_info else ""
 
                 # Определяем статус регистрации
                 if user.username:
-                    welcome_text += f"Вы зарегистрированы как: {user.username}\n\n"
-                    welcome_text += "Используйте кнопки ниже для быстрого доступа к функциям:"
+                    status_text = f"Статус: зарегистрирован{user_info_str}"
                 else:
-                    welcome_text += "Вы не зарегистрированы.\n\n"
-                    welcome_text += "Используйте кнопки ниже для быстрого доступа к функциям:"
+                    status_text = "Статус: зарегистрирован (требуется привязать ник для получения дедлайнов)"
+
+                welcome_text = (
+                    f"👋 Привет, {callback.from_user.first_name or 'пользователь'}!\n\n"
+                    f"Я бот для управления дедлайнами из Yonote.\n\n"
+                    f"Твой ID в системе: {user.id}\n"
+                    f"Telegram ID: {callback.from_user.id}\n"
+                    f"{status_text}\n\n"
+                )
+
+                welcome_text += (
+                    "Доступные команды:\n"
+                    "/help - справка по командам\n"
+                    "/register - привязать ник\n"
+                    "/logout - отписаться от уведомлений и сбросить данные\n"
+                    "/my_deadlines - показать мои дедлайны\n"
+                    "/subscribe - управление подписками"
+                )
 
                 keyboard = create_main_menu_keyboard()
 
