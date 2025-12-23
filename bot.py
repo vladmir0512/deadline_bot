@@ -1548,14 +1548,18 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
                             "❌ Вы не зарегистрировали ник для получения дедлайнов.\n\n"
                             "💡 Используйте команду `/register your_yonote_nickname`, "
                             "чтобы привязать ваш ник из Yonote и получить доступ к дедлайнам.",
-                            reply_markup=create_main_menu_keyboard(),
+                            reply_markup = InlineKeyboardMarkup(inline_keyboard=[
+                                [InlineKeyboardButton(
+                                    text="🔙 Назад",
+                                    callback_data="cmd_start"
+                                )]
+                            ]),
                             parse_mode="Markdown"
                         )
                         return
 
                     # Сначала синхронизируем дедлайны из Yonote
                     try:
-                        from scripts.sync_deadlines import sync_user_deadlines
                         created, updated = await sync_user_deadlines(user)
                         sync_message = f"✅ Синхронизация завершена: создано {created}, обновлено {updated}"
                         logger.info(f"Синхронизация для cmd_my_deadlines: создано {created}, обновлено {updated}")
@@ -1670,7 +1674,12 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
                     else:
                         await callback.message.edit_text(
                             response_text,
-                            reply_markup=create_main_menu_keyboard(),
+                            reply_markup= InlineKeyboardMarkup(inline_keyboard=[
+                        [InlineKeyboardButton(
+                            text="🔙 Назад",
+                            callback_data="cmd_start"
+                        )]
+                    ]),
                             parse_mode="Markdown"
                         )
 
