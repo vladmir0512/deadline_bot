@@ -1540,71 +1540,140 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
                         reply_markup=create_main_menu_keyboard()
                     )
             elif cmd == "my_deadlines":
-                # Показываем дедлайны сразу
+                # Имитируем команду /my_deadlines - полная логика
                 try:
-                    deadlines = get_user_deadlines(user.id, status=DeadlineStatus.ACTIVE, only_future=True)
+                    # Проверяем, что пользователь зарегистрировал ник для Yonote
+                    if not user.username:
+                        await callback.message.edit_text(
+                            "❌ Вы не зарегистрировали ник для получения дедлайнов.\n\n"
+                            "💡 Используйте команду `/register your_yonote_nickname`, "
+                            "чтобы привязать ваш ник из Yonote и получить доступ к дедлайнам.",
+                            reply_markup=create_main_menu_keyboard(),
+                            parse_mode="Markdown"
+                        )
+                        return
+
+                    # Сначала синхронизируем дедлайны из Yonote
+                    try:
+                        from scripts.sync_deadlines import sync_user_deadlines
+                        created, updated = await sync_user_deadlines(user)
+                        sync_message = f"✅ Синхронизация завершена: создано {created}, обновлено {updated}"
+                        logger.info(f"Синхронизация для cmd_my_deadlines: создано {created}, обновлено {updated}")
+                    except Exception as sync_error:
+                        sync_message = f"⚠️ Ошибка при синхронизации: {sync_error}"
+                        logger.error(f"Ошибка при синхронизации в cmd_my_deadlines: {sync_error}", exc_info=True)
+
+                    deadlines = get_user_deadlines(user.id, status="active", only_future=True, include_no_date=True)
+
+                    # Дополнительная фильтрация прошедших дедлайнов на уровне Python
+                    now = datetime.now(UTC)
+                    filtered_deadlines = []
+                    for d in deadlines:
+                        if d.due_date is None:
+                            filtered_deadlines.append(d)
+                            continue
+
+                        due_date = d.due_date
+                        if due_date.tzinfo is None:
+                            due_date = due_date.replace(tzinfo=UTC)
+                            logger.debug(f"Дедлайн '{d.title}' без timezone - добавлен UTC")
+
+                        if due_date < now:
+                            logger.info(f"Дедлайн '{d.title}' прошел ({due_date} < {now}) - пропускаем")
+                            continue
+                        filtered_deadlines.append(d)
+                    deadlines = filtered_deadlines
 
                     if not deadlines:
-                        result_text = (
-                            "📭 У вас нет активных дедлайнов.\n\n"
-                            "• Используйте `/sync` для синхронизации из Yonote\n"
-                            "• Или `/register ник` для привязки аккаунта"
+                        user_info = []
+                        if user.email:
+                            user_info.append(f"📧 Email: {user.email}")
+                        if user.username:
+                            user_info.append(f"👤 Ник: {user.username}")
+
+                        info_text = "\n".join(user_info) if user_info else "не задан"
+
+                        await callback.message.edit_text(
+                            f"{sync_message}\n\n"
+                            "📭 У вас пока нет активных дедлайнов.\n\n"
+                            f"Ваш идентификатор: {info_text}\n\n"
+                            "💡 Попробуйте:\n"
+                            "• Использовать команду /sync для ручной синхронизации\n"
+                            "• Убедиться, что в Yonote есть дедлайны для вашего аккаунта\n\n"
+                            "Дедлайны также автоматически синхронизируются каждые 30 минут.",
+                            reply_markup=create_main_menu_keyboard()
                         )
+                        return
+
+                    # Формируем сообщение с дедлайнами
+                    response_lines = [f"{sync_message}\n\n📋 *Ваши дедлайны ({len(deadlines)}):*\n"]
+
+                    for i, deadline in enumerate(deadlines, 1):
+                        escaped_title = escape_markdown(deadline.title)
+                        response_lines.append(f"\n*{i}. {escaped_title}*")
+                        if deadline.due_date:
+                            due_date_str = deadline.due_date.strftime("%d.%m.%Y %H:%M")
+                            response_lines.append(f"⏰ {due_date_str}")
+                        if deadline.description:
+                            desc = deadline.description[:100] + "..." if len(deadline.description) > 100 else deadline.description
+                            escaped_desc = escape_markdown(desc)
+                            response_lines.append(f"📝 {escaped_desc}")
+
+                    # Добавляем информацию внизу
+                    user_nick = user.username or user.email or "не указан"
+                    escaped_nick = escape_markdown(user_nick)
+
+                    deadlines_with_date = [d for d in deadlines if d.due_date]
+
+                    response_lines.append("\n" + "─" * 20)
+                    response_lines.append(f"👤 *Ник:* {escaped_nick}")
+
+                    if deadlines_with_date:
+                        nearest_deadline = min(deadlines_with_date, key=lambda d: d.due_date)
+                        due_date_str = nearest_deadline.due_date.strftime("%d.%m.%Y %H:%M")
+                        response_lines.append(f"📅 *Ближайший дедлайн:* {due_date_str}")
                     else:
-                        # Группируем дедлайны
-                        today = []
-                        tomorrow = []
-                        week = []
-                        future = []
+                        response_lines.append(f"📅 *Дедлайн:* нет точной даты")
 
-                        now = datetime.now(UTC)
-                        today_end = (now + timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
-                        week_end = now + timedelta(days=7)
+                    response_lines.append(f"🎵 *Песня:* -")
+                    response_lines.append("")
+                    response_lines.append("⚠️ Если что-то не успеваете — пишите админам")
 
-                        for deadline in deadlines:
-                            due_date = deadline.due_date
-                            if due_date.tzinfo is None:
-                                due_date = due_date.replace(tzinfo=UTC)
+                    response_text = "\n".join(response_lines)
 
-                            if due_date < today_end:
-                                today.append(deadline)
-                            elif due_date < today_end + timedelta(days=1):
-                                tomorrow.append(deadline)
-                            elif due_date < week_end:
-                                week.append(deadline)
+                    # Telegram имеет лимит на длину сообщения (4096 символов)
+                    if len(response_text) > 4000:
+                        # Разбиваем на несколько сообщений
+                        chunk = []
+                        chunk_length = 0
+                        footer_lines = response_lines[-5:]
+                        main_lines = response_lines[:-5]
+
+                        for line in main_lines:
+                            line_length = len(line) + 1
+                            if chunk_length + line_length > 3800:
+                                # Отправляем chunk как новое сообщение
+                                await callback.message.answer("\n".join(chunk), parse_mode="Markdown")
+                                chunk = [line]
+                                chunk_length = line_length
                             else:
-                                future.append(deadline)
+                                chunk.append(line)
+                                chunk_length += line_length
 
-                        lines = [f"📅 *Ваши дедлайны* ({len(deadlines)}):\n"]
+                        # Отправляем оставшийся chunk + footer
+                        if chunk:
+                            await callback.message.edit_text(
+                                "\n".join(chunk + footer_lines),
+                                reply_markup=create_main_menu_keyboard(),
+                                parse_mode="Markdown"
+                            )
+                    else:
+                        await callback.message.edit_text(
+                            response_text,
+                            reply_markup=create_main_menu_keyboard(),
+                            parse_mode="Markdown"
+                        )
 
-                        if today:
-                            lines.append(f"\n🔴 *Сегодня* ({len(today)}):")
-                            for d in today[:3]:  # Показываем максимум 3
-                                lines.append(f"• {d.title}")
-
-                        if tomorrow:
-                            lines.append(f"\n🟡 *Завтра* ({len(tomorrow)}):")
-                            for d in tomorrow[:3]:
-                                lines.append(f"• {d.title}")
-
-                        if week:
-                            lines.append(f"\n🟢 *На этой неделе* ({len(week)}):")
-                            for d in week[:3]:
-                                lines.append(f"• {d.title}")
-
-                        if future:
-                            lines.append(f"\n🔵 *В будущем* ({len(future)})")
-                            if len(future) > 3:
-                                lines.append(f"• И ещё {len(future) - 3} дедлайнов")
-
-                        lines.append("\n💡 Используйте фильтры для подробного просмотра")
-                        result_text = "\n".join(lines)
-
-                    await callback.message.edit_text(
-                        result_text,
-                        reply_markup=create_main_menu_keyboard(),
-                        parse_mode="Markdown"
-                    )
                 except Exception as e:
                     await callback.message.edit_text(
                         f"❌ Ошибка при получении дедлайнов: {e}",
