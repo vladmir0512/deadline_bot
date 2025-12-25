@@ -51,6 +51,7 @@ class DeadlineStatus:
     ACTIVE = "active"
     COMPLETED = "completed"
     CANCELED = "canceled"
+    PENDING_VERIFICATION = "pending_verification"  # На проверке у админа
 
 
 class Deadline(Base):
@@ -146,4 +147,34 @@ User.notification_settings: Mapped["UserNotificationSettings | None"] = relation
     back_populates="user",
     uselist=False,  # Один к одному
 )
+
+
+class DeadlineVerification(Base):
+    """Запросы на проверку выполнения дедлайна."""
+
+    __tablename__ = "deadline_verifications"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    deadline_id: Mapped[int] = mapped_column(ForeignKey("deadlines.id"), nullable=False, index=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False, index=True)
+    
+    # Статус проверки: "pending" - ожидает проверки, "approved" - одобрено, "rejected" - отклонено
+    status: Mapped[str] = mapped_column(String(32), default="pending", nullable=False, index=True)
+    
+    # Комментарий пользователя при запросе проверки
+    user_comment: Mapped[str | None] = mapped_column(Text, nullable=True)
+    
+    # Комментарий админа при проверке
+    admin_comment: Mapped[str | None] = mapped_column(Text, nullable=True)
+    
+    # Кто проверил (ID администратора)
+    verified_by: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    
+    # Временные метки
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now, nullable=False)
+    verified_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+
+    # Связи
+    deadline: Mapped["Deadline"] = relationship("Deadline")
+    user: Mapped["User"] = relationship("User")
 

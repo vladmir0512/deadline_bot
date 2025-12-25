@@ -7,9 +7,10 @@ from __future__ import annotations
 from datetime import UTC, datetime, timezone, timedelta
 
 from sqlalchemy import or_
+from sqlalchemy.orm import joinedload
 
 from db import SessionLocal
-from models import Deadline, DeadlineStatus, Subscription, User
+from models import Deadline, DeadlineStatus, DeadlineVerification, Subscription, User
 
 # Настройка часового пояса (GMT+3, Moscow)
 MOSCOW_TZ = timezone(timedelta(hours=3))
@@ -291,11 +292,13 @@ def format_deadline(deadline: Deadline) -> str:
         DeadlineStatus.ACTIVE: "🟢",
         DeadlineStatus.COMPLETED: "✅",
         DeadlineStatus.CANCELED: "❌",
+        DeadlineStatus.PENDING_VERIFICATION: "⏳",
     }
     status_text = {
         DeadlineStatus.ACTIVE: "Активен",
         DeadlineStatus.COMPLETED: "Завершён",
         DeadlineStatus.CANCELED: "Отменён",
+        DeadlineStatus.PENDING_VERIFICATION: "На проверке",
     }
     emoji = status_emoji.get(deadline.status, "⚪")
     text = status_text.get(deadline.status, deadline.status)
@@ -333,6 +336,192 @@ def get_all_subscribed_users(notification_type: str = "telegram") -> list[tuple[
                 result.append((subscription.user, subscription))
 
         return result
+    finally:
+        session.close()
+
+
+def request_deadline_verification(deadline_id: int, user_id: int, comment: str | None = None) -> DeadlineVerification | None:
+    """
+    Создать запрос на проверку выполнения дедлайна.
+
+    Args:
+        deadline_id: ID дедлайна
+        user_id: ID пользователя
+        comment: Комментарий пользователя (опционально)
+
+    Returns:
+        Объект DeadlineVerification или None, если дедлайн не найден или уже на проверке
+    """
+    session = SessionLocal()
+    try:
+        deadline = session.query(Deadline).filter_by(id=deadline_id, user_id=user_id).first()
+        if not deadline:
+            return None
+
+        # Проверяем, что дедлайн активен и не на проверке
+        if deadline.status != DeadlineStatus.ACTIVE:
+            return None
+
+        # Проверяем, нет ли уже активного запроса на проверку
+        existing = (
+            session.query(DeadlineVerification)
+            .filter_by(deadline_id=deadline_id, status="pending")
+            .first()
+        )
+        if existing:
+            return None
+
+        # Создаем запрос на проверку
+        verification = DeadlineVerification(
+            deadline_id=deadline_id,
+            user_id=user_id,
+            status="pending",
+            user_comment=comment,
+        )
+        session.add(verification)
+
+        # Меняем статус дедлайна на "на проверке"
+        deadline.status = DeadlineStatus.PENDING_VERIFICATION
+        deadline.updated_at = datetime.now(UTC)
+
+        session.commit()
+        session.refresh(verification)
+        return verification
+    except Exception as e:
+        session.rollback()
+        from logging import getLogger
+        logger = getLogger(__name__)
+        logger.error(f"Ошибка при создании запроса на проверку: {e}", exc_info=True)
+        return None
+    finally:
+        session.close()
+
+
+def get_pending_verifications() -> list[DeadlineVerification]:
+    """
+    Получить все запросы на проверку, ожидающие решения.
+
+    Returns:
+        Список DeadlineVerification со статусом "pending" с загруженными связанными объектами
+    """
+    session = SessionLocal()
+    try:
+        # Используем eager loading для загрузки связанных объектов deadline и user
+        verifications = (
+            session.query(DeadlineVerification)
+            .options(
+                joinedload(DeadlineVerification.deadline),
+                joinedload(DeadlineVerification.user)
+            )
+            .filter_by(status="pending")
+            .order_by(DeadlineVerification.created_at.asc())
+            .all()
+        )
+        # Отсоединяем объекты от сессии, чтобы они были доступны после закрытия сессии
+        # Сначала загружаем все связанные объекты, затем отсоединяем
+        result = []
+        for verification in verifications:
+            # Принудительно загружаем связанные объекты
+            _ = verification.deadline
+            _ = verification.user
+            # Отсоединяем объект от сессии
+            session.expunge(verification)
+            if verification.deadline:
+                session.expunge(verification.deadline)
+            if verification.user:
+                session.expunge(verification.user)
+            result.append(verification)
+        return result
+    finally:
+        session.close()
+
+
+def approve_deadline_verification(verification_id: int, admin_telegram_id: int, comment: str | None = None) -> bool:
+    """
+    Одобрить выполнение дедлайна.
+
+    Args:
+        verification_id: ID запроса на проверку
+        admin_telegram_id: Telegram ID администратора
+        comment: Комментарий администратора (опционально)
+
+    Returns:
+        True если успешно, False в противном случае
+    """
+    session = SessionLocal()
+    try:
+        verification = session.query(DeadlineVerification).filter_by(id=verification_id, status="pending").first()
+        if not verification:
+            return False
+
+        deadline = session.query(Deadline).filter_by(id=verification.deadline_id).first()
+        if not deadline:
+            return False
+
+        # Обновляем запрос на проверку
+        verification.status = "approved"
+        verification.verified_by = admin_telegram_id
+        verification.verified_at = datetime.now(UTC)
+        if comment:
+            verification.admin_comment = comment
+
+        # Меняем статус дедлайна на "завершен"
+        deadline.status = DeadlineStatus.COMPLETED
+        deadline.updated_at = datetime.now(UTC)
+
+        session.commit()
+        return True
+    except Exception as e:
+        session.rollback()
+        from logging import getLogger
+        logger = getLogger(__name__)
+        logger.error(f"Ошибка при одобрении проверки: {e}", exc_info=True)
+        return False
+    finally:
+        session.close()
+
+
+def reject_deadline_verification(verification_id: int, admin_telegram_id: int, comment: str | None = None) -> bool:
+    """
+    Отклонить выполнение дедлайна.
+
+    Args:
+        verification_id: ID запроса на проверку
+        admin_telegram_id: Telegram ID администратора
+        comment: Комментарий администратора (опционально)
+
+    Returns:
+        True если успешно, False в противном случае
+    """
+    session = SessionLocal()
+    try:
+        verification = session.query(DeadlineVerification).filter_by(id=verification_id, status="pending").first()
+        if not verification:
+            return False
+
+        deadline = session.query(Deadline).filter_by(id=verification.deadline_id).first()
+        if not deadline:
+            return False
+
+        # Обновляем запрос на проверку
+        verification.status = "rejected"
+        verification.verified_by = admin_telegram_id
+        verification.verified_at = datetime.now(UTC)
+        if comment:
+            verification.admin_comment = comment
+
+        # Возвращаем статус дедлайна на "активен"
+        deadline.status = DeadlineStatus.ACTIVE
+        deadline.updated_at = datetime.now(UTC)
+
+        session.commit()
+        return True
+    except Exception as e:
+        session.rollback()
+        from logging import getLogger
+        logger = getLogger(__name__)
+        logger.error(f"Ошибка при отклонении проверки: {e}", exc_info=True)
+        return False
     finally:
         session.close()
 

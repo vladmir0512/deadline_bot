@@ -30,12 +30,16 @@ from notifications import (
     send_message_to_all_subscribers,
 )
 from services import (
+    approve_deadline_verification,
     format_deadline,
     get_all_subscribed_users,
     get_or_create_user,
+    get_pending_verifications,
     get_user_by_telegram_id,
     get_user_deadlines,
     get_user_subscription,
+    reject_deadline_verification,
+    request_deadline_verification,
     toggle_subscription,
     update_user_email,
 )
@@ -393,13 +397,20 @@ async def cmd_my_deadlines(message: Message) -> None:
             )
             return
 
-        # Формируем сообщение с дедлайнами
+        # Формируем сообщение с дедлайнами и кнопками
         response_lines = [f"{sync_message}\n\n📋 *Ваши дедлайны ({len(deadlines)}):*\n"]
 
+        # Создаем клавиатуру с кнопками для каждого дедлайна
+        keyboard_buttons = []
+        
         for i, deadline in enumerate(deadlines, 1):
             # Экранируем заголовок дедлайна
             escaped_title = escape_markdown(deadline.title)
-            response_lines.append(f"\n*{i}. {escaped_title}*")
+            
+            # Показываем статус дедлайна
+            status_emoji = "⏳" if deadline.status == DeadlineStatus.PENDING_VERIFICATION else "🟢"
+            response_lines.append(f"\n*{i}. {status_emoji} {escaped_title}*")
+            
             if deadline.due_date:
                 due_date_str = deadline.due_date.strftime("%d.%m.%Y %H:%M")
                 response_lines.append(f"⏰ {due_date_str}")
@@ -407,6 +418,21 @@ async def cmd_my_deadlines(message: Message) -> None:
                 desc = deadline.description[:100] + "..." if len(deadline.description) > 100 else deadline.description
                 escaped_desc = escape_markdown(desc)
                 response_lines.append(f"📝 {escaped_desc}")
+            
+            # Добавляем кнопку подтверждения только для активных дедлайнов
+            if deadline.status == DeadlineStatus.ACTIVE:
+                # Ограничиваем длину текста кнопки (максимум 64 символа для Telegram)
+                button_text = f"✅ Выполнен #{i}"
+                if len(button_text) > 64:
+                    button_text = f"✅ #{i}"
+                keyboard_buttons.append([
+                    InlineKeyboardButton(
+                        text=button_text,
+                        callback_data=f"complete_deadline_{deadline.id}"
+                    )
+                ])
+            elif deadline.status == DeadlineStatus.PENDING_VERIFICATION:
+                response_lines.append("⏳ *На проверке у администратора*")
 
         # Добавляем информацию внизу того же сообщения
         user_nick = user.username or user.email or "не указан"
@@ -431,6 +457,11 @@ async def cmd_my_deadlines(message: Message) -> None:
         response_lines.append("⚠️ Если что-то не успеваете — пишите админам")
 
         response_text = "\n".join(response_lines)
+
+        # Создаем клавиатуру, если есть кнопки
+        reply_markup = None
+        if keyboard_buttons:
+            reply_markup = InlineKeyboardMarkup(inline_keyboard=keyboard_buttons)
 
         # Telegram имеет лимит на длину сообщения (4096 символов)
         if len(response_text) > 4000:
@@ -457,11 +488,11 @@ async def cmd_my_deadlines(message: Message) -> None:
                 chunk.extend(footer_lines)
                 await message.answer("\n".join(chunk), parse_mode="Markdown")
             else:
-                if chunk:
-                    await message.answer("\n".join(chunk), parse_mode="Markdown")
-                await message.answer(footer_text, parse_mode="Markdown")
+                    if chunk:
+                        await message.answer("\n".join(chunk), parse_mode="Markdown")
+                    await message.answer(footer_text, parse_mode="Markdown", reply_markup=reply_markup)
         else:
-            await message.answer(response_text, parse_mode="Markdown")
+            await message.answer(response_text, parse_mode="Markdown", reply_markup=reply_markup)
 
         logger.info(f"Пользователь {user.telegram_id} запросил список дедлайнов: {len(deadlines)} шт.")
 
@@ -1071,6 +1102,114 @@ async def cmd_unblock(message: Message) -> None:
         await message.answer("❌ Произошла ошибка при выполнении команды.")
 
 
+@router.message(Command("verify_deadlines"))
+async def cmd_verify_deadlines(message: Message) -> None:
+    """Обработчик команды /verify_deadlines - показать запросы на проверку (только для администраторов)."""
+    if not message.from_user or not is_admin(message.from_user.id):
+        await message.answer(
+            "❌ У вас нет прав для выполнения этой команды.\n\n"
+            "Эта команда доступна только администраторам."
+        )
+        return
+
+    try:
+        verifications = get_pending_verifications()
+        
+        if not verifications:
+            await message.answer(
+                "✅ Нет запросов на проверку.\n\n"
+                "Все дедлайны проверены или нет новых запросов."
+            )
+            return
+
+        # Группируем по дедлайнам и формируем сообщения
+        for verification in verifications:
+            deadline = verification.deadline
+            user = verification.user
+            
+            if not deadline or not user:
+                continue
+
+            # Экранируем пользовательские данные для безопасного использования в Markdown
+            escaped_title = escape_markdown(deadline.title)
+            escaped_description = escape_markdown(deadline.description) if deadline.description else None
+            escaped_username = escape_markdown(user.username) if user.username else None
+            escaped_email = escape_markdown(user.email) if user.email else None
+            escaped_comment = escape_markdown(verification.user_comment) if verification.user_comment else None
+            
+            # Форматируем информацию о дедлайне с экранированными данными
+            deadline_lines = [f"📅 *{escaped_title}*"]
+            
+            if escaped_description:
+                deadline_lines.append(f"📝 {escaped_description}")
+            
+            if deadline.due_date:
+                # Используем локальную константу MOSCOW_TZ (определена выше в файле)
+                if deadline.due_date.tzinfo is None:
+                    due_date_moscow = deadline.due_date.replace(tzinfo=UTC).astimezone(MOSCOW_TZ)
+                else:
+                    due_date_moscow = deadline.due_date.astimezone(MOSCOW_TZ)
+                due_date_str = due_date_moscow.strftime("%d.%m.%Y %H:%M")
+                deadline_lines.append(f"⏰ Дедлайн: {due_date_str} \\(MSK\\)")
+            
+            # Статус дедлайна
+            status_emoji = "⏳"
+            status_text = "На проверке"
+            deadline_lines.append(f"{status_emoji} Статус: {status_text}")
+            
+            if deadline.source:
+                escaped_source = escape_markdown(deadline.source)
+                deadline_lines.append(f"🔗 Источник: {escaped_source}")
+            
+            deadline_text = "\n".join(deadline_lines)
+            
+            # Формируем информацию о пользователе
+            if escaped_username:
+                user_info = escaped_username
+            elif escaped_email:
+                user_info = escaped_email
+            else:
+                user_info = f"ID: {user.telegram_id}"
+            
+            verification_text = (
+                f"⏳ *Запрос на проверку*\n\n"
+                f"{deadline_text}\n\n"
+                f"👤 *Пользователь:* {user_info}\n"
+                f"📅 *Запрошено:* {verification.created_at.strftime('%d.%m.%Y %H:%M')}\n"
+            )
+            
+            if escaped_comment:
+                verification_text += f"💬 *Комментарий пользователя:*\n{escaped_comment}\n"
+
+            # Создаем кнопки для подтверждения/отклонения
+            keyboard = InlineKeyboardMarkup(inline_keyboard=[
+                [
+                    InlineKeyboardButton(
+                        text="✅ Одобрить",
+                        callback_data=f"approve_verification_{verification.id}"
+                    ),
+                    InlineKeyboardButton(
+                        text="❌ Отклонить",
+                        callback_data=f"reject_verification_{verification.id}"
+                    )
+                ]
+            ])
+
+            await message.answer(
+                verification_text,
+                parse_mode="Markdown",
+                reply_markup=keyboard
+            )
+
+        await message.answer(
+            f"\n📊 Всего запросов на проверку: {len(verifications)}"
+        )
+
+    except Exception as e:
+        logger.error(f"Ошибка в команде /verify_deadlines: {e}", exc_info=True)
+        await message.answer("❌ Произошла ошибка при получении запросов на проверку.")
+
+
 @router.message(Command("blocked_users"))
 async def cmd_blocked_users(message: Message) -> None:
     """Обработчик команды /blocked_users - показать список заблокированных пользователей (только для администраторов)."""
@@ -1199,6 +1338,147 @@ async def cmd_notifications(message: Message) -> None:
     except Exception as e:
         logger.error(f"Ошибка в команде /notifications: {e}", exc_info=True)
         await message.answer("❌ Произошла ошибка при получении настроек уведомлений.")
+
+
+@router.callback_query(lambda c: c.data and (c.data.startswith('approve_verification_') or c.data.startswith('reject_verification_')))
+async def handle_verification_action(callback: CallbackQuery) -> None:
+    """Обработчик подтверждения/отклонения проверки дедлайна администратором."""
+    if not callback.from_user:
+        return
+
+    if not is_admin(callback.from_user.id):
+        await callback.answer("❌ У вас нет прав для выполнения этого действия")
+        return
+
+    try:
+        action = "approve" if callback.data.startswith("approve_verification_") else "reject"
+        verification_id = int(callback.data.split('_')[-1])
+        
+        admin_telegram_id = callback.from_user.id
+        
+        if action == "approve":
+            success = approve_deadline_verification(verification_id, admin_telegram_id)
+            if success:
+                await callback.answer("✅ Дедлайн одобрен")
+                await callback.message.edit_text(
+                    callback.message.text + "\n\n✅ *Одобрено администратором*",
+                    parse_mode="Markdown"
+                )
+                
+                # Отправляем уведомление пользователю
+                verification = None
+                from db import SessionLocal
+                from models import DeadlineVerification
+                session = SessionLocal()
+                try:
+                    verification = session.query(DeadlineVerification).filter_by(id=verification_id).first()
+                finally:
+                    session.close()
+                
+                if verification and verification.user:
+                    try:
+                        await bot.send_message(
+                            chat_id=verification.user.telegram_id,
+                            text=(
+                                f"✅ *Ваш дедлайн одобрен*\n\n"
+                                f"📅 *{verification.deadline.title if verification.deadline else 'Дедлайн'}*\n\n"
+                                f"Администратор подтвердил выполнение дедлайна."
+                            ),
+                            parse_mode="Markdown"
+                        )
+                    except Exception as e:
+                        logger.error(f"Ошибка при отправке уведомления пользователю: {e}")
+                
+                logger.info(f"Администратор {admin_telegram_id} одобрил проверку {verification_id}")
+            else:
+                await callback.answer("❌ Не удалось одобрить проверку")
+        else:
+            success = reject_deadline_verification(verification_id, admin_telegram_id)
+            if success:
+                await callback.answer("❌ Дедлайн отклонен")
+                await callback.message.edit_text(
+                    callback.message.text + "\n\n❌ *Отклонено администратором*",
+                    parse_mode="Markdown"
+                )
+                
+                # Отправляем уведомление пользователю
+                verification = None
+                from db import SessionLocal
+                from models import DeadlineVerification
+                session = SessionLocal()
+                try:
+                    verification = session.query(DeadlineVerification).filter_by(id=verification_id).first()
+                finally:
+                    session.close()
+                
+                if verification and verification.user:
+                    try:
+                        await bot.send_message(
+                            chat_id=verification.user.telegram_id,
+                            text=(
+                                f"❌ *Ваш дедлайн отклонен*\n\n"
+                                f"📅 *{verification.deadline.title if verification.deadline else 'Дедлайн'}*\n\n"
+                                f"Администратор отклонил выполнение дедлайна. "
+                                f"Пожалуйста, проверьте работу и отправьте запрос снова."
+                            ),
+                            parse_mode="Markdown"
+                        )
+                    except Exception as e:
+                        logger.error(f"Ошибка при отправке уведомления пользователю: {e}")
+                
+                logger.info(f"Администратор {admin_telegram_id} отклонил проверку {verification_id}")
+            else:
+                await callback.answer("❌ Не удалось отклонить проверку")
+
+    except ValueError:
+        await callback.answer("❌ Некорректный ID проверки")
+    except Exception as e:
+        logger.error(f"Ошибка при обработке проверки: {e}", exc_info=True)
+        await callback.answer("❌ Произошла ошибка")
+
+
+@router.callback_query(lambda c: c.data and c.data.startswith('complete_deadline_'))
+async def handle_complete_deadline(callback: CallbackQuery) -> None:
+    """Обработчик подтверждения выполнения дедлайна."""
+    if not callback.from_user:
+        return
+
+    try:
+        user = get_user_by_telegram_id(callback.from_user.id)
+        if not user:
+            await callback.answer("❌ Пользователь не найден")
+            return
+
+        # Извлекаем ID дедлайна из callback_data
+        deadline_id = int(callback.data.split('_')[-1])
+        
+        # Создаем запрос на проверку
+        verification = request_deadline_verification(deadline_id, user.id)
+        
+        if verification:
+            await callback.answer("✅ Запрос на проверку отправлен администраторам")
+            await callback.message.answer(
+                "✅ *Запрос на проверку отправлен*\n\n"
+                "Ваш дедлайн отправлен на проверку администраторам. "
+                "Вы получите уведомление после проверки.",
+                parse_mode="Markdown"
+            )
+            logger.info(f"Пользователь {user.telegram_id} запросил проверку дедлайна {deadline_id}")
+        else:
+            await callback.answer("❌ Не удалось создать запрос на проверку")
+            await callback.message.answer(
+                "❌ Не удалось создать запрос на проверку.\n\n"
+                "Возможные причины:\n"
+                "• Дедлайн уже на проверке\n"
+                "• Дедлайн не найден\n"
+                "• Дедлайн уже завершен"
+            )
+
+    except ValueError:
+        await callback.answer("❌ Некорректный ID дедлайна")
+    except Exception as e:
+        logger.error(f"Ошибка при подтверждении дедлайна: {e}", exc_info=True)
+        await callback.answer("❌ Произошла ошибка")
 
 
 @router.callback_query(lambda c: c.data.startswith(('toggle_', 'set_', 'reset_', 'cmd_', 'back_to_main')))

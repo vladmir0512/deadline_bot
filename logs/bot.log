@@ -1817,3 +1817,335 @@ aiogram.exceptions.TelegramBadRequest: Telegram server says - Bad Request: messa
 2025-12-23 03:41:28,223 - apscheduler.scheduler - INFO - base.py:245 - Scheduler has been shut down
 2025-12-23 03:41:28,223 - aiogram.dispatcher - INFO - dispatcher.py:413 - Polling stopped for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
 2025-12-23 03:41:28,225 - deadline_bot - INFO - bot.py:2188 - Бот остановлен пользователем
+2025-12-26 02:32:51,929 - deadline_bot - INFO - bot.py:86 - Загружено 1 администраторов
+2025-12-26 02:32:52,582 - deadline_bot - INFO - logging_config.py:110 - ==================================================
+2025-12-26 02:32:52,582 - deadline_bot - INFO - logging_config.py:111 - DEADLINE BOT STARTING UP
+2025-12-26 02:32:52,583 - deadline_bot - INFO - logging_config.py:112 - ==================================================
+2025-12-26 02:32:52,583 - deadline_bot - INFO - logging_config.py:113 - Database URL: sqlite:///../data/deadlines.db
+2025-12-26 02:32:52,583 - deadline_bot - INFO - logging_config.py:114 - Telegram Bot Token: Configured
+2025-12-26 02:32:52,584 - deadline_bot - INFO - logging_config.py:115 - Yonote API Key: Configured
+2025-12-26 02:32:52,584 - deadline_bot - INFO - logging_config.py:116 - Update Interval: 30 minutes
+2025-12-26 02:32:52,584 - deadline_bot - INFO - logging_config.py:117 - Log Level: INFO
+2025-12-26 02:32:52,585 - deadline_bot - INFO - logging_config.py:118 - ==================================================
+2025-12-26 02:32:52,585 - deadline_bot - INFO - bot.py:2375 - Инициализация базы данных...
+2025-12-26 02:32:52,591 - deadline_bot - INFO - bot.py:2378 - База данных инициализирована
+2025-12-26 02:32:52,594 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-26 02:32:52,595 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-26 02:32:52,598 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Синхронизация дедлайнов из Yonote и проверка уведомлений" to job store "default"
+2025-12-26 02:32:52,598 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Очистка просроченных дедлайнов" to job store "default"
+2025-12-26 02:32:52,599 - apscheduler.scheduler - INFO - base.py:214 - Scheduler started
+2025-12-26 02:32:52,599 - deadline_bot - INFO - bot.py:2412 - Планировщик запущен: синхронизация и проверка уведомлений каждые 30 мин, очистка просроченных раз в день
+2025-12-26 02:32:52,600 - deadline_bot - INFO - bot.py:2415 - Запуск бота...
+2025-12-26 02:32:52,600 - aiogram.dispatcher - INFO - dispatcher.py:596 - Start polling
+2025-12-26 02:32:52,862 - aiogram.dispatcher - INFO - dispatcher.py:378 - Run polling for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-26 02:33:14,775 - deadline_bot - INFO - bot.py:237 - Пользователь 929644995 зарегистрирован/обновлён
+2025-12-26 02:33:14,775 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747575 is handled. Duration 271 ms by bot id=8358666814
+2025-12-26 02:33:19,497 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 1 по нику: VJ_Games
+2025-12-26 02:33:19,498 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для идентификатора: VJ_Games
+2025-12-26 02:33:19,598 - scripts.sync_deadlines - ERROR - sync_deadlines.py:100 - Ошибка при получении дедлайнов из Yonote для пользователя 1: Ошибка при получении CSV: 400 - {"ok":false,"error":"validation_error","status":400,"message":"id must be a UUID"}
+Traceback (most recent call last):
+  File "C:\Users\vj\Documents\deadline_bot\scripts\sync_deadlines.py", line 97, in sync_user_deadlines
+    yonote_deadlines = await fetch_user_deadlines(user_identifier)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vj\Documents\deadline_bot\scripts\yonote_client.py", line 780, in fetch_user_deadlines
+    raw = await client.fetch_deadlines_raw()  # CSV API не принимает user в параметрах
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vj\Documents\deadline_bot\scripts\yonote_client.py", line 671, in fetch_deadlines_raw
+    raise YonoteClientError(f"Ошибка при получении CSV: {resp.status} - {text}")
+scripts.yonote_client.YonoteClientError: Ошибка при получении CSV: 400 - {"ok":false,"error":"validation_error","status":400,"message":"id must be a UUID"}
+2025-12-26 02:33:19,605 - deadline_bot - INFO - bot.py:351 - Синхронизация для /my_deadlines: создано 0, обновлено 0
+2025-12-26 02:33:19,721 - deadline_bot - INFO - bot.py:497 - Пользователь 929644995 запросил список дедлайнов: 1 шт.
+2025-12-26 02:33:19,722 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747576 is handled. Duration 311 ms by bot id=8358666814
+2025-12-26 02:33:28,046 - deadline_bot - INFO - bot.py:1430 - Пользователь 929644995 запросил проверку дедлайна 2
+2025-12-26 02:33:28,047 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747577 is handled. Duration 175 ms by bot id=8358666814
+2025-12-26 02:33:31,827 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 1 по нику: VJ_Games
+2025-12-26 02:33:31,828 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для идентификатора: VJ_Games
+2025-12-26 02:33:31,927 - scripts.sync_deadlines - ERROR - sync_deadlines.py:100 - Ошибка при получении дедлайнов из Yonote для пользователя 1: Ошибка при получении CSV: 400 - {"ok":false,"error":"validation_error","status":400,"message":"id must be a UUID"}
+Traceback (most recent call last):
+  File "C:\Users\vj\Documents\deadline_bot\scripts\sync_deadlines.py", line 97, in sync_user_deadlines
+    yonote_deadlines = await fetch_user_deadlines(user_identifier)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vj\Documents\deadline_bot\scripts\yonote_client.py", line 780, in fetch_user_deadlines
+    raw = await client.fetch_deadlines_raw()  # CSV API не принимает user в параметрах
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vj\Documents\deadline_bot\scripts\yonote_client.py", line 671, in fetch_deadlines_raw
+    raise YonoteClientError(f"Ошибка при получении CSV: {resp.status} - {text}")
+scripts.yonote_client.YonoteClientError: Ошибка при получении CSV: 400 - {"ok":false,"error":"validation_error","status":400,"message":"id must be a UUID"}
+2025-12-26 02:33:31,931 - deadline_bot - INFO - bot.py:351 - Синхронизация для /my_deadlines: создано 0, обновлено 0
+2025-12-26 02:33:32,025 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747578 is handled. Duration 286 ms by bot id=8358666814
+2025-12-26 02:33:37,790 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 1 по нику: VJ_Games
+2025-12-26 02:33:37,791 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для идентификатора: VJ_Games
+2025-12-26 02:33:37,884 - scripts.sync_deadlines - ERROR - sync_deadlines.py:100 - Ошибка при получении дедлайнов из Yonote для пользователя 1: Ошибка при получении CSV: 400 - {"ok":false,"error":"validation_error","status":400,"message":"id must be a UUID"}
+Traceback (most recent call last):
+  File "C:\Users\vj\Documents\deadline_bot\scripts\sync_deadlines.py", line 97, in sync_user_deadlines
+    yonote_deadlines = await fetch_user_deadlines(user_identifier)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vj\Documents\deadline_bot\scripts\yonote_client.py", line 780, in fetch_user_deadlines
+    raw = await client.fetch_deadlines_raw()  # CSV API не принимает user в параметрах
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vj\Documents\deadline_bot\scripts\yonote_client.py", line 671, in fetch_deadlines_raw
+    raise YonoteClientError(f"Ошибка при получении CSV: {resp.status} - {text}")
+scripts.yonote_client.YonoteClientError: Ошибка при получении CSV: 400 - {"ok":false,"error":"validation_error","status":400,"message":"id must be a UUID"}
+2025-12-26 02:33:37,887 - deadline_bot - INFO - bot.py:615 - Проверка уведомлений после ручной синхронизации для пользователя 1
+2025-12-26 02:33:37,903 - notifications - INFO - notifications.py:392 - Проверка уведомлений завершена: пользователей уведомлено 0, отправлено уведомлений 0
+2025-12-26 02:33:37,992 - deadline_bot - INFO - bot.py:634 - Пользователь 929644995 выполнил ручную синхронизацию: создано 0, обновлено 0
+2025-12-26 02:33:37,993 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747579 is handled. Duration 287 ms by bot id=8358666814
+2025-12-26 02:33:42,408 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 1 по нику: VJ_Games
+2025-12-26 02:33:42,408 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для идентификатора: VJ_Games
+2025-12-26 02:33:42,510 - scripts.sync_deadlines - ERROR - sync_deadlines.py:100 - Ошибка при получении дедлайнов из Yonote для пользователя 1: Ошибка при получении CSV: 400 - {"ok":false,"error":"validation_error","status":400,"message":"id must be a UUID"}
+Traceback (most recent call last):
+  File "C:\Users\vj\Documents\deadline_bot\scripts\sync_deadlines.py", line 97, in sync_user_deadlines
+    yonote_deadlines = await fetch_user_deadlines(user_identifier)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vj\Documents\deadline_bot\scripts\yonote_client.py", line 780, in fetch_user_deadlines
+    raw = await client.fetch_deadlines_raw()  # CSV API не принимает user в параметрах
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vj\Documents\deadline_bot\scripts\yonote_client.py", line 671, in fetch_deadlines_raw
+    raise YonoteClientError(f"Ошибка при получении CSV: {resp.status} - {text}")
+scripts.yonote_client.YonoteClientError: Ошибка при получении CSV: 400 - {"ok":false,"error":"validation_error","status":400,"message":"id must be a UUID"}
+2025-12-26 02:33:42,513 - deadline_bot - INFO - bot.py:351 - Синхронизация для /my_deadlines: создано 0, обновлено 0
+2025-12-26 02:33:42,608 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747580 is handled. Duration 296 ms by bot id=8358666814
+2025-12-26 02:33:49,823 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747581 is handled. Duration 93 ms by bot id=8358666814
+2025-12-26 02:34:48,633 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747582 is handled. Duration 83 ms by bot id=8358666814
+2025-12-26 02:35:31,036 - aiogram.dispatcher - INFO - dispatcher.py:624 - Polling stopped
+2025-12-26 02:35:31,039 - aiogram.dispatcher - ERROR - dispatcher.py:225 - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2025-12-26 02:35:31,040 - aiogram.dispatcher - WARNING - dispatcher.py:227 - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8358666814)
+2025-12-26 02:35:31,305 - deadline_bot - INFO - bot.py:2421 - Планировщик остановлен
+2025-12-26 02:35:31,305 - apscheduler.scheduler - INFO - base.py:245 - Scheduler has been shut down
+2025-12-26 02:35:31,307 - aiogram.dispatcher - INFO - dispatcher.py:413 - Polling stopped for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-26 02:35:31,309 - deadline_bot - INFO - bot.py:2428 - Бот остановлен пользователем
+2025-12-26 02:35:40,027 - deadline_bot - INFO - bot.py:86 - Загружено 2 администраторов
+2025-12-26 02:35:40,592 - deadline_bot - INFO - logging_config.py:110 - ==================================================
+2025-12-26 02:35:40,592 - deadline_bot - INFO - logging_config.py:111 - DEADLINE BOT STARTING UP
+2025-12-26 02:35:40,592 - deadline_bot - INFO - logging_config.py:112 - ==================================================
+2025-12-26 02:35:40,593 - deadline_bot - INFO - logging_config.py:113 - Database URL: sqlite:///../data/deadlines.db
+2025-12-26 02:35:40,593 - deadline_bot - INFO - logging_config.py:114 - Telegram Bot Token: Configured
+2025-12-26 02:35:40,593 - deadline_bot - INFO - logging_config.py:115 - Yonote API Key: Configured
+2025-12-26 02:35:40,594 - deadline_bot - INFO - logging_config.py:116 - Update Interval: 30 minutes
+2025-12-26 02:35:40,594 - deadline_bot - INFO - logging_config.py:117 - Log Level: INFO
+2025-12-26 02:35:40,594 - deadline_bot - INFO - logging_config.py:118 - ==================================================
+2025-12-26 02:35:40,594 - deadline_bot - INFO - bot.py:2375 - Инициализация базы данных...
+2025-12-26 02:35:40,599 - deadline_bot - INFO - bot.py:2378 - База данных инициализирована
+2025-12-26 02:35:40,601 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-26 02:35:40,602 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-26 02:35:40,605 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Синхронизация дедлайнов из Yonote и проверка уведомлений" to job store "default"
+2025-12-26 02:35:40,606 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Очистка просроченных дедлайнов" to job store "default"
+2025-12-26 02:35:40,607 - apscheduler.scheduler - INFO - base.py:214 - Scheduler started
+2025-12-26 02:35:40,608 - deadline_bot - INFO - bot.py:2412 - Планировщик запущен: синхронизация и проверка уведомлений каждые 30 мин, очистка просроченных раз в день
+2025-12-26 02:35:40,608 - deadline_bot - INFO - bot.py:2415 - Запуск бота...
+2025-12-26 02:35:40,609 - aiogram.dispatcher - INFO - dispatcher.py:596 - Start polling
+2025-12-26 02:35:40,838 - aiogram.dispatcher - INFO - dispatcher.py:378 - Run polling for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-26 02:35:42,744 - deadline_bot - INFO - bot.py:760 - Администратор 929644995 запросил список подписанных: найдено 1 пользователей
+2025-12-26 02:35:42,744 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747583 is handled. Duration 252 ms by bot id=8358666814
+2025-12-26 02:35:44,800 - deadline_bot - ERROR - bot.py:1173 - Ошибка в команде /verify_deadlines: Parent instance <DeadlineVerification at 0x28d4004c590> is not bound to a Session; lazy load operation of attribute 'deadline' cannot proceed (Background on this error at: https://sqlalche.me/e/20/bhk3)
+Traceback (most recent call last):
+  File "C:\Users\vj\Documents\deadline_bot\bot.py", line 1127, in cmd_verify_deadlines
+    deadline = verification.deadline
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vj\Documents\deadline_bot\venv\Lib\site-packages\sqlalchemy\orm\attributes.py", line 569, in __get__
+    return self.impl.get(state, dict_)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\vj\Documents\deadline_bot\venv\Lib\site-packages\sqlalchemy\orm\attributes.py", line 1096, in get
+    value = self._fire_loader_callables(state, key, passive)
+  File "C:\Users\vj\Documents\deadline_bot\venv\Lib\site-packages\sqlalchemy\orm\attributes.py", line 1131, in _fire_loader_callables
+    return self.callable_(state, passive)
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\vj\Documents\deadline_bot\venv\Lib\site-packages\sqlalchemy\orm\strategies.py", line 922, in _load_for_state
+    raise orm_exc.DetachedInstanceError(
+    ...<3 lines>...
+    )
+sqlalchemy.orm.exc.DetachedInstanceError: Parent instance <DeadlineVerification at 0x28d4004c590> is not bound to a Session; lazy load operation of attribute 'deadline' cannot proceed (Background on this error at: https://sqlalche.me/e/20/bhk3)
+2025-12-26 02:35:44,954 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747584 is handled. Duration 164 ms by bot id=8358666814
+2025-12-26 02:35:46,361 - deadline_bot - ERROR - bot.py:1173 - Ошибка в команде /verify_deadlines: Parent instance <DeadlineVerification at 0x28d4002a0d0> is not bound to a Session; lazy load operation of attribute 'deadline' cannot proceed (Background on this error at: https://sqlalche.me/e/20/bhk3)
+Traceback (most recent call last):
+  File "C:\Users\vj\Documents\deadline_bot\bot.py", line 1127, in cmd_verify_deadlines
+    deadline = verification.deadline
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vj\Documents\deadline_bot\venv\Lib\site-packages\sqlalchemy\orm\attributes.py", line 569, in __get__
+    return self.impl.get(state, dict_)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\vj\Documents\deadline_bot\venv\Lib\site-packages\sqlalchemy\orm\attributes.py", line 1096, in get
+    value = self._fire_loader_callables(state, key, passive)
+  File "C:\Users\vj\Documents\deadline_bot\venv\Lib\site-packages\sqlalchemy\orm\attributes.py", line 1131, in _fire_loader_callables
+    return self.callable_(state, passive)
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\vj\Documents\deadline_bot\venv\Lib\site-packages\sqlalchemy\orm\strategies.py", line 922, in _load_for_state
+    raise orm_exc.DetachedInstanceError(
+    ...<3 lines>...
+    )
+sqlalchemy.orm.exc.DetachedInstanceError: Parent instance <DeadlineVerification at 0x28d4002a0d0> is not bound to a Session; lazy load operation of attribute 'deadline' cannot proceed (Background on this error at: https://sqlalche.me/e/20/bhk3)
+2025-12-26 02:35:46,635 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747585 is handled. Duration 276 ms by bot id=8358666814
+2025-12-26 02:36:45,385 - aiogram.dispatcher - INFO - dispatcher.py:624 - Polling stopped
+2025-12-26 02:36:45,387 - aiogram.dispatcher - ERROR - dispatcher.py:225 - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2025-12-26 02:36:45,388 - aiogram.dispatcher - WARNING - dispatcher.py:227 - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8358666814)
+2025-12-26 02:36:45,654 - deadline_bot - INFO - bot.py:2421 - Планировщик остановлен
+2025-12-26 02:36:45,654 - apscheduler.scheduler - INFO - base.py:245 - Scheduler has been shut down
+2025-12-26 02:36:45,655 - aiogram.dispatcher - INFO - dispatcher.py:413 - Polling stopped for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-26 02:36:45,657 - deadline_bot - INFO - bot.py:2428 - Бот остановлен пользователем
+2025-12-26 02:36:51,895 - deadline_bot - INFO - bot.py:86 - Загружено 2 администраторов
+2025-12-26 02:36:52,472 - deadline_bot - INFO - logging_config.py:110 - ==================================================
+2025-12-26 02:36:52,473 - deadline_bot - INFO - logging_config.py:111 - DEADLINE BOT STARTING UP
+2025-12-26 02:36:52,473 - deadline_bot - INFO - logging_config.py:112 - ==================================================
+2025-12-26 02:36:52,474 - deadline_bot - INFO - logging_config.py:113 - Database URL: sqlite:///../data/deadlines.db
+2025-12-26 02:36:52,474 - deadline_bot - INFO - logging_config.py:114 - Telegram Bot Token: Configured
+2025-12-26 02:36:52,475 - deadline_bot - INFO - logging_config.py:115 - Yonote API Key: Configured
+2025-12-26 02:36:52,475 - deadline_bot - INFO - logging_config.py:116 - Update Interval: 30 minutes
+2025-12-26 02:36:52,476 - deadline_bot - INFO - logging_config.py:117 - Log Level: INFO
+2025-12-26 02:36:52,476 - deadline_bot - INFO - logging_config.py:118 - ==================================================
+2025-12-26 02:36:52,477 - deadline_bot - INFO - bot.py:2375 - Инициализация базы данных...
+2025-12-26 02:36:52,482 - deadline_bot - INFO - bot.py:2378 - База данных инициализирована
+2025-12-26 02:36:52,484 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-26 02:36:52,485 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-26 02:36:52,486 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Синхронизация дедлайнов из Yonote и проверка уведомлений" to job store "default"
+2025-12-26 02:36:52,487 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Очистка просроченных дедлайнов" to job store "default"
+2025-12-26 02:36:52,487 - apscheduler.scheduler - INFO - base.py:214 - Scheduler started
+2025-12-26 02:36:52,488 - deadline_bot - INFO - bot.py:2412 - Планировщик запущен: синхронизация и проверка уведомлений каждые 30 мин, очистка просроченных раз в день
+2025-12-26 02:36:52,488 - deadline_bot - INFO - bot.py:2415 - Запуск бота...
+2025-12-26 02:36:52,489 - aiogram.dispatcher - INFO - dispatcher.py:596 - Start polling
+2025-12-26 02:36:52,705 - aiogram.dispatcher - INFO - dispatcher.py:378 - Run polling for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-26 02:36:56,315 - deadline_bot - ERROR - bot.py:1173 - Ошибка в команде /verify_deadlines: Telegram server says - Bad Request: can't parse entities: Can't find end of the entity starting at byte offset 257
+Traceback (most recent call last):
+  File "C:\Users\vj\Documents\deadline_bot\bot.py", line 1162, in cmd_verify_deadlines
+    await message.answer(
+    ...<3 lines>...
+    )
+  File "C:\Users\vj\Documents\deadline_bot\venv\Lib\site-packages\aiogram\methods\base.py", line 84, in emit
+    return await bot(self)
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\vj\Documents\deadline_bot\venv\Lib\site-packages\aiogram\client\bot.py", line 485, in __call__
+    return await self.session(self, method, timeout=request_timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vj\Documents\deadline_bot\venv\Lib\site-packages\aiogram\client\session\base.py", line 259, in __call__
+    return cast(TelegramType, await middleware(bot, method))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vj\Documents\deadline_bot\venv\Lib\site-packages\aiogram\client\session\aiohttp.py", line 177, in make_request
+    response = self.check_response(
+        bot=bot,
+    ...<2 lines>...
+        content=raw_result,
+    )
+  File "C:\Users\vj\Documents\deadline_bot\venv\Lib\site-packages\aiogram\client\session\base.py", line 121, in check_response
+    raise TelegramBadRequest(method=method, message=description)
+aiogram.exceptions.TelegramBadRequest: Telegram server says - Bad Request: can't parse entities: Can't find end of the entity starting at byte offset 257
+2025-12-26 02:36:56,524 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747586 is handled. Duration 466 ms by bot id=8358666814
+2025-12-26 02:37:55,682 - aiogram.dispatcher - INFO - dispatcher.py:624 - Polling stopped
+2025-12-26 02:37:55,684 - aiogram.dispatcher - ERROR - dispatcher.py:225 - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2025-12-26 02:37:55,684 - aiogram.dispatcher - WARNING - dispatcher.py:227 - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8358666814)
+2025-12-26 02:37:55,937 - deadline_bot - INFO - bot.py:2421 - Планировщик остановлен
+2025-12-26 02:37:55,938 - apscheduler.scheduler - INFO - base.py:245 - Scheduler has been shut down
+2025-12-26 02:37:55,939 - aiogram.dispatcher - INFO - dispatcher.py:413 - Polling stopped for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-26 02:37:55,943 - deadline_bot - INFO - bot.py:2428 - Бот остановлен пользователем
+2025-12-26 02:38:02,704 - deadline_bot - INFO - bot.py:86 - Загружено 2 администраторов
+2025-12-26 02:38:03,299 - deadline_bot - INFO - logging_config.py:110 - ==================================================
+2025-12-26 02:38:03,300 - deadline_bot - INFO - logging_config.py:111 - DEADLINE BOT STARTING UP
+2025-12-26 02:38:03,300 - deadline_bot - INFO - logging_config.py:112 - ==================================================
+2025-12-26 02:38:03,300 - deadline_bot - INFO - logging_config.py:113 - Database URL: sqlite:///../data/deadlines.db
+2025-12-26 02:38:03,300 - deadline_bot - INFO - logging_config.py:114 - Telegram Bot Token: Configured
+2025-12-26 02:38:03,301 - deadline_bot - INFO - logging_config.py:115 - Yonote API Key: Configured
+2025-12-26 02:38:03,301 - deadline_bot - INFO - logging_config.py:116 - Update Interval: 30 minutes
+2025-12-26 02:38:03,301 - deadline_bot - INFO - logging_config.py:117 - Log Level: INFO
+2025-12-26 02:38:03,301 - deadline_bot - INFO - logging_config.py:118 - ==================================================
+2025-12-26 02:38:03,302 - deadline_bot - INFO - bot.py:2411 - Инициализация базы данных...
+2025-12-26 02:38:03,306 - deadline_bot - INFO - bot.py:2414 - База данных инициализирована
+2025-12-26 02:38:03,308 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-26 02:38:03,308 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-26 02:38:03,310 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Синхронизация дедлайнов из Yonote и проверка уведомлений" to job store "default"
+2025-12-26 02:38:03,310 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Очистка просроченных дедлайнов" to job store "default"
+2025-12-26 02:38:03,310 - apscheduler.scheduler - INFO - base.py:214 - Scheduler started
+2025-12-26 02:38:03,311 - deadline_bot - INFO - bot.py:2448 - Планировщик запущен: синхронизация и проверка уведомлений каждые 30 мин, очистка просроченных раз в день
+2025-12-26 02:38:03,311 - deadline_bot - INFO - bot.py:2451 - Запуск бота...
+2025-12-26 02:38:03,312 - aiogram.dispatcher - INFO - dispatcher.py:596 - Start polling
+2025-12-26 02:38:03,533 - aiogram.dispatcher - INFO - dispatcher.py:378 - Run polling for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-26 02:38:11,521 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747587 is handled. Duration 354 ms by bot id=8358666814
+2025-12-26 02:38:17,903 - deadline_bot - ERROR - bot.py:1436 - Ошибка при обработке проверки: Telegram server says - Bad Request: can't parse entities: Can't find end of the entity starting at byte offset 253
+Traceback (most recent call last):
+  File "C:\Users\vj\Documents\deadline_bot\bot.py", line 1399, in handle_verification_action
+    await callback.message.edit_text(
+    ...<2 lines>...
+    )
+  File "C:\Users\vj\Documents\deadline_bot\venv\Lib\site-packages\aiogram\methods\base.py", line 84, in emit
+    return await bot(self)
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\vj\Documents\deadline_bot\venv\Lib\site-packages\aiogram\client\bot.py", line 485, in __call__
+    return await self.session(self, method, timeout=request_timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vj\Documents\deadline_bot\venv\Lib\site-packages\aiogram\client\session\base.py", line 259, in __call__
+    return cast(TelegramType, await middleware(bot, method))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vj\Documents\deadline_bot\venv\Lib\site-packages\aiogram\client\session\aiohttp.py", line 177, in make_request
+    response = self.check_response(
+        bot=bot,
+    ...<2 lines>...
+        content=raw_result,
+    )
+  File "C:\Users\vj\Documents\deadline_bot\venv\Lib\site-packages\aiogram\client\session\base.py", line 121, in check_response
+    raise TelegramBadRequest(method=method, message=description)
+aiogram.exceptions.TelegramBadRequest: Telegram server says - Bad Request: can't parse entities: Can't find end of the entity starting at byte offset 253
+2025-12-26 02:38:17,989 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747588 is handled. Duration 264 ms by bot id=8358666814
+2025-12-26 02:38:29,241 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 1 по нику: VJ_Games
+2025-12-26 02:38:29,242 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для идентификатора: VJ_Games
+2025-12-26 02:38:29,348 - scripts.sync_deadlines - ERROR - sync_deadlines.py:100 - Ошибка при получении дедлайнов из Yonote для пользователя 1: Ошибка при получении CSV: 400 - {"ok":false,"error":"validation_error","status":400,"message":"id must be a UUID"}
+Traceback (most recent call last):
+  File "C:\Users\vj\Documents\deadline_bot\scripts\sync_deadlines.py", line 97, in sync_user_deadlines
+    yonote_deadlines = await fetch_user_deadlines(user_identifier)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vj\Documents\deadline_bot\scripts\yonote_client.py", line 780, in fetch_user_deadlines
+    raw = await client.fetch_deadlines_raw()  # CSV API не принимает user в параметрах
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vj\Documents\deadline_bot\scripts\yonote_client.py", line 671, in fetch_deadlines_raw
+    raise YonoteClientError(f"Ошибка при получении CSV: {resp.status} - {text}")
+scripts.yonote_client.YonoteClientError: Ошибка при получении CSV: 400 - {"ok":false,"error":"validation_error","status":400,"message":"id must be a UUID"}
+2025-12-26 02:38:29,357 - deadline_bot - INFO - bot.py:351 - Синхронизация для /my_deadlines: создано 0, обновлено 0
+2025-12-26 02:38:29,464 - deadline_bot - INFO - bot.py:497 - Пользователь 929644995 запросил список дедлайнов: 1 шт.
+2025-12-26 02:38:29,464 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747589 is handled. Duration 308 ms by bot id=8358666814
+2025-12-26 02:38:33,008 - deadline_bot - INFO - bot.py:1466 - Пользователь 929644995 запросил проверку дедлайна 2
+2025-12-26 02:38:33,009 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747590 is handled. Duration 175 ms by bot id=8358666814
+2025-12-26 02:38:35,963 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747591 is handled. Duration 182 ms by bot id=8358666814
+2025-12-26 02:38:51,186 - deadline_bot - ERROR - bot.py:1436 - Ошибка при обработке проверки: Telegram server says - Bad Request: can't parse entities: Can't find end of the entity starting at byte offset 253
+Traceback (most recent call last):
+  File "C:\Users\vj\Documents\deadline_bot\bot.py", line 1363, in handle_verification_action
+    await callback.message.edit_text(
+    ...<2 lines>...
+    )
+  File "C:\Users\vj\Documents\deadline_bot\venv\Lib\site-packages\aiogram\methods\base.py", line 84, in emit
+    return await bot(self)
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\vj\Documents\deadline_bot\venv\Lib\site-packages\aiogram\client\bot.py", line 485, in __call__
+    return await self.session(self, method, timeout=request_timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vj\Documents\deadline_bot\venv\Lib\site-packages\aiogram\client\session\base.py", line 259, in __call__
+    return cast(TelegramType, await middleware(bot, method))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vj\Documents\deadline_bot\venv\Lib\site-packages\aiogram\client\session\aiohttp.py", line 177, in make_request
+    response = self.check_response(
+        bot=bot,
+    ...<2 lines>...
+        content=raw_result,
+    )
+  File "C:\Users\vj\Documents\deadline_bot\venv\Lib\site-packages\aiogram\client\session\base.py", line 121, in check_response
+    raise TelegramBadRequest(method=method, message=description)
+aiogram.exceptions.TelegramBadRequest: Telegram server says - Bad Request: can't parse entities: Can't find end of the entity starting at byte offset 253
+2025-12-26 02:38:51,262 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747592 is handled. Duration 224 ms by bot id=8358666814
+2025-12-26 02:38:52,900 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747593 is handled. Duration 91 ms by bot id=8358666814
+2025-12-26 02:38:57,119 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 1 по нику: VJ_Games
+2025-12-26 02:38:57,119 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для идентификатора: VJ_Games
+2025-12-26 02:38:57,246 - scripts.sync_deadlines - ERROR - sync_deadlines.py:100 - Ошибка при получении дедлайнов из Yonote для пользователя 1: Ошибка при получении CSV: 400 - {"ok":false,"error":"validation_error","status":400,"message":"id must be a UUID"}
+Traceback (most recent call last):
+  File "C:\Users\vj\Documents\deadline_bot\scripts\sync_deadlines.py", line 97, in sync_user_deadlines
+    yonote_deadlines = await fetch_user_deadlines(user_identifier)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vj\Documents\deadline_bot\scripts\yonote_client.py", line 780, in fetch_user_deadlines
+    raw = await client.fetch_deadlines_raw()  # CSV API не принимает user в параметрах
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\vj\Documents\deadline_bot\scripts\yonote_client.py", line 671, in fetch_deadlines_raw
+    raise YonoteClientError(f"Ошибка при получении CSV: {resp.status} - {text}")
+scripts.yonote_client.YonoteClientError: Ошибка при получении CSV: 400 - {"ok":false,"error":"validation_error","status":400,"message":"id must be a UUID"}
+2025-12-26 02:38:57,249 - deadline_bot - INFO - bot.py:351 - Синхронизация для /my_deadlines: создано 0, обновлено 0
+2025-12-26 02:38:57,342 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747594 is handled. Duration 328 ms by bot id=8358666814
+2025-12-26 02:39:06,024 - aiogram.dispatcher - INFO - dispatcher.py:624 - Polling stopped
+2025-12-26 02:39:06,025 - aiogram.dispatcher - ERROR - dispatcher.py:225 - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2025-12-26 02:39:06,026 - aiogram.dispatcher - WARNING - dispatcher.py:227 - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8358666814)
+2025-12-26 02:39:06,283 - deadline_bot - INFO - bot.py:2457 - Планировщик остановлен
+2025-12-26 02:39:06,283 - apscheduler.scheduler - INFO - base.py:245 - Scheduler has been shut down
+2025-12-26 02:39:06,284 - aiogram.dispatcher - INFO - dispatcher.py:413 - Polling stopped for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2025-12-26 02:39:06,286 - deadline_bot - INFO - bot.py:2464 - Бот остановлен пользователем
