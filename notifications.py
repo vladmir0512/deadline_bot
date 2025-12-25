@@ -12,6 +12,7 @@ from aiogram import Bot
 from db import SessionLocal
 from models import Deadline, DeadlineStatus, Subscription
 from services import format_deadline, get_user_deadlines
+from notification_settings import get_or_create_user_settings
 
 logger = logging.getLogger(__name__)
 
@@ -298,24 +299,63 @@ async def check_and_notify_deadlines(bot: Bot) -> dict[str, int]:
             if not user:
                 continue
 
+            # Получаем настройки уведомлений пользователя
+            settings = get_or_create_user_settings(user.id)
+            
+            # Проверяем, включены ли уведомления
+            if not settings.notifications_enabled:
+                logger.debug(f"Уведомления отключены для пользователя {user.telegram_id}")
+                continue
+
+            # Проверяем текущее время в МСК и сравниваем с настройкой пользователя
+            now_moscow = datetime.now(MOSCOW_TZ)
+            current_hour = now_moscow.hour
+            current_minute = now_moscow.minute
+            
+            # Для срочных уведомлений (сегодня) отправляем в любое время
+            # Для остальных - только в установленное время пользователя
+            
             # Получаем активные дедлайны пользователя (включая будущие)
             deadlines = get_user_deadlines(user.id, status=DeadlineStatus.ACTIVE, only_future=True)
 
             if not deadlines:
                 continue
 
-            # Проверяем дедлайны на сегодня (высший приоритет)
+            # Проверяем дедлайны на сегодня (высший приоритет) - отправляем в любое время
             today_deadlines = get_deadlines_today(deadlines)
             for deadline in today_deadlines:
                 if await send_deadline_notification(bot, user.telegram_id, deadline, "today"):
                     notifications_sent += 1
 
-            # Проверяем дедлайны на завтра (если нет дедлайнов на сегодня)
-            if not today_deadlines:
-                tomorrow_deadlines = get_deadlines_tomorrow(deadlines)
-                for deadline in tomorrow_deadlines:
-                    if await send_deadline_notification(bot, user.telegram_id, deadline, "tomorrow"):
-                        notifications_sent += 1
+            # Если есть срочные уведомления, пропускаем остальные проверки
+            if today_deadlines:
+                if notifications_sent > 0:
+                    users_notified += 1
+                continue
+
+            # Для остальных уведомлений проверяем время
+            # Уведомления отправляются только в установленный час
+            # Учитываем, что планировщик может запускаться не точно в 00 минут
+            # Поэтому проверяем, что текущий час совпадает с установленным
+            # и минуты находятся в разумном окне (0-30 минут часа)
+            time_match = (
+                current_hour == settings.notification_hour and 
+                current_minute < 30  # Окно в первые 30 минут часа
+            )
+            
+            if not time_match:
+                logger.debug(
+                    f"Пропуск уведомлений для пользователя {user.telegram_id}: "
+                    f"текущее время {current_hour:02d}:{current_minute:02d} МСК, "
+                    f"установлено {settings.notification_hour:02d}:00 МСК"
+                )
+                continue
+
+            # Проверяем дедлайны на завтра
+            tomorrow_deadlines = get_deadlines_tomorrow(deadlines)
+            for deadline in tomorrow_deadlines:
+                if await send_deadline_notification(bot, user.telegram_id, deadline, "tomorrow"):
+                    notifications_sent += 1
 
             # Проверяем дедлайны на половине срока (независимо от других проверок)
             # Это важное уведомление, которое должно отправляться отдельно
@@ -337,8 +377,8 @@ async def check_and_notify_deadlines(bot: Bot) -> dict[str, int]:
                         f"(уже отправляли недавно)"
                     )
 
-            # Проверяем дедлайны в течение недели (только если нет дедлайнов на сегодня/завтра)
-            if not today_deadlines and not tomorrow_deadlines:
+            # Проверяем дедлайны в течение недели (только если нет дедлайнов на завтра)
+            if not tomorrow_deadlines:
                 week_deadlines = get_deadlines_this_week(deadlines)
                 # Отправляем только ближайший дедлайн в неделе
                 if week_deadlines:
