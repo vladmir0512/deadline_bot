@@ -10,6 +10,7 @@ Telegram бот для управления дедлайнами.
 """
 
 import asyncio
+import aiohttp
 import json
 import logging
 import os
@@ -18,6 +19,7 @@ from datetime import UTC, datetime, timezone, timedelta
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from aiogram import Bot, Dispatcher, Router
+from aiogram.client.default import DefaultBotProperties
 from aiogram.filters import Command
 from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from dotenv import load_dotenv
@@ -33,6 +35,7 @@ from services import (
     approve_deadline_verification,
     format_deadline,
     get_all_subscribed_users,
+    get_all_users,
     get_or_create_user,
     get_pending_verifications,
     get_user_by_telegram_id,
@@ -91,7 +94,7 @@ if ADMIN_IDS_STR:
 MOSCOW_TZ = timezone(timedelta(hours=3))
 
 # Инициализация бота и диспетчера
-bot = Bot(token=BOT_TOKEN)
+bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=None))
 dp = Dispatcher()
 router = Router()
 
@@ -230,6 +233,9 @@ async def cmd_start(message: Message) -> None:
             [
                 InlineKeyboardButton(text="📅 Мои дедлайны", callback_data="cmd_my_deadlines"),
                 InlineKeyboardButton(text="⚙️ Настройки", callback_data="cmd_notifications")
+            ],
+            [
+                InlineKeyboardButton(text="🛟 Помощь", callback_data="cmd_help")
             ]
         ])
 
@@ -287,11 +293,18 @@ async def cmd_register(message: Message) -> None:
         # Получаем аргументы команды
         command_args = message.text.split(maxsplit=1) if message.text else []
         if len(command_args) < 2:
+            # Показываем инструкцию по регистрации с кнопкой "назад"
             await message.answer(
-                "❌ Укажите ник для привязки.\n\n"
-                "Пример:\n"
-                "`/register username`",
-                parse_mode="Markdown",
+                "📝 Для регистрации используйте команду:\n\n"
+                "`/register ваш_ник_в_yonote`\n\n"
+                "Пример: `/register username`",
+                reply_markup=InlineKeyboardMarkup(inline_keyboard=[
+                    [InlineKeyboardButton(
+                        text="🏠 Главное меню",
+                        callback_data="cmd_start"
+                    )]
+                ]),
+                parse_mode="Markdown"
             )
             return
 
@@ -330,15 +343,22 @@ async def cmd_register(message: Message) -> None:
 async def cmd_my_deadlines(message: Message) -> None:
     """Обработчик команды /my_deadlines - показать дедлайны пользователя."""
     try:
+        logger.info(f"Команда /my_deadlines от пользователя telegram_id={message.from_user.id}, username={message.from_user.username}")
+
         user = get_user_by_telegram_id(message.from_user.id)
         if not user:
+            logger.warning(f"Пользователь с telegram_id={message.from_user.id} не найден в БД")
             await message.answer(
                 "❌ Вы не зарегистрированы. Сначала выполните команду /start"
             )
             return
 
+        logger.info(f"Найден пользователь: ID={user.id}, telegram_id={user.telegram_id}, username={user.username}")
+
         # Проверяем, что пользователь зарегистрировал ник для Yonote
         if not user.username:
+            logger.info(f"Пользователь {user.id} не имеет username - показываем ошибку")
+            logger.info(f"Username value: {repr(user.username)}")
             await message.answer(
                 "❌ Вы не зарегистрировали ник для получения дедлайнов.\n\n"
                 "💡 Используйте команду `/register your_yonote_nickname`, "
@@ -346,6 +366,8 @@ async def cmd_my_deadlines(message: Message) -> None:
                 parse_mode="Markdown"
             )
             return
+
+        logger.info(f"Пользователь {user.id} прошел проверку username: {repr(user.username)}")
 
         # Сначала синхронизируем дедлайны из Yonote
         await message.answer("🔄 Синхронизирую дедлайны из Yonote...")
@@ -360,6 +382,11 @@ async def cmd_my_deadlines(message: Message) -> None:
 
         deadlines = get_user_deadlines(user.id, status="active", only_future=True, include_no_date=True)
 
+        # Отладка: логируем, что получили от базы
+        logger.info(f"Получено из БД: {len(deadlines)} дедлайнов для пользователя {user.id}")
+        for d in deadlines:
+            logger.info(f"  Дедлайн: ID={d.id}, Title='{d.title}', Due={d.due_date}, Status={d.status}")
+
         # Дополнительная фильтрация прошедших дедлайнов на уровне Python
         # (на случай, если в БД есть проблемы с часовыми поясами)
         now = datetime.now(UTC)
@@ -368,6 +395,7 @@ async def cmd_my_deadlines(message: Message) -> None:
             # Включаем дедлайны без даты (они уже отфильтрованы в get_user_deadlines если нужно)
             if d.due_date is None:
                 filtered_deadlines.append(d)  # Добавляем дедлайны без даты
+                logger.debug(f"Включаем дедлайн без даты: '{d.title}'")
                 continue
 
             # Убеждаемся, что дата имеет timezone (если нет - добавляем UTC)
@@ -380,7 +408,15 @@ async def cmd_my_deadlines(message: Message) -> None:
                 logger.info(f"Дедлайн '{d.title}' прошел ({due_date} < {now}) - пропускаем")
                 continue
             filtered_deadlines.append(d)
-        deadlines = filtered_deadlines
+            logger.debug(f"Включаем будущий дедлайн: '{d.title}' ({due_date})")
+
+        logger.info(f"После фильтрации: {len(filtered_deadlines)} дедлайнов")
+
+        # Фильтруем пустые дедлайны (без заголовка)
+        final_deadlines = [d for d in filtered_deadlines if d.title and d.title.strip()]
+        logger.info(f"После фильтрации пустых: {len(final_deadlines)} дедлайнов")
+
+        deadlines = final_deadlines
 
         if not deadlines:
             user_info = []
@@ -403,26 +439,25 @@ async def cmd_my_deadlines(message: Message) -> None:
             return
 
         # Формируем сообщение с дедлайнами и кнопками
-        response_lines = [f"{sync_message}\n\n📋 *Ваши дедлайны ({len(deadlines)}):*\n"]
+        response_lines = [f"{sync_message}\n\n📋 Ваши дедлайны ({len(deadlines)}):\n"]
 
         # Создаем клавиатуру с кнопками для каждого дедлайна
         keyboard_buttons = []
-        
+
         for i, deadline in enumerate(deadlines, 1):
-            # Экранируем заголовок дедлайна
-            escaped_title = escape_markdown(deadline.title)
-            
+            # Не экранируем заголовок дедлайна, чтобы сохранить кириллицу
+            title = deadline.title
+
             # Показываем статус дедлайна
             status_emoji = "⏳" if deadline.status == DeadlineStatus.PENDING_VERIFICATION else "🟢"
-            response_lines.append(f"\n*{i}. {status_emoji} {escaped_title}*")
-            
+            response_lines.append(f"\n{i}. {status_emoji} {title}")
+
             if deadline.due_date:
                 due_date_str = deadline.due_date.strftime("%d.%m.%Y %H:%M")
                 response_lines.append(f"⏰ {due_date_str}")
             if deadline.description:
                 desc = deadline.description[:100] + "..." if len(deadline.description) > 100 else deadline.description
-                escaped_desc = escape_markdown(desc)
-                response_lines.append(f"📝 {escaped_desc}")
+                response_lines.append(f"📝 {desc}")
             
             # Добавляем кнопку подтверждения только для активных дедлайнов
             if deadline.status == DeadlineStatus.ACTIVE:
@@ -441,32 +476,42 @@ async def cmd_my_deadlines(message: Message) -> None:
 
         # Добавляем информацию внизу того же сообщения
         user_nick = user.username or user.email or "не указан"
-        escaped_nick = escape_markdown(user_nick)
 
         # Определяем, есть ли дедлайны с датой и какие даты ближайшие
         deadlines_with_date = [d for d in deadlines if d.due_date]
 
         response_lines.append("\n" + "─" * 20)
-        response_lines.append(f"👤 *Ник:* {escaped_nick}")
+        response_lines.append(f"👤 Ник: {user_nick}")
 
         if deadlines_with_date:
             # Показываем ближайший дедлайн с датой
             nearest_deadline = min(deadlines_with_date, key=lambda d: d.due_date)
             due_date_str = nearest_deadline.due_date.strftime("%d.%m.%Y %H:%M")
-            response_lines.append(f"📅 *Ближайший дедлайн:* {due_date_str}")
+            response_lines.append(f"📅 Ближайший дедлайн: {due_date_str}")
         else:
-            response_lines.append(f"📅 *Дедлайн:* нет точной даты")
+            response_lines.append("📅 Дедлайн: нет точной даты")
 
-        response_lines.append(f"🎵 *Песня:* -")
+        response_lines.append("🎵 Песня: -")
         response_lines.append("")
         response_lines.append("⚠️ Если что-то не успеваете — пишите админам")
 
         response_text = "\n".join(response_lines)
+        # Явно указываем UTF-8 кодировку
+        response_text = response_text.encode('utf-8').decode('utf-8')
 
-        # Создаем клавиатуру, если есть кнопки
+        # Создаем клавиатуру с кнопками дедлайнов и кнопкой "Главное меню"
         reply_markup = None
         if keyboard_buttons:
+            # Добавляем кнопку "Главное меню" в конец клавиатуры
+            keyboard_buttons.append([
+                InlineKeyboardButton(text="🏠 Главное меню", callback_data="cmd_start")
+            ])
             reply_markup = InlineKeyboardMarkup(inline_keyboard=keyboard_buttons)
+        else:
+            # Если нет кнопок дедлайнов, добавляем только кнопку "Главное меню"
+            reply_markup = InlineKeyboardMarkup(inline_keyboard=[
+                [InlineKeyboardButton(text="🏠 Главное меню", callback_data="cmd_start")]
+            ])
 
         # Telegram имеет лимит на длину сообщения (4096 символов)
         if len(response_text) > 4000:
@@ -480,24 +525,24 @@ async def cmd_my_deadlines(message: Message) -> None:
             for line in main_lines:
                 line_length = len(line) + 1
                 if chunk_length + line_length > 3800:  # Оставляем место для footer
-                    await message.answer("\n".join(chunk), parse_mode="Markdown")
+                    await message.answer("\n".join(chunk), disable_web_page_preview=True)
                     chunk = [line]
                     chunk_length = line_length
                 else:
                     chunk.append(line)
                     chunk_length += line_length
-            
+
             # Добавляем footer к последнему chunk или отправляем отдельно
             footer_text = "\n".join(footer_lines)
             if chunk_length + len(footer_text) < 4000:
                 chunk.extend(footer_lines)
-                await message.answer("\n".join(chunk), parse_mode="Markdown")
+                await message.answer("\n".join(chunk), disable_web_page_preview=True)
             else:
                     if chunk:
-                        await message.answer("\n".join(chunk), parse_mode="Markdown")
-                    await message.answer(footer_text, parse_mode="Markdown", reply_markup=reply_markup)
+                        await message.answer("\n".join(chunk), disable_web_page_preview=True)
+                    await message.answer(footer_text, reply_markup=reply_markup, disable_web_page_preview=True)
         else:
-            await message.answer(response_text, parse_mode="Markdown", reply_markup=reply_markup)
+            await message.answer(response_text, reply_markup=reply_markup, disable_web_page_preview=True)
 
         logger.info(f"Пользователь {user.telegram_id} запросил список дедлайнов: {len(deadlines)} шт.")
 
@@ -635,7 +680,12 @@ async def cmd_sync(message: Message) -> None:
                 "• Настройки YONOTE_CALENDAR_ID в .env"
             )
 
-        await message.answer(result_text)
+        await message.answer(
+            result_text,
+            reply_markup=InlineKeyboardMarkup(inline_keyboard=[
+                [InlineKeyboardButton(text="🏠 Главное меню", callback_data="cmd_start")]
+            ])
+        )
         logger.info(
             f"Пользователь {user.telegram_id} выполнил ручную синхронизацию: "
             f"создано {created}, обновлено {updated}"
@@ -725,7 +775,12 @@ async def cmd_subscribers(message: Message) -> None:
         subscribed_users = get_all_subscribed_users(notification_type="telegram")
 
         if not subscribed_users:
-            await message.answer("📭 Нет подписанных пользователей.")
+            await message.answer(
+                "📭 Нет подписанных пользователей.",
+                reply_markup=InlineKeyboardMarkup(inline_keyboard=[
+                    [InlineKeyboardButton(text="🏠 Главное меню", callback_data="cmd_start")]
+                ])
+            )
             return
 
         # Формируем список подписанных
@@ -748,7 +803,13 @@ async def cmd_subscribers(message: Message) -> None:
         max_length = 4096  # Лимит Telegram
 
         if len(full_text) <= max_length:
-            await message.answer(full_text, parse_mode="Markdown")
+            await message.answer(
+                full_text,
+                parse_mode="Markdown",
+                reply_markup=InlineKeyboardMarkup(inline_keyboard=[
+                    [InlineKeyboardButton(text="🏠 Главное меню", callback_data="cmd_start")]
+                ])
+            )
         else:
             # Отправляем частями
             current_text = lines[0] + "\n\n"
@@ -760,7 +821,13 @@ async def cmd_subscribers(message: Message) -> None:
                     current_text += line + "\n\n"
 
             if current_text.strip():
-                await message.answer(current_text, parse_mode="Markdown")
+                await message.answer(
+                    current_text,
+                    parse_mode="Markdown",
+                    reply_markup=InlineKeyboardMarkup(inline_keyboard=[
+                        [InlineKeyboardButton(text="🏠 Главное меню", callback_data="cmd_start")]
+                    ])
+                )
 
         logger.info(
             f"Администратор {message.from_user.id} запросил список подписанных: "
@@ -934,7 +1001,13 @@ async def cmd_test_halfway(message: Message) -> None:
             lines.append("\nℹ️ У вас нет дедлайнов для анализа.")
 
         result_text = "\n".join(lines)
-        await message.answer(result_text, parse_mode="Markdown")
+        await message.answer(
+            result_text,
+            parse_mode="Markdown",
+            reply_markup=InlineKeyboardMarkup(inline_keyboard=[
+                [InlineKeyboardButton(text="🏠 Главное меню", callback_data="cmd_start")]
+            ])
+        )
 
         logger.info(
             f"Администратор {message.from_user.id} проверил напоминания за половину срока: "
@@ -1237,7 +1310,10 @@ async def cmd_blocked_users(message: Message) -> None:
         if not blocked_users:
             await message.answer(
                 "📋 Список заблокированных пользователей пуст.\n\n"
-                "Используйте `/block <telegram_id>` для блокировки пользователей."
+                "Используйте `/block <telegram_id>` для блокировки пользователей.",
+                reply_markup=InlineKeyboardMarkup(inline_keyboard=[
+                    [InlineKeyboardButton(text="🏠 Главное меню", callback_data="cmd_start")]
+                ])
             )
             return
 
@@ -1249,6 +1325,9 @@ async def cmd_blocked_users(message: Message) -> None:
             f"{blocked_list}\n\n"
             "Используйте `/unblock <telegram_id>` для разблокировки.",
             parse_mode="Markdown",
+            reply_markup=InlineKeyboardMarkup(inline_keyboard=[
+                [InlineKeyboardButton(text="🏠 Главное меню", callback_data="cmd_start")]
+            ])
         )
 
     except Exception as e:
@@ -1513,6 +1592,9 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
                 [
                     InlineKeyboardButton(text="📅 Мои дедлайны", callback_data="cmd_my_deadlines"),
                     InlineKeyboardButton(text="⚙️ Настройки", callback_data="cmd_notifications")
+                ],
+                [
+                    InlineKeyboardButton(text="🛟 Помощь", callback_data="cmd_help")
                 ]
             ])
 
@@ -1569,7 +1651,7 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
                         callback_data="reset_settings"
                     ),
                     InlineKeyboardButton(
-                        text="🔙 Назад",
+                        text="🏠 Главное меню",
                         callback_data="cmd_start"
                     )
                 ]
@@ -1728,7 +1810,7 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
 
             # Создаем клавиатуру с основными командами
             keyboard = InlineKeyboardMarkup(inline_keyboard=[
-                    [InlineKeyboardButton(text="Назад", callback_data="cmd_start")]
+                    [InlineKeyboardButton(text="🏠 Главное меню", callback_data="cmd_start")]
             ])
 
             await callback.message.edit_text(
@@ -1787,19 +1869,69 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
                     reply_markup=keyboard
                 )
 
-            elif cmd == "register":
-                await callback.message.answer(
-                    "📝 Для регистрации используйте команду:\n\n"
-                    "`/register ваш_ник_в_yonote`\n\n"
-                    "Пример: `/register username`",
-                    reply_markup= InlineKeyboardMarkup(inline_keyboard=[
-                        [InlineKeyboardButton(
-                            text="🔙 Назад",
-                            callback_data="cmd_start"
-                        )]
-                    ]),
+            elif cmd == "help":
+                # Показываем справку по командам (идентично команде /help)
+                help_text = (
+                    "📚 *Справка по командам бота*\n\n"
+                    "*/start* - Регистрация в системе\n"
+                    "*/help* - Показать эту справку\n"
+                    "*/register* - Привязать ник к аккаунту\n"
+                    "   Использование: `/register username`\n"
+                    "*/logout* - Отписаться от уведомлений и сбросить данные\n"
+                    "*/my_deadlines* - Показать все ваши дедлайны\n"
+                    "   💡 В списке дедлайнов есть кнопки \"✅ Выполнен\" для подтверждения выполнения\n"
+                    "   После нажатия дедлайн отправляется на проверку администратору\n"
+                    "*/sync* - Синхронизировать дедлайны из Yonote вручную\n"
+                    "*/notifications* - Настройки персональных уведомлений\n"
+                    "*/subscribe* - Включить/выключить уведомления о дедлайнах\n\n"
+                    "🔧 *Команды для администраторов:*\n"
+                    "*/verify_deadlines* - Показать все запросы на проверку выполнения дедлайнов\n"
+                    "   Позволяет одобрить или отклонить выполнение дедлайна\n"
+                    "*/broadcast* - Отправить сообщение всем подписанным\n"
+                    "   Использование: `/broadcast текст сообщения`\n"
+                    "*/subscribers* - Показать список всех подписанных\n"
+                    "*/test_halfway* - Проверить напоминания за половину срока\n"
+                    "*/check_notifications* - Ручная проверка и отправка уведомлений\n"
+                    "*/block* - Заблокировать пользователя\n"
+                    "   Использование: `/block telegram_id`\n"
+                    "*/unblock* - Разблокировать пользователя\n"
+                    "   Использование: `/unblock telegram_id`\n"
+                    "*/blocked_users* - Показать список заблокированных пользователей\n\n"
+                    "💡 *Совет*: После регистрации привяжите ваш ник, "
+                    "чтобы получать персональные дедлайны. Используйте /sync для немедленной синхронизации."
+                )
+
+                help_keyboard = InlineKeyboardMarkup(inline_keyboard=[
+                    [
+                        InlineKeyboardButton(text="🏠 Главное меню", callback_data="cmd_start")
+                    ]
+                ])
+
+                await callback.message.edit_text(
+                    help_text,
+                    reply_markup=help_keyboard,
                     parse_mode="Markdown"
                 )
+
+            elif cmd == "register":
+                # Показываем инструкцию по регистрации с кнопкой "назад"
+                register_text = (
+                    "📝 Для регистрации используйте команду:\n\n"
+                    "`/register ваш_ник_в_yonote`\n\n"
+                    "Пример: `/register username`"
+                )
+                keyboard = InlineKeyboardMarkup(inline_keyboard=[
+                        [InlineKeyboardButton(
+                            text="🏠 Главное меню",
+                            callback_data="cmd_start"
+                        )]
+                ])
+                await callback.message.edit_text(
+                    register_text,
+                    reply_markup=keyboard,
+                    parse_mode="Markdown"
+                )
+                await callback.answer()
 
 
             elif cmd == "sync":
@@ -1824,7 +1956,7 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
                         result_text,
                        reply_markup= InlineKeyboardMarkup(inline_keyboard=[
                         [InlineKeyboardButton(
-                            text="🔙 Назад",
+                            text="🏠 Главное меню",
                             callback_data="cmd_start"
                         )]
                     ])
@@ -1834,7 +1966,7 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
                         f"❌ Ошибка при синхронизации: {e}\n\nПопробуйте позже.",
                         reply_markup= InlineKeyboardMarkup(inline_keyboard=[
                         [InlineKeyboardButton(
-                            text="🔙 Назад",
+                            text="🏠 Главное меню",
                             callback_data="cmd_start"
                         )]
                     ])
@@ -1850,7 +1982,7 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
                             "чтобы привязать ваш ник из Yonote и получить доступ к дедлайнам.",
                             reply_markup = InlineKeyboardMarkup(inline_keyboard=[
                                 [InlineKeyboardButton(
-                                    text="🔙 Назад",
+                                    text="🏠 Главное меню",
                                     callback_data="cmd_start"
                                 )]
                             ]),
@@ -1905,16 +2037,29 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
                             "• Использовать команду /sync для ручной синхронизации\n"
                             "• Убедиться, что в Yonote есть дедлайны для вашего аккаунта\n\n"
                             "Дедлайны также автоматически синхронизируются каждые 30 минут.",
-                            reply_markup=create_main_menu_keyboard()
+                            reply_markup=InlineKeyboardMarkup(inline_keyboard=[
+                                [InlineKeyboardButton(
+                                    text="🏠 Главное меню",
+                                    callback_data="cmd_start"
+                                )]
+                            ])
                         )
                         return
 
-                    # Формируем сообщение с дедлайнами
+                    # Формируем сообщение с дедлайнами и кнопками
                     response_lines = [f"{sync_message}\n\n📋 *Ваши дедлайны ({len(deadlines)}):*\n"]
 
+                    # Создаем клавиатуру с кнопками для каждого дедлайна
+                    keyboard_buttons = []
+
                     for i, deadline in enumerate(deadlines, 1):
+                        # Экранируем заголовок дедлайна
                         escaped_title = escape_markdown(deadline.title)
-                        response_lines.append(f"\n*{i}. {escaped_title}*")
+
+                        # Показываем статус дедлайна
+                        status_emoji = "⏳" if deadline.status == DeadlineStatus.PENDING_VERIFICATION else "🟢"
+                        response_lines.append(f"\n*{i}. {status_emoji} {escaped_title}*")
+
                         if deadline.due_date:
                             due_date_str = deadline.due_date.strftime("%d.%m.%Y %H:%M")
                             response_lines.append(f"⏰ {due_date_str}")
@@ -1922,6 +2067,21 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
                             desc = deadline.description[:100] + "..." if len(deadline.description) > 100 else deadline.description
                             escaped_desc = escape_markdown(desc)
                             response_lines.append(f"📝 {escaped_desc}")
+
+                        # Добавляем кнопку подтверждения только для активных дедлайнов
+                        if deadline.status == DeadlineStatus.ACTIVE:
+                            # Ограничиваем длину текста кнопки (максимум 64 символа для Telegram)
+                            button_text = f"✅ Выполнен #{i}"
+                            if len(button_text) > 64:
+                                button_text = f"✅ #{i}"
+                            keyboard_buttons.append([
+                                InlineKeyboardButton(
+                                    text=button_text,
+                                    callback_data=f"complete_deadline_{deadline.id}"
+                                )
+                            ])
+                        elif deadline.status == DeadlineStatus.PENDING_VERIFICATION:
+                            response_lines.append("⏳ *На проверке у администратора*")
 
                     # Добавляем информацию внизу
                     user_nick = user.username or user.email or "не указан"
@@ -1945,12 +2105,32 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
 
                     response_text = "\n".join(response_lines)
 
+                    # Создаем клавиатуру, если есть кнопки
+                    reply_markup = None
+                    if keyboard_buttons:
+                        # Добавляем кнопку "Назад" в конец клавиатуры
+                        keyboard_buttons.append([
+                            InlineKeyboardButton(
+                                text="🏠 Главное меню",
+                                callback_data="cmd_start"
+                            )
+                        ])
+                        reply_markup = InlineKeyboardMarkup(inline_keyboard=keyboard_buttons)
+                    else:
+                        # Если нет кнопок выполнения, показываем только кнопку назад
+                        reply_markup = InlineKeyboardMarkup(inline_keyboard=[
+                            [InlineKeyboardButton(
+                                text="🏠 Главное меню",
+                                callback_data="cmd_start"
+                            )]
+                        ])
+
                     # Telegram имеет лимит на длину сообщения (4096 символов)
                     if len(response_text) > 4000:
-                        # Разбиваем на несколько сообщений
+                        # Разбиваем на несколько сообщений, но стараемся сохранить footer в последнем
                         chunk = []
                         chunk_length = 0
-                        footer_lines = response_lines[-5:]
+                        footer_lines = response_lines[-5:]  # Последние 5 строк (разделитель + информация)
                         main_lines = response_lines[:-5]
 
                         for line in main_lines:
@@ -1968,25 +2148,25 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
                         if chunk:
                             await callback.message.edit_text(
                                 "\n".join(chunk + footer_lines),
-                                reply_markup=create_main_menu_keyboard(),
+                                reply_markup=reply_markup,
                                 parse_mode="Markdown"
                             )
                     else:
                         await callback.message.edit_text(
                             response_text,
-                            reply_markup= InlineKeyboardMarkup(inline_keyboard=[
-                        [InlineKeyboardButton(
-                            text="🔙 Назад",
-                            callback_data="cmd_start"
-                        )]
-                    ]),
+                            reply_markup=reply_markup,
                             parse_mode="Markdown"
                         )
 
                 except Exception as e:
                     await callback.message.edit_text(
                         f"❌ Ошибка при получении дедлайнов: {e}",
-                        reply_markup=create_main_menu_keyboard()
+                        reply_markup=InlineKeyboardMarkup(inline_keyboard=[
+                            [InlineKeyboardButton(
+                                text="🏠 Главное меню",
+                                callback_data="cmd_start"
+                            )]
+                        ])
                     )
             elif cmd == "notifications":
                 # Имитируем вызов команды /notifications
@@ -2041,7 +2221,7 @@ async def handle_notification_settings(callback: CallbackQuery) -> None:
                             callback_data="reset_settings"
                         ),
                         InlineKeyboardButton(
-                            text="🔙 Назад",
+                            text="🏠 Главное меню",
                             callback_data="cmd_start"
                         )
                     ]

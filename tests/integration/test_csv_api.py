@@ -35,7 +35,7 @@ def test_csv_export():
     csv_url = "https://app.yonote.ru/api/database.export_csv"
     
     params = {
-        "databaseId": YONOTE_CALENDAR_ID,
+        "id": YONOTE_CALENDAR_ID,
         "token": YONOTE_API_KEY
     }
     

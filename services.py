@@ -47,7 +47,18 @@ def get_user_by_telegram_id(telegram_id: int) -> User | None:
     """Получить пользователя по telegram_id."""
     session = SessionLocal()
     try:
-        return session.query(User).filter_by(telegram_id=telegram_id).first()
+        user = session.query(User).filter_by(telegram_id=telegram_id).first()
+        print(f"DEBUG: get_user_by_telegram_id({telegram_id}) -> User ID: {user.id if user else None}, username: {repr(user.username) if user else None}")
+        return user
+    finally:
+        session.close()
+
+
+def get_all_users() -> list[User]:
+    """Получить всех пользователей (для отладки)."""
+    session = SessionLocal()
+    try:
+        return session.query(User).all()
     finally:
         session.close()
 

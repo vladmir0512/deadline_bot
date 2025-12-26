@@ -68,7 +68,7 @@ class YonoteCsvClient:
         csv_url = "https://app.yonote.ru/api/database.export_csv"
         
         params = {
-            "databaseId": self.calendar_id,
+            "id": self.calendar_id,
             "token": self.api_key
         }
         

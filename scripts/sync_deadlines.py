@@ -91,45 +91,14 @@ async def sync_user_deadlines(user: User) -> tuple[int, int]:
         user_identifier = user.username
         logger.info(f"Синхронизация для пользователя {user.id} по нику: {user.username}")
 
-        # Получаем дедлайны из Yonote
+        # Получаем дедлайны из Yonote для конкретного пользователя
         try:
-            logger.info(f"Запрос дедлайнов из Yonote для идентификатора: {user_identifier or 'все'}")
+            logger.info(f"Запрос дедлайнов из Yonote для пользователя: {user_identifier}")
             yonote_deadlines = await fetch_user_deadlines(user_identifier)
             logger.info(f"Получено {len(yonote_deadlines)} дедлайнов из Yonote для пользователя {user.id}")
         except Exception as e:
             logger.error(f"Ошибка при получении дедлайнов из Yonote для пользователя {user.id}: {e}", exc_info=True)
             return 0, 0
-
-        # Если дедлайнов нет, но user_identifier задан, возможно фильтрация слишком строгая
-        if not yonote_deadlines and user_identifier:
-            logger.warning(
-                f"Не найдено дедлайнов для идентификатора '{user_identifier}'. "
-                "Попробую синхронизировать все дедлайны и привязать по совпадению."
-            )
-            # Пробуем получить все дедлайны
-            try:
-                all_deadlines = await fetch_user_deadlines(None)
-                logger.info(f"Получено {len(all_deadlines)} дедлайнов без фильтрации")
-
-                # Фильтруем вручную - проверяем, содержит ли дедлайн пользователя
-                # Сначала проверяем по email
-                yonote_deadlines = [
-                    d for d in all_deadlines
-                    if d.user_identifier and user_identifier.lower() in d.user_identifier.lower()
-                ]
-
-                # Если по email не нашли, пробуем по username
-                if not yonote_deadlines and user and user.username:
-                    yonote_deadlines = [
-                        d for d in all_deadlines
-                        if d.user_identifier and user.username.lower() in d.user_identifier.lower()
-                    ]
-                    if yonote_deadlines:
-                        logger.info(f"Найдено {len(yonote_deadlines)} дедлайнов по username: {user.username}")
-
-                logger.info(f"После фильтрации осталось {len(yonote_deadlines)} дедлайнов")
-            except Exception as e:
-                logger.error(f"Ошибка при получении всех дедлайнов: {e}")
 
         # Получаем все существующие дедлайны пользователя из базы, связанные с Yonote
         existing_db_deadlines = session.query(Deadline).filter_by(
@@ -150,6 +119,11 @@ async def sync_user_deadlines(user: User) -> tuple[int, int]:
 
         # Синхронизируем каждый дедлайн
         for yonote_deadline in yonote_deadlines:
+            # Проверяем, что дедлайн назначен этому пользователю
+            if not yonote_deadline.user_identifier or user.username not in yonote_deadline.user_identifier.split(", "):
+                logger.warning(f"Дедлайн '{yonote_deadline.title}' не назначен пользователю {user.username}, пропускаем")
+                continue
+
             # Сначала пробуем найти по source_id, если он есть
             existing = None
             if hasattr(yonote_deadline, 'id') and yonote_deadline.id:
