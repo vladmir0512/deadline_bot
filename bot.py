@@ -2542,15 +2542,6 @@ async def scheduled_sync() -> None:
             f"Синхронизация завершена: пользователей {stats['total_users']}, "
             f"создано {stats['created']}, обновлено {stats['updated']}"
         )
-        
-        # Сразу после синхронизации проверяем уведомления
-        logger.info("Начало проверки уведомлений после синхронизации...")
-        notification_stats = await check_and_notify_deadlines(bot)
-        logger.info(
-            f"Проверка уведомлений завершена: "
-            f"пользователей уведомлено {notification_stats['users_notified']}, "
-            f"отправлено уведомлений {notification_stats['notifications_sent']}"
-        )
     except Exception as e:
         logger.error(f"Ошибка при синхронизации дедлайнов или проверке уведомлений: {e}", exc_info=True)
 
@@ -2615,6 +2606,15 @@ async def main() -> None:
         minutes=UPDATE_INTERVAL_MINUTES,
         id="sync_deadlines",
         name="Синхронизация дедлайнов из Yonote и проверка уведомлений",
+        replace_existing=True,
+    )
+
+    scheduler.add_job(
+        scheduled_notifications,  # Функция только для уведомлений
+        "cron",
+        hour='*',  # Каждый час
+        id="notifications",
+        name="Проверка уведомлений каждый час",
         replace_existing=True,
     )
 
