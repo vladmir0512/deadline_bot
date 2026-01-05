@@ -206,6 +206,77 @@ def should_send_notification(deadline: Deadline, notification_type: str) -> bool
     return (now - last_notified).days >= 1
 
 
+async def send_grouped_notifications(
+    bot: Bot,
+    telegram_id: int,
+    deadlines: list[Deadline],
+    notification_type: str,
+) -> bool:
+    """
+    Отправить групповое уведомление о нескольких дедлайнах.
+
+    Args:
+        bot: Экземпляр бота
+        telegram_id: Telegram ID пользователя
+        deadlines: Список дедлайнов
+        notification_type: Тип уведомления ("today", "tomorrow" и т.д.)
+
+    Returns:
+        True если отправлено, False иначе
+    """
+    if not deadlines:
+        return False
+
+    # Проверяем, нужно ли отправлять (на основе первого дедлайна)
+    if not should_send_notification(deadlines[0], notification_type):
+        logger.debug(f"Пропуск группового уведомления типа {notification_type} для пользователя {telegram_id}")
+        return False
+
+    try:
+        # Формируем сообщение
+        emoji_map = {
+            "today": "🔴",
+            "tomorrow": "🟡",
+            "halfway": "⏳",
+            "approaching": "⏰",
+        }
+        emoji = emoji_map.get(notification_type, "⏰")
+
+        if notification_type == "today":
+            header = f"{emoji} *Дедлайны сегодня* ({len(deadlines)})"
+        elif notification_type == "tomorrow":
+            header = f"{emoji} *Дедлайны завтра* ({len(deadlines)})"
+        else:
+            header = f"{emoji} *Приближающиеся дедлайны* ({len(deadlines)})"
+
+        message_lines = [header, ""]
+        for deadline in deadlines:
+            message_lines.append(format_deadline(deadline))
+            message_lines.append("")  # Разделитель
+
+        message_text = "\n".join(message_lines).strip()
+
+        await bot.send_message(chat_id=telegram_id, text=message_text, parse_mode="Markdown")
+
+        # Обновляем last_notified_at для всех дедлайнов в группе
+        session = SessionLocal()
+        try:
+            now = datetime.now(UTC)
+            for deadline in deadlines:
+                deadline.last_notified_at = now
+                session.add(deadline)
+            session.commit()
+        finally:
+            session.close()
+
+        logger.info(f"Групповое уведомление отправлено пользователю {telegram_id}: {len(deadlines)} дедлайнов типа {notification_type}")
+        return True
+
+    except Exception as e:
+        logger.error(f"Ошибка при отправке группового уведомления пользователю {telegram_id}: {e}", exc_info=True)
+        return False
+
+
 async def send_deadline_notification(
     bot: Bot,
     telegram_id: int,
@@ -323,8 +394,8 @@ async def check_and_notify_deadlines(bot: Bot) -> dict[str, int]:
 
             # Проверяем дедлайны на сегодня (высший приоритет) - отправляем в любое время
             today_deadlines = get_deadlines_today(deadlines)
-            for deadline in today_deadlines:
-                if await send_deadline_notification(bot, user.telegram_id, deadline, "today"):
+            if today_deadlines:
+                if await send_grouped_notifications(bot, user.telegram_id, today_deadlines, "today"):
                     notifications_sent += 1
 
             # Если есть срочные уведомления, пропускаем остальные проверки
@@ -353,8 +424,8 @@ async def check_and_notify_deadlines(bot: Bot) -> dict[str, int]:
 
             # Проверяем дедлайны на завтра
             tomorrow_deadlines = get_deadlines_tomorrow(deadlines)
-            for deadline in tomorrow_deadlines:
-                if await send_deadline_notification(bot, user.telegram_id, deadline, "tomorrow"):
+            if tomorrow_deadlines:
+                if await send_grouped_notifications(bot, user.telegram_id, tomorrow_deadlines, "tomorrow"):
                     notifications_sent += 1
 
             # Проверяем дедлайны на половине срока (независимо от других проверок)
