@@ -19,7 +19,7 @@ from datetime import UTC, datetime, timedelta
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from db import SessionLocal, init_db, engine
-from models import Deadline, Subscription, User, DeadlineStatus
+from models import Deadline, Subscription, User, DeadlineStatus, BlockedUser, UserNotificationSettings, DeadlineVerification
 
 
 def check_database_connection() -> bool:
@@ -47,7 +47,7 @@ def check_database_tables() -> bool:
 
         inspector = inspect(engine)
         tables = inspector.get_table_names()
-        required_tables = {"users", "deadlines", "subscriptions"}
+        required_tables = {"users", "deadlines", "subscriptions", "blocked_users", "user_notification_settings", "deadline_verifications"}
 
         missing = required_tables - set(tables)
         if missing:
@@ -156,6 +156,8 @@ def check_models_structure() -> bool:
         assert hasattr(User, "email"), "User должен иметь поле email"
         assert hasattr(User, "deadlines"), "User должен иметь связь deadlines"
         assert hasattr(User, "subscriptions"), "User должен иметь связь subscriptions"
+        assert hasattr(User, "notification_settings"), "User должен иметь связь notification_settings"
+        assert hasattr(User, "deadline_verifications"), "User должен иметь связь deadline_verifications"
         print("[OK] Модель User корректна")
 
         # Проверка Deadline
@@ -171,6 +173,22 @@ def check_models_structure() -> bool:
         assert hasattr(Subscription, "notification_type"), "Subscription должен иметь поле notification_type"
         assert hasattr(Subscription, "active"), "Subscription должен иметь поле active"
         print("[OK] Модель Subscription корректна")
+
+        # Проверка BlockedUser
+        assert hasattr(BlockedUser, "telegram_id"), "BlockedUser должен иметь поле telegram_id"
+        assert hasattr(BlockedUser, "blocked_by"), "BlockedUser должен иметь поле blocked_by"
+        print("[OK] Модель BlockedUser корректна")
+
+        # Проверка UserNotificationSettings
+        assert hasattr(UserNotificationSettings, "user_id"), "UserNotificationSettings должен иметь поле user_id"
+        assert hasattr(UserNotificationSettings, "notifications_enabled"), "UserNotificationSettings должен иметь поле notifications_enabled"
+        print("[OK] Модель UserNotificationSettings корректна")
+
+        # Проверка DeadlineVerification
+        assert hasattr(DeadlineVerification, "deadline_id"), "DeadlineVerification должен иметь поле deadline_id"
+        assert hasattr(DeadlineVerification, "user_id"), "DeadlineVerification должен иметь поле user_id"
+        assert hasattr(DeadlineVerification, "status"), "DeadlineVerification должен иметь поле status"
+        print("[OK] Модель DeadlineVerification корректна")
 
         # Проверка DeadlineStatus
         assert DeadlineStatus.ACTIVE == "active", "DeadlineStatus.ACTIVE должен быть 'active'"
