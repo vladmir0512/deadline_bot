@@ -44,6 +44,12 @@ class User(Base):
         cascade="all, delete-orphan",
     )
 
+    deadline_verifications: Mapped[list["DeadlineVerification"]] = relationship(
+        "DeadlineVerification",
+        back_populates="user",
+        cascade="all, delete-orphan",
+    )
+
 
 class DeadlineStatus:
     """Простые статусы дедлайна."""
@@ -146,6 +152,7 @@ User.notification_settings: Mapped["UserNotificationSettings | None"] = relation
     "UserNotificationSettings",
     back_populates="user",
     uselist=False,  # Один к одному
+    cascade="all, delete-orphan",
 )
 
 
@@ -176,5 +183,5 @@ class DeadlineVerification(Base):
 
     # Связи
     deadline: Mapped["Deadline"] = relationship("Deadline")
-    user: Mapped["User"] = relationship("User")
+    user: Mapped["User"] = relationship("User", back_populates="deadline_verifications")
 
