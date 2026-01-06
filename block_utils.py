@@ -9,6 +9,10 @@ import logging
 from pathlib import Path
 from typing import Set
 
+from db import SessionLocal
+from models import User
+from services import delete_user
+
 logger = logging.getLogger(__name__)
 
 # Путь к файлу с заблокированными пользователями
@@ -83,6 +87,23 @@ def block_user(telegram_id: int) -> bool:
 
         # Записываем обратно в файл
         _write_blocked_users_to_file(blocked_users)
+
+        # Пытаемся удалить пользователя из базы данных по telegram_id
+        try:
+            session = SessionLocal()
+            user = session.query(User).filter_by(telegram_id=telegram_id).first()
+            if user:
+                success = delete_user(user.id)
+                if success:
+                    logger.info(f"Пользователь {telegram_id} удален из базы данных при блокировке")
+                else:
+                    logger.warning(f"Не удалось удалить пользователя {telegram_id} из базы данных")
+            else:
+                logger.info(f"Пользователь {telegram_id} не найден в базе данных (уже удален или не существовал)")
+        except Exception as db_error:
+            logger.error(f"Ошибка при удалении пользователя {telegram_id} из базы данных: {db_error}")
+        finally:
+            session.close()
 
         logger.info(f"Пользователь {telegram_id} заблокирован")
         return True
