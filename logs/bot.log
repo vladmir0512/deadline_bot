@@ -4052,3 +4052,66 @@ scripts.yonote_client.YonoteClientError: Ошибка валидации UUID п
 2025-12-26 06:21:23,714 - apscheduler.scheduler - INFO - base.py:245 - Scheduler has been shut down
 2025-12-26 06:21:23,715 - aiogram.dispatcher - INFO - dispatcher.py:413 - Polling stopped for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
 2025-12-26 06:21:23,720 - deadline_bot - INFO - bot.py:2649 - Бот остановлен пользователем
+2026-01-06 05:20:50,617 - deadline_bot - INFO - bot.py:89 - Загружено 2 администраторов
+2026-01-06 05:20:51,274 - deadline_bot - INFO - logging_config.py:110 - ==================================================
+2026-01-06 05:20:51,274 - deadline_bot - INFO - logging_config.py:111 - DEADLINE BOT STARTING UP
+2026-01-06 05:20:51,275 - deadline_bot - INFO - logging_config.py:112 - ==================================================
+2026-01-06 05:20:51,275 - deadline_bot - INFO - logging_config.py:113 - Database URL: sqlite:///../data/deadlines.db
+2026-01-06 05:20:51,275 - deadline_bot - INFO - logging_config.py:114 - Telegram Bot Token: Configured
+2026-01-06 05:20:51,275 - deadline_bot - INFO - logging_config.py:115 - Yonote API Key: Configured
+2026-01-06 05:20:51,276 - deadline_bot - INFO - logging_config.py:116 - Update Interval: 30 minutes
+2026-01-06 05:20:51,276 - deadline_bot - INFO - logging_config.py:117 - Log Level: INFO
+2026-01-06 05:20:51,276 - deadline_bot - INFO - logging_config.py:118 - ==================================================
+2026-01-06 05:20:51,277 - deadline_bot - INFO - bot.py:2587 - Инициализация базы данных...
+2026-01-06 05:20:51,287 - deadline_bot - INFO - bot.py:2590 - База данных инициализирована
+2026-01-06 05:20:51,291 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-01-06 05:20:51,299 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-01-06 05:20:51,299 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-01-06 05:20:51,301 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Синхронизация дедлайнов из Yonote и проверка уведомлений" to job store "default"
+2026-01-06 05:20:51,302 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Проверка уведомлений каждый час" to job store "default"
+2026-01-06 05:20:51,302 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Очистка просроченных дедлайнов" to job store "default"
+2026-01-06 05:20:51,303 - apscheduler.scheduler - INFO - base.py:214 - Scheduler started
+2026-01-06 05:20:51,303 - deadline_bot - INFO - bot.py:2633 - Планировщик запущен: синхронизация и проверка уведомлений каждые 30 мин, очистка просроченных раз в день
+2026-01-06 05:20:51,304 - deadline_bot - INFO - bot.py:2636 - Запуск бота...
+2026-01-06 05:20:51,304 - aiogram.dispatcher - INFO - dispatcher.py:596 - Start polling
+2026-01-06 05:20:51,921 - aiogram.dispatcher - INFO - dispatcher.py:378 - Run polling for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2026-01-06 05:21:13,462 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747992 is handled. Duration 581 ms by bot id=8358666814
+2026-01-06 05:21:26,053 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747993 is handled. Duration 110 ms by bot id=8358666814
+2026-01-06 05:21:27,634 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747994 is handled. Duration 111 ms by bot id=8358666814
+2026-01-06 05:21:31,411 - deadline_bot - INFO - bot.py:832 - Администратор 929644995 запросил список подписанных: найдено 1 пользователей
+2026-01-06 05:21:31,411 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747995 is handled. Duration 199 ms by bot id=8358666814
+2026-01-06 05:21:34,513 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747996 is handled. Duration 103 ms by bot id=8358666814
+2026-01-06 05:21:57,676 - block_utils - ERROR - block_utils.py:104 - Ошибка при удалении пользователя 623980763 из базы данных: (sqlite3.IntegrityError) NOT NULL constraint failed: user_notification_settings.user_id
+[SQL: UPDATE user_notification_settings SET user_id=?, updated_at=? WHERE user_notification_settings.id = ?]
+[parameters: (None, '2026-01-06 02:21:57.674788', 2)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2026-01-06 05:21:57,677 - block_utils - INFO - block_utils.py:108 - Пользователь 623980763 заблокирован
+2026-01-06 05:21:57,951 - deadline_bot - INFO - bot.py:1118 - Администратор 929644995 заблокировал пользователя 623980763
+2026-01-06 05:21:57,951 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747997 is handled. Duration 296 ms by bot id=8358666814
+2026-01-06 05:22:22,588 - deadline_bot - INFO - bot.py:243 - Пользователь 6922656847 зарегистрирован/обновлён
+2026-01-06 05:22:22,589 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747998 is handled. Duration 132 ms by bot id=8358666814
+2026-01-06 05:22:41,929 - deadline_bot - INFO - bot.py:243 - Пользователь 6922656847 зарегистрирован/обновлён
+2026-01-06 05:22:41,930 - aiogram.event - INFO - dispatcher.py:178 - Update id=980747999 is handled. Duration 107 ms by bot id=8358666814
+2026-01-06 05:23:47,324 - block_utils - INFO - block_utils.py:98 - Пользователь 6922656847 удален из базы данных при блокировке
+2026-01-06 05:23:47,325 - block_utils - INFO - block_utils.py:108 - Пользователь 6922656847 заблокирован
+2026-01-06 05:23:47,433 - deadline_bot - INFO - bot.py:1118 - Администратор 929644995 заблокировал пользователя 6922656847
+2026-01-06 05:23:47,433 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748000 is handled. Duration 121 ms by bot id=8358666814
+2026-01-06 05:24:12,602 - deadline_bot - WARNING - bot.py:117 - Заблокированный пользователь 6922656847 попытался использовать бота
+2026-01-06 05:24:12,602 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748001 is handled. Duration 11 ms by bot id=8358666814
+2026-01-06 05:24:13,522 - deadline_bot - WARNING - bot.py:117 - Заблокированный пользователь 6922656847 попытался использовать бота
+2026-01-06 05:24:13,523 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748002 is handled. Duration 1 ms by bot id=8358666814
+2026-01-06 05:24:13,891 - deadline_bot - WARNING - bot.py:117 - Заблокированный пользователь 6922656847 попытался использовать бота
+2026-01-06 05:24:13,892 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748003 is handled. Duration 1 ms by bot id=8358666814
+2026-01-06 05:24:14,914 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748004 is handled. Duration 95 ms by bot id=8358666814
+2026-01-06 05:24:15,681 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748005 is handled. Duration 95 ms by bot id=8358666814
+2026-01-06 05:24:16,161 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748006 is handled. Duration 89 ms by bot id=8358666814
+2026-01-06 05:24:16,508 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748007 is handled. Duration 93 ms by bot id=8358666814
+2026-01-06 05:24:16,803 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748008 is handled. Duration 90 ms by bot id=8358666814
+2026-01-06 05:24:21,127 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748009 is handled. Duration 100 ms by bot id=8358666814
+2026-01-06 05:25:00,705 - aiogram.dispatcher - INFO - dispatcher.py:624 - Polling stopped
+2026-01-06 05:25:00,707 - aiogram.dispatcher - ERROR - dispatcher.py:225 - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2026-01-06 05:25:00,708 - aiogram.dispatcher - WARNING - dispatcher.py:227 - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8358666814)
+2026-01-06 05:25:00,962 - deadline_bot - INFO - bot.py:2642 - Планировщик остановлен
+2026-01-06 05:25:00,963 - apscheduler.scheduler - INFO - base.py:245 - Scheduler has been shut down
+2026-01-06 05:25:00,964 - aiogram.dispatcher - INFO - dispatcher.py:413 - Polling stopped for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2026-01-06 05:25:00,966 - deadline_bot - INFO - bot.py:2649 - Бот остановлен пользователем
