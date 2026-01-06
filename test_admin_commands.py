@@ -45,7 +45,7 @@ async def test_admin_commands():
         # Имитируем команду /block 123456789
         print("\n3. Имитация команды /block 123456789...")
         from block_utils import block_user
-        success = block_user(123456789)
+        success = block_user(123456789, 999999999)  # Фиктивный ID администратора для теста
         if success:
             print("   Пользователь 123456789 заблокирован")
         else:

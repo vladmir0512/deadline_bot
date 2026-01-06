@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Set
 
 from db import SessionLocal
-from models import User
+from models import User, BlockedUser
 from services import delete_user
 
 logger = logging.getLogger(__name__)
@@ -64,12 +64,14 @@ def is_user_blocked(telegram_id: int) -> bool:
     return telegram_id in get_blocked_users()
 
 
-def block_user(telegram_id: int) -> bool:
+def block_user(telegram_id: int, blocked_by: int | None = None, reason: str | None = None) -> bool:
     """
     Заблокировать пользователя.
 
     Args:
         telegram_id: Telegram ID пользователя для блокировки
+        blocked_by: Telegram ID администратора, который блокирует (опционально)
+        reason: Причина блокировки (опционально)
 
     Returns:
         bool: True если успешно заблокирован
@@ -87,6 +89,23 @@ def block_user(telegram_id: int) -> bool:
 
         # Записываем обратно в файл
         _write_blocked_users_to_file(blocked_users)
+
+        # Добавляем запись в таблицу blocked_users в БД
+        if blocked_by is not None:
+            try:
+                session = SessionLocal()
+                blocked_user = BlockedUser(
+                    telegram_id=telegram_id,
+                    blocked_by=blocked_by,
+                    reason=reason,
+                )
+                session.add(blocked_user)
+                session.commit()
+                logger.info(f"Добавлена запись о блокировке пользователя {telegram_id} в БД")
+            except Exception as db_error:
+                logger.error(f"Ошибка при добавлении записи о блокировке в БД для {telegram_id}: {db_error}")
+            finally:
+                session.close()
 
         # Пытаемся удалить пользователя из базы данных по telegram_id
         try:

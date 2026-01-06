@@ -29,7 +29,7 @@ async def test_middleware_block():
     try:
         # Блокируем пользователя
         print("\n1. Блокировка пользователя 929644995...")
-        success = block_user(929644995)
+        success = block_user(929644995, 999999999)
         if success:
             print("   Пользователь заблокирован")
         else:

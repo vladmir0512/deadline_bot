@@ -1110,7 +1110,7 @@ async def cmd_block(message: Message) -> None:
             return
 
         # Блокируем пользователя
-        if block_user(target_id):
+        if block_user(target_id, message.from_user.id):
             await message.answer(
                 f"✅ Пользователь {target_id} успешно заблокирован.\n\n"
                 "Теперь этот пользователь не сможет использовать бота."

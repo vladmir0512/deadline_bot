@@ -31,7 +31,7 @@ def test_block_utils():
 
     # Тест 3: Блокировка пользователя
     print("3. Тест блокировки пользователя...")
-    success = block_user(123456789)
+    success = block_user(123456789, 999999999)
     assert success, "Блокировка должна быть успешной"
     assert is_user_blocked(123456789), "Пользователь должен быть заблокирован"
     print("   [OK]")
@@ -46,7 +46,7 @@ def test_block_utils():
 
     # Тест 5: Повторная блокировка того же пользователя
     print("5. Тест повторной блокировки...")
-    success = block_user(123456789)
+    success = block_user(123456789, 999999999)
     assert success, "Повторная блокировка должна быть успешной"
     blocked = get_blocked_users()
     assert len(blocked) == 1, "Должен остаться один пользователь"
@@ -54,7 +54,7 @@ def test_block_utils():
 
     # Тест 6: Блокировка второго пользователя
     print("6. Тест блокировки второго пользователя...")
-    success = block_user(987654321)
+    success = block_user(987654321, 999999999)
     assert success, "Блокировка должна быть успешной"
     blocked = get_blocked_users()
     assert len(blocked) == 2, "Должно быть два пользователя"

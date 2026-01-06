@@ -34,7 +34,7 @@ async def comprehensive_block_test():
 
     for user_id in test_users:
         print(f"Блокировка пользователя {user_id}...")
-        success = block_user(user_id)
+        success = block_user(user_id, 999999999)
         print(f"  Результат: {'УСПЕХ' if success else 'ОШИБКА'}")
         is_blocked = is_user_blocked(user_id)
         print(f"  Статус блокировки: {'ЗАБЛОКИРОВАН' if is_blocked else 'НЕ ЗАБЛОКИРОВАН'}")
@@ -118,7 +118,7 @@ async def comprehensive_block_test():
         bot = Bot(token=bot_token)
         try:
             # Блокируем тестового пользователя
-            block_user(555555555)
+            block_user(555555555, 999999999)
             print("Заблокирован пользователь 555555555")
 
             # Имитируем отправку команды заблокированным пользователем
