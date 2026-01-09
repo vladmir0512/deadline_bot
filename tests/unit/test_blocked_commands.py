@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 # Загружаем переменные окружения
 load_dotenv()
 
-from block_utils import get_blocked_users, unblock_user
+from ...block_utils import get_blocked_users, unblock_user
 
 async def test_blocked_commands():
     """Тест команд блокировки."""
