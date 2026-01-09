@@ -39,7 +39,7 @@ print("Now let's run sync to see if it removes the extra deadline...")
 
 # Run sync 
 from services import get_user_by_telegram_id
-from sync_deadlines import sync_user_deadlines
+from scripts.sync_deadlines import sync_user_deadlines
 import asyncio
 
 user = get_user_by_telegram_id(929644995)
