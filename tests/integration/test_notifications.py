@@ -12,6 +12,10 @@ from bot import bot
 from notifications import check_and_notify_deadlines
 
 async def main():
+    if not os.getenv("TELEGRAM_BOT_TOKEN"):
+        print("TELEGRAM_BOT_TOKEN не задан в переменных окружения, пропускаю тест.")
+        return
+
     print("Тестирую отправку уведомлений...")
     stats = await check_and_notify_deadlines(bot)
     print("Результат проверки уведомлений:")
