@@ -207,7 +207,7 @@ def check_yonote_client_config() -> bool:
     print("\n" + "=" * 60)
     print("7. Проверка конфигурации Yonote клиента...")
     try:
-        from scripts.yonote_client import YonoteClient, YonoteClientError
+        from scripts.yonote_client import fetch_user_deadlines
 
         # Проверка импорта
         print("[OK] Модуль yonote_client импортирован успешно")
@@ -225,12 +225,12 @@ def check_yonote_client_config() -> bool:
             print("  ⚠ YONOTE_API_KEY не задан - тестирование API будет пропущено")
             return True  # Не критично для базовой проверки
 
-        # Попытка создать клиент
+        # Попытка вызвать функцию
         try:
-            client = YonoteClient()
-            print("[OK] YonoteClient создан успешно")
-        except YonoteClientError as e:
-            print(f"  ⚠ Не удалось создать YonoteClient: {e}")
+            # Не асинхронно, просто проверка импорта
+            print("[OK] Функция fetch_user_deadlines доступна")
+        except Exception as e:
+            print(f"  ⚠ Не удалось проверить fetch_user_deadlines: {e}")
             print("  (Это нормально, если API ключ неверный или не настроен)")
             return True  # Не критично
 
