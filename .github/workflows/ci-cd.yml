@@ -34,10 +34,24 @@ jobs:
         YONOTE_API_KEY: ${{ secrets.YONOTE_API_KEY }}
         YONOTE_CALENDAR_ID: ${{ secrets.YONOTE_CALENDAR_ID }}
 
+    - name: Run unit tests
+      run: |
+        for file in tests/unit/*.py; do
+          echo "Running $file"
+          python "$file"
+        done
+      env:
+        DATABASE_URL: sqlite:///./test.db
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        YONOTE_API_KEY: ${{ secrets.YONOTE_API_KEY }}
+        YONOTE_CALENDAR_ID: ${{ secrets.YONOTE_CALENDAR_ID }}
+
     - name: Run integration tests
       run: |
-        python tests/integration/test_notifications.py
-        python tests/integration/test_sync.py
+        for file in tests/integration/*.py; do
+          echo "Running $file"
+          python "$file"
+        done
       env:
         DATABASE_URL: sqlite:///./test.db
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}

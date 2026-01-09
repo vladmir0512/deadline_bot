@@ -1,5 +1,4 @@
 import sqlite3
-import os
 
 # Открываем базу данных напрямую
 db_path = 'data/deadlines.db'
