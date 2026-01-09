@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 # Загружаем переменные окружения
 load_dotenv()
 
-from ...block_utils import block_user, is_user_blocked
+from block_utils import block_user, is_user_blocked
 
 async def test_middleware_block():
     """Тест middleware блокировки."""
@@ -53,7 +53,7 @@ async def test_middleware_block():
 
         # Разблокируем пользователя обратно
         print("\n4. Разблокировка пользователя...")
-        from ...block_utils import unblock_user
+        from block_utils import unblock_user
         success = unblock_user(929644995)
         if success:
             print("   Пользователь разблокирован")

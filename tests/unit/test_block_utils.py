@@ -9,7 +9,7 @@ from pathlib import Path
 # Добавляем корневую директорию в путь для импортов
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from ...block_utils import get_blocked_users, is_user_blocked, block_user, unblock_user
+from block_utils import get_blocked_users, is_user_blocked, block_user, unblock_user
 
 
 def test_block_utils():

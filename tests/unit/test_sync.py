@@ -2,7 +2,7 @@
 Тестовый скрипт для проверки синхронизации дедлайнов.
 """
 import asyncio
-from ...scripts.yonote_client import fetch_user_deadlines
+from scripts.yonote_client import fetch_user_deadlines
 
 async def test_sync():
     print("Тестируем получение дедлайнов для VJ_Games...")

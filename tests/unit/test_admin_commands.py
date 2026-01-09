@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 # Загружаем переменные окружения
 load_dotenv()
 
-from ...block_utils import get_blocked_users
+from block_utils import get_blocked_users
 
 async def test_admin_commands():
     """Тест административных команд."""
@@ -44,7 +44,7 @@ async def test_admin_commands():
 
         # Имитируем команду /block 123456789
         print("\n3. Имитация команды /block 123456789...")
-        from ...block_utils import block_user
+        from block_utils import block_user
         success = block_user(123456789, 999999999)  # Фиктивный ID администратора для теста
         if success:
             print("   Пользователь 123456789 заблокирован")
@@ -57,7 +57,7 @@ async def test_admin_commands():
 
         # Имитируем команду /unblock 123456789
         print("\n4. Имитация команды /unblock 123456789...")
-        from ...block_utils import unblock_user
+        from block_utils import unblock_user
         success = unblock_user(123456789)
         if success:
             print("   Пользователь 123456789 разблокирован")
