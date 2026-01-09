@@ -17,6 +17,13 @@ def test_block_utils():
     print("TEST: Тестирование функций блокировки пользователей")
     print("=" * 50)
 
+    # Очистка перед тестами
+    print("Очистка предыдущих блокировок...")
+    blocked = get_blocked_users()
+    for user in blocked:
+        unblock_user(user)
+    print("   [OK]")
+
     # Тест 1: Получение пустого списка
     print("1. Тест получения пустого списка заблокированных...")
     blocked = get_blocked_users()
