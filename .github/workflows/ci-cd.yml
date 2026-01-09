@@ -38,7 +38,7 @@ jobs:
       run: |
         for file in tests/unit/*.py; do
           echo "Running $file"
-          python "$file"
+          PYTHONPATH=. python "$file"
         done
       env:
         DATABASE_URL: sqlite:///./test.db
@@ -50,7 +50,7 @@ jobs:
       run: |
         for file in tests/integration/*.py; do
           echo "Running $file"
-          python "$file"
+          PYTHONPATH=. python "$file"
         done
       env:
         DATABASE_URL: sqlite:///./test.db
