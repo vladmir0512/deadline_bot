@@ -1,5 +1,5 @@
 import asyncio
-from yonote_client import fetch_user_deadlines
+from scripts.yonote_client import fetch_user_deadlines
 
 # Test fetching deadlines for the exact username
 print('Testing fetch_user_deadlines with username ArAhis:')

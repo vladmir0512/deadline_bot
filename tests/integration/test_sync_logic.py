@@ -1,10 +1,11 @@
-from yonote_client import YonoteClient
+from scripts.yonote_csv_client import YonoteCsvClient
 import asyncio
 
 # Test the CSV API directly to see what it returns
 async def test_csv_data():
-    client = YonoteClient()
-    raw_data = await client.fetch_deadlines_raw()
+    client = YonoteCsvClient()
+    csv_content = await client.fetch_deadlines_raw_csv()
+    raw_data = client.parse_csv_to_deadlines(csv_content)
     
     # See what deadlines are assigned to our user 'vj_games' 
     user_deadlines = []
