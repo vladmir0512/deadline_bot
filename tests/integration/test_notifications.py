@@ -8,6 +8,10 @@ import os
 import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
+if not os.getenv("TELEGRAM_BOT_TOKEN"):
+    print("TELEGRAM_BOT_TOKEN не задан в переменных окружения, пропускаю тест.")
+    sys.exit(0)
+
 from bot import bot
 from notifications import check_and_notify_deadlines
 
