@@ -51,7 +51,7 @@ print()
 
 # Now run sync to see if it removes the 2 extra deadlines
 from services import get_user_by_telegram_id
-from sync_deadlines import sync_user_deadlines
+from scripts.sync_deadlines import sync_user_deadlines
 import asyncio
 
 user = get_user_by_telegram_id(929644995)

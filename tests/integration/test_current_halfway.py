@@ -18,8 +18,11 @@ def main():
         # Получаем пользователя
         user = session.query(User).filter_by(username="VJ_Games").first()
         if not user:
-            print("Пользователь не найден")
-            return
+            print("Пользователь не найден, создаем...")
+            user = User(telegram_id=929644995, username='VJ_Games')
+            session.add(user)
+            session.commit()
+            session.refresh(user)
 
         # Получаем активные дедлайны
         from services import get_user_deadlines

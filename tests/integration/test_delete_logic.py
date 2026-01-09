@@ -3,7 +3,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from db import SessionLocal
-from models import Deadline, DeadlineStatus
+from models import Deadline, DeadlineStatus, User
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
@@ -37,12 +37,24 @@ finally:
 
 print("Now let's run sync to see if it removes the extra deadline...")
 
-# Run sync 
-from services import get_user_by_telegram_id
+# Run sync
+from services import get_user_by_telegram_id, get_or_create_user
 from scripts.sync_deadlines import sync_user_deadlines
 import asyncio
 
 user = get_user_by_telegram_id(929644995)
+if not user:
+    # Create user if not exists
+    user = get_or_create_user(929644995, 'VJ_Games')
+    # Set username if not set
+    session_update = SessionLocal()
+    try:
+        session_update.query(User).filter_by(telegram_id=929644995).update({'username': 'VJ_Games'})
+        session_update.commit()
+        session_update.refresh(user)
+    finally:
+        session_update.close()
+
 print(f'Syncing for user: {user.username} (ID: {user.id})')
 
 if user:
