@@ -1,5 +1,10 @@
+import os
 from scripts.yonote_csv_client import YonoteCsvClient
 import asyncio
+
+if not os.getenv("YONOTE_API_KEY") or not os.getenv("YONOTE_CALENDAR_ID"):
+    print("YONOTE_API_KEY или YONOTE_CALENDAR_ID не заданы, пропускаю тест.")
+    exit(0)
 
 # Test the CSV API directly to see what it returns
 async def test_csv_data():
