@@ -4115,3 +4115,222 @@ scripts.yonote_client.YonoteClientError: Ошибка валидации UUID п
 2026-01-06 05:25:00,963 - apscheduler.scheduler - INFO - base.py:245 - Scheduler has been shut down
 2026-01-06 05:25:00,964 - aiogram.dispatcher - INFO - dispatcher.py:413 - Polling stopped for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
 2026-01-06 05:25:00,966 - deadline_bot - INFO - bot.py:2649 - Бот остановлен пользователем
+2026-01-11 06:40:28,818 - deadline_bot - INFO - bot.py:89 - Загружено 2 администраторов
+2026-01-11 06:40:29,470 - deadline_bot - INFO - logging_config.py:110 - ==================================================
+2026-01-11 06:40:29,471 - deadline_bot - INFO - logging_config.py:111 - DEADLINE BOT STARTING UP
+2026-01-11 06:40:29,471 - deadline_bot - INFO - logging_config.py:112 - ==================================================
+2026-01-11 06:40:29,471 - deadline_bot - INFO - logging_config.py:113 - Database URL: sqlite:///../data/deadlines.db
+2026-01-11 06:40:29,471 - deadline_bot - INFO - logging_config.py:114 - Telegram Bot Token: Configured
+2026-01-11 06:40:29,472 - deadline_bot - INFO - logging_config.py:115 - Yonote API Key: Configured
+2026-01-11 06:40:29,472 - deadline_bot - INFO - logging_config.py:116 - Update Interval: 30 minutes
+2026-01-11 06:40:29,472 - deadline_bot - INFO - logging_config.py:117 - Log Level: INFO
+2026-01-11 06:40:29,472 - deadline_bot - INFO - logging_config.py:118 - ==================================================
+2026-01-11 06:40:29,472 - deadline_bot - INFO - bot.py:2587 - Инициализация базы данных...
+2026-01-11 06:40:29,486 - deadline_bot - INFO - bot.py:2590 - База данных инициализирована
+2026-01-11 06:40:29,488 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-01-11 06:40:29,497 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-01-11 06:40:29,498 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-01-11 06:40:29,500 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Синхронизация дедлайнов из Yonote и проверка уведомлений" to job store "default"
+2026-01-11 06:40:29,501 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Проверка уведомлений каждый час" to job store "default"
+2026-01-11 06:40:29,502 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Очистка просроченных дедлайнов" to job store "default"
+2026-01-11 06:40:29,502 - apscheduler.scheduler - INFO - base.py:214 - Scheduler started
+2026-01-11 06:40:29,503 - deadline_bot - INFO - bot.py:2633 - Планировщик запущен: синхронизация и проверка уведомлений каждые 30 мин, очистка просроченных раз в день
+2026-01-11 06:40:29,503 - deadline_bot - INFO - bot.py:2636 - Запуск бота...
+2026-01-11 06:40:29,504 - aiogram.dispatcher - INFO - dispatcher.py:596 - Start polling
+2026-01-11 06:40:29,821 - aiogram.dispatcher - INFO - dispatcher.py:378 - Run polling for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2026-01-11 06:40:30,178 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748078 is handled. Duration 279 ms by bot id=8358666814
+2026-01-11 06:40:54,469 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748079 is handled. Duration 89 ms by bot id=8358666814
+2026-01-11 06:41:07,195 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748080 is handled. Duration 143 ms by bot id=8358666814
+2026-01-11 06:41:09,717 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748081 is handled. Duration 152 ms by bot id=8358666814
+2026-01-11 06:41:16,033 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748082 is handled. Duration 101 ms by bot id=8358666814
+2026-01-11 06:41:18,720 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748083 is handled. Duration 168 ms by bot id=8358666814
+2026-01-11 06:42:19,844 - aiogram.dispatcher - ERROR - dispatcher.py:225 - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2026-01-11 06:42:19,846 - aiogram.dispatcher - WARNING - dispatcher.py:227 - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8358666814)
+2026-01-11 06:42:19,848 - asyncio - ERROR - base_events.py:1875 - Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+Traceback (most recent call last):
+  File "C:\Python314\Lib\asyncio\events.py", line 94, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+2026-01-11 06:42:31,462 - aiogram.dispatcher - INFO - dispatcher.py:239 - Connection established (tryings = 1, bot id = 8358666814)
+2026-01-11 06:42:33,268 - deadline_bot - WARNING - bot.py:117 - Заблокированный пользователь 623980763 попытался использовать бота
+2026-01-11 06:42:33,269 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748084 is handled. Duration 1 ms by bot id=8358666814
+2026-01-11 06:43:03,350 - aiogram.dispatcher - INFO - dispatcher.py:624 - Polling stopped
+2026-01-11 06:43:03,351 - aiogram.dispatcher - ERROR - dispatcher.py:225 - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2026-01-11 06:43:03,352 - aiogram.dispatcher - WARNING - dispatcher.py:227 - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8358666814)
+2026-01-11 06:43:03,617 - deadline_bot - INFO - bot.py:2642 - Планировщик остановлен
+2026-01-11 06:43:03,618 - apscheduler.scheduler - INFO - base.py:245 - Scheduler has been shut down
+2026-01-11 06:43:03,619 - aiogram.dispatcher - INFO - dispatcher.py:413 - Polling stopped for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2026-01-11 06:43:03,621 - deadline_bot - INFO - bot.py:2649 - Бот остановлен пользователем
+2026-01-11 06:43:10,777 - deadline_bot - INFO - bot.py:89 - Загружено 2 администраторов
+2026-01-11 06:43:11,385 - deadline_bot - INFO - logging_config.py:110 - ==================================================
+2026-01-11 06:43:11,385 - deadline_bot - INFO - logging_config.py:111 - DEADLINE BOT STARTING UP
+2026-01-11 06:43:11,386 - deadline_bot - INFO - logging_config.py:112 - ==================================================
+2026-01-11 06:43:11,386 - deadline_bot - INFO - logging_config.py:113 - Database URL: sqlite:///../data/deadlines.db
+2026-01-11 06:43:11,386 - deadline_bot - INFO - logging_config.py:114 - Telegram Bot Token: Configured
+2026-01-11 06:43:11,387 - deadline_bot - INFO - logging_config.py:115 - Yonote API Key: Configured
+2026-01-11 06:43:11,387 - deadline_bot - INFO - logging_config.py:116 - Update Interval: 30 minutes
+2026-01-11 06:43:11,388 - deadline_bot - INFO - logging_config.py:117 - Log Level: INFO
+2026-01-11 06:43:11,388 - deadline_bot - INFO - logging_config.py:118 - ==================================================
+2026-01-11 06:43:11,388 - deadline_bot - INFO - bot.py:2587 - Инициализация базы данных...
+2026-01-11 06:43:11,392 - deadline_bot - INFO - bot.py:2590 - База данных инициализирована
+2026-01-11 06:43:11,395 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-01-11 06:43:11,402 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-01-11 06:43:11,403 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-01-11 06:43:11,405 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Синхронизация дедлайнов из Yonote и проверка уведомлений" to job store "default"
+2026-01-11 06:43:11,405 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Проверка уведомлений каждый час" to job store "default"
+2026-01-11 06:43:11,406 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Очистка просроченных дедлайнов" to job store "default"
+2026-01-11 06:43:11,406 - apscheduler.scheduler - INFO - base.py:214 - Scheduler started
+2026-01-11 06:43:11,406 - deadline_bot - INFO - bot.py:2633 - Планировщик запущен: синхронизация и проверка уведомлений каждые 30 мин, очистка просроченных раз в день
+2026-01-11 06:43:11,407 - deadline_bot - INFO - bot.py:2636 - Запуск бота...
+2026-01-11 06:43:11,407 - aiogram.dispatcher - INFO - dispatcher.py:596 - Start polling
+2026-01-11 06:43:12,915 - aiogram.dispatcher - INFO - dispatcher.py:378 - Run polling for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2026-01-11 06:43:19,049 - deadline_bot - WARNING - bot.py:117 - Заблокированный пользователь 623980763 попытался использовать бота
+2026-01-11 06:43:19,050 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748085 is handled. Duration 1 ms by bot id=8358666814
+2026-01-11 06:43:24,205 - deadline_bot - WARNING - bot.py:117 - Заблокированный пользователь 623980763 попытался использовать бота
+2026-01-11 06:43:24,207 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748086 is handled. Duration 2 ms by bot id=8358666814
+2026-01-11 06:43:47,584 - deadline_bot - INFO - bot.py:243 - Пользователь 623980763 зарегистрирован/обновлён
+2026-01-11 06:43:47,585 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748087 is handled. Duration 841 ms by bot id=8358666814
+2026-01-11 06:43:50,193 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748088 is handled. Duration 90 ms by bot id=8358666814
+2026-01-11 06:43:51,329 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748089 is handled. Duration 88 ms by bot id=8358666814
+2026-01-11 06:43:54,561 - deadline_bot - INFO - bot.py:333 - Пользователь 623980763 привязал ник: dinn
+2026-01-11 06:43:54,562 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748090 is handled. Duration 95 ms by bot id=8358666814
+2026-01-11 06:43:56,137 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 2 по нику: dinn
+2026-01-11 06:43:56,138 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для пользователя: dinn
+2026-01-11 06:43:57,811 - scripts.sync_deadlines - INFO - sync_deadlines.py:98 - Получено 4 дедлайнов из Yonote для пользователя 2
+2026-01-11 06:43:57,820 - scripts.sync_deadlines - INFO - sync_deadlines.py:189 - [OK] Создан новый дедлайн: стрей кидс (ID: fa3f96b0-861d-45a6-905a-20d385fc055d)
+2026-01-11 06:43:57,823 - scripts.sync_deadlines - INFO - sync_deadlines.py:189 - [OK] Создан новый дедлайн: Тест на жопу абобЫ (ID: 1c579731-f647-4696-b83c-5e2c0997230e)
+2026-01-11 06:43:57,825 - scripts.sync_deadlines - INFO - sync_deadlines.py:189 - [OK] Создан новый дедлайн: просто тест оповещения (ID: 5f7d52fb-02e0-4322-bdba-b71f83c0fb30)
+2026-01-11 06:43:57,827 - scripts.sync_deadlines - INFO - sync_deadlines.py:189 - [OK] Создан новый дедлайн: тест теста (ID: d0265911-7329-4183-b139-94a38729f138)
+2026-01-11 06:43:57,835 - scripts.sync_deadlines - INFO - sync_deadlines.py:195 - Синхронизировано дедлайнов для пользователя 2: создано 4, обновлено 0
+2026-01-11 06:43:57,836 - deadline_bot - INFO - bot.py:1997 - Синхронизация для cmd_my_deadlines: создано 4, обновлено 0
+2026-01-11 06:43:58,306 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748091 is handled. Duration 2171 ms by bot id=8358666814
+2026-01-11 06:44:00,005 - deadline_bot - INFO - bot.py:1550 - Пользователь 623980763 запросил проверку дедлайна 21
+2026-01-11 06:44:00,006 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748092 is handled. Duration 475 ms by bot id=8358666814
+2026-01-11 06:44:10,663 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748093 is handled. Duration 93 ms by bot id=8358666814
+2026-01-11 06:44:13,604 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748094 is handled. Duration 93 ms by bot id=8358666814
+2026-01-11 06:44:16,135 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748095 is handled. Duration 444 ms by bot id=8358666814
+2026-01-11 06:44:53,159 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748096 is handled. Duration 97 ms by bot id=8358666814
+2026-01-11 06:45:03,346 - deadline_bot - ERROR - bot.py:1520 - Ошибка при обработке проверки: Parent instance <DeadlineVerification at 0x2c932f09ba0> is not bound to a Session; lazy load operation of attribute 'user' cannot proceed (Background on this error at: https://sqlalche.me/e/20/bhk3)
+Traceback (most recent call last):
+  File "C:\Users\vj\Documents\deadline_bot\bot.py", line 1462, in handle_verification_action
+    if verification and verification.user:
+                        ^^^^^^^^^^^^^^^^^
+  File "C:\Users\vj\Documents\deadline_bot\.venv\Lib\site-packages\sqlalchemy\orm\attributes.py", line 569, in __get__
+    return self.impl.get(state, dict_)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\vj\Documents\deadline_bot\.venv\Lib\site-packages\sqlalchemy\orm\attributes.py", line 1096, in get
+    value = self._fire_loader_callables(state, key, passive)
+  File "C:\Users\vj\Documents\deadline_bot\.venv\Lib\site-packages\sqlalchemy\orm\attributes.py", line 1131, in _fire_loader_callables
+    return self.callable_(state, passive)
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\vj\Documents\deadline_bot\.venv\Lib\site-packages\sqlalchemy\orm\strategies.py", line 922, in _load_for_state
+    raise orm_exc.DetachedInstanceError(
+    ...<3 lines>...
+    )
+sqlalchemy.orm.exc.DetachedInstanceError: Parent instance <DeadlineVerification at 0x2c932f09ba0> is not bound to a Session; lazy load operation of attribute 'user' cannot proceed (Background on this error at: https://sqlalche.me/e/20/bhk3)
+2026-01-11 06:45:03,486 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748097 is handled. Duration 993 ms by bot id=8358666814
+2026-01-11 06:45:35,068 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 2 по нику: dinn
+2026-01-11 06:45:35,068 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для пользователя: dinn
+2026-01-11 06:45:35,838 - scripts.sync_deadlines - INFO - sync_deadlines.py:98 - Получено 4 дедлайнов из Yonote для пользователя 2
+2026-01-11 06:45:35,843 - scripts.sync_deadlines - INFO - sync_deadlines.py:195 - Синхронизировано дедлайнов для пользователя 2: создано 0, обновлено 0
+2026-01-11 06:45:35,844 - deadline_bot - INFO - bot.py:1997 - Синхронизация для cmd_my_deadlines: создано 0, обновлено 0
+2026-01-11 06:45:35,927 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748098 is handled. Duration 862 ms by bot id=8358666814
+2026-01-11 06:46:14,813 - aiogram.dispatcher - INFO - dispatcher.py:624 - Polling stopped
+2026-01-11 06:46:14,814 - aiogram.dispatcher - ERROR - dispatcher.py:225 - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+2026-01-11 06:46:14,815 - aiogram.dispatcher - WARNING - dispatcher.py:227 - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8358666814)
+2026-01-11 06:46:15,068 - deadline_bot - INFO - bot.py:2642 - Планировщик остановлен
+2026-01-11 06:46:15,069 - apscheduler.scheduler - INFO - base.py:245 - Scheduler has been shut down
+2026-01-11 06:46:15,069 - aiogram.dispatcher - INFO - dispatcher.py:413 - Polling stopped for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2026-01-11 06:46:15,071 - deadline_bot - INFO - bot.py:2649 - Бот остановлен пользователем
+2026-01-11 06:48:30,956 - deadline_bot - INFO - bot.py:89 - Загружено 2 администраторов
+2026-01-11 06:48:31,596 - deadline_bot - INFO - logging_config.py:110 - ==================================================
+2026-01-11 06:48:31,596 - deadline_bot - INFO - logging_config.py:111 - DEADLINE BOT STARTING UP
+2026-01-11 06:48:31,597 - deadline_bot - INFO - logging_config.py:112 - ==================================================
+2026-01-11 06:48:31,597 - deadline_bot - INFO - logging_config.py:113 - Database URL: sqlite:///../data/deadlines.db
+2026-01-11 06:48:31,597 - deadline_bot - INFO - logging_config.py:114 - Telegram Bot Token: Configured
+2026-01-11 06:48:31,598 - deadline_bot - INFO - logging_config.py:115 - Yonote API Key: Configured
+2026-01-11 06:48:31,598 - deadline_bot - INFO - logging_config.py:116 - Update Interval: 30 minutes
+2026-01-11 06:48:31,598 - deadline_bot - INFO - logging_config.py:117 - Log Level: INFO
+2026-01-11 06:48:31,599 - deadline_bot - INFO - logging_config.py:118 - ==================================================
+2026-01-11 06:48:31,599 - deadline_bot - INFO - bot.py:2595 - Инициализация базы данных...
+2026-01-11 06:48:31,607 - deadline_bot - INFO - bot.py:2598 - База данных инициализирована
+2026-01-11 06:48:31,609 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-01-11 06:48:31,618 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-01-11 06:48:31,619 - apscheduler.scheduler - INFO - base.py:507 - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-01-11 06:48:31,622 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Синхронизация дедлайнов из Yonote и проверка уведомлений" to job store "default"
+2026-01-11 06:48:31,622 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Проверка уведомлений каждый час" to job store "default"
+2026-01-11 06:48:31,623 - apscheduler.scheduler - INFO - base.py:1090 - Added job "Очистка просроченных дедлайнов" to job store "default"
+2026-01-11 06:48:31,624 - apscheduler.scheduler - INFO - base.py:214 - Scheduler started
+2026-01-11 06:48:31,624 - deadline_bot - INFO - bot.py:2641 - Планировщик запущен: синхронизация и проверка уведомлений каждые 30 мин, очистка просроченных раз в день
+2026-01-11 06:48:31,625 - deadline_bot - INFO - bot.py:2644 - Запуск бота...
+2026-01-11 06:48:31,625 - aiogram.dispatcher - INFO - dispatcher.py:596 - Start polling
+2026-01-11 06:48:35,227 - aiogram.dispatcher - INFO - dispatcher.py:378 - Run polling for bot @uni_dline_bot id=8358666814 - 'Unikey Group Deadlines'
+2026-01-11 06:48:50,798 - deadline_bot - INFO - bot.py:243 - Пользователь 623980763 зарегистрирован/обновлён
+2026-01-11 06:48:50,799 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748099 is handled. Duration 1187 ms by bot id=8358666814
+2026-01-11 06:49:00,163 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748100 is handled. Duration 94 ms by bot id=8358666814
+2026-01-11 06:49:02,000 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748101 is handled. Duration 101 ms by bot id=8358666814
+2026-01-11 06:49:07,262 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748102 is handled. Duration 98 ms by bot id=8358666814
+2026-01-11 06:49:08,477 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 2 по нику: dinn
+2026-01-11 06:49:08,477 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для пользователя: dinn
+2026-01-11 06:49:10,041 - scripts.sync_deadlines - INFO - sync_deadlines.py:98 - Получено 4 дедлайнов из Yonote для пользователя 2
+2026-01-11 06:49:10,049 - scripts.sync_deadlines - INFO - sync_deadlines.py:195 - Синхронизировано дедлайнов для пользователя 2: создано 0, обновлено 0
+2026-01-11 06:49:10,050 - deadline_bot - INFO - bot.py:2005 - Синхронизация для cmd_my_deadlines: создано 0, обновлено 0
+2026-01-11 06:49:10,133 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748103 is handled. Duration 1660 ms by bot id=8358666814
+2026-01-11 06:49:11,788 - deadline_bot - INFO - bot.py:1558 - Пользователь 623980763 запросил проверку дедлайна 22
+2026-01-11 06:49:11,789 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748104 is handled. Duration 501 ms by bot id=8358666814
+2026-01-11 06:49:14,969 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748105 is handled. Duration 92 ms by bot id=8358666814
+2026-01-11 06:49:19,748 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748106 is handled. Duration 1847 ms by bot id=8358666814
+2026-01-11 06:49:21,066 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748107 is handled. Duration 166 ms by bot id=8358666814
+2026-01-11 06:49:24,055 - deadline_bot - INFO - bot.py:1521 - Администратор 623980763 отклонил проверку 4
+2026-01-11 06:49:24,056 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748108 is handled. Duration 271 ms by bot id=8358666814
+2026-01-11 06:49:34,088 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748109 is handled. Duration 95 ms by bot id=8358666814
+2026-01-11 06:49:38,976 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 2 по нику: dinn
+2026-01-11 06:49:38,977 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для пользователя: dinn
+2026-01-11 06:49:39,750 - scripts.sync_deadlines - INFO - sync_deadlines.py:98 - Получено 4 дедлайнов из Yonote для пользователя 2
+2026-01-11 06:49:39,757 - scripts.sync_deadlines - INFO - sync_deadlines.py:195 - Синхронизировано дедлайнов для пользователя 2: создано 0, обновлено 0
+2026-01-11 06:49:39,757 - deadline_bot - INFO - bot.py:2005 - Синхронизация для cmd_my_deadlines: создано 0, обновлено 0
+2026-01-11 06:49:39,894 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748110 is handled. Duration 920 ms by bot id=8358666814
+2026-01-11 06:49:41,428 - deadline_bot - INFO - bot.py:1558 - Пользователь 623980763 запросил проверку дедлайна 22
+2026-01-11 06:49:41,429 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748111 is handled. Duration 244 ms by bot id=8358666814
+2026-01-11 06:50:17,587 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748112 is handled. Duration 193 ms by bot id=8358666814
+2026-01-11 06:50:22,251 - deadline_bot - INFO - bot.py:1480 - Администратор 623980763 одобрил проверку 5
+2026-01-11 06:50:22,252 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748113 is handled. Duration 267 ms by bot id=8358666814
+2026-01-11 06:50:52,447 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748114 is handled. Duration 857 ms by bot id=8358666814
+2026-01-11 06:50:53,850 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 2 по нику: dinn
+2026-01-11 06:50:53,851 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для пользователя: dinn
+2026-01-11 06:50:54,681 - scripts.sync_deadlines - INFO - sync_deadlines.py:98 - Получено 4 дедлайнов из Yonote для пользователя 2
+2026-01-11 06:50:54,683 - scripts.sync_deadlines - INFO - sync_deadlines.py:116 - Удаляем дедлайн 'тест теста' - больше не назначен пользователю в Yonote
+2026-01-11 06:50:54,690 - scripts.sync_deadlines - INFO - sync_deadlines.py:189 - [OK] Создан новый дедлайн: 'l',;l, (ID: e663b500-6d56-4d36-ac01-f66b6c682f12)
+2026-01-11 06:50:54,701 - scripts.sync_deadlines - INFO - sync_deadlines.py:194 - Удалено 1 дедлайнов, которые больше не назначены пользователю
+2026-01-11 06:50:54,702 - scripts.sync_deadlines - INFO - sync_deadlines.py:195 - Синхронизировано дедлайнов для пользователя 2: создано 1, обновлено 0
+2026-01-11 06:50:54,702 - deadline_bot - INFO - bot.py:2005 - Синхронизация для cmd_my_deadlines: создано 1, обновлено 0
+2026-01-11 06:50:54,940 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748115 is handled. Duration 1092 ms by bot id=8358666814
+2026-01-11 06:51:05,965 - deadline_bot - INFO - bot.py:1558 - Пользователь 623980763 запросил проверку дедлайна 23
+2026-01-11 06:51:05,966 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748116 is handled. Duration 166 ms by bot id=8358666814
+2026-01-11 06:51:27,131 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748117 is handled. Duration 201 ms by bot id=8358666814
+2026-01-11 06:51:28,146 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 2 по нику: dinn
+2026-01-11 06:51:28,146 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для пользователя: dinn
+2026-01-11 06:51:28,871 - scripts.sync_deadlines - INFO - sync_deadlines.py:98 - Получено 3 дедлайнов из Yonote для пользователя 2
+2026-01-11 06:51:28,873 - scripts.sync_deadlines - INFO - sync_deadlines.py:116 - Удаляем дедлайн ''l',;l,' - больше не назначен пользователю в Yonote
+2026-01-11 06:51:28,881 - scripts.sync_deadlines - INFO - sync_deadlines.py:194 - Удалено 1 дедлайнов, которые больше не назначены пользователю
+2026-01-11 06:51:28,882 - scripts.sync_deadlines - INFO - sync_deadlines.py:195 - Синхронизировано дедлайнов для пользователя 2: создано 0, обновлено 0
+2026-01-11 06:51:28,882 - deadline_bot - INFO - bot.py:2005 - Синхронизация для cmd_my_deadlines: создано 0, обновлено 0
+2026-01-11 06:51:28,967 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748118 is handled. Duration 823 ms by bot id=8358666814
+2026-01-11 06:51:37,572 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748119 is handled. Duration 93 ms by bot id=8358666814
+2026-01-11 06:51:38,532 - scripts.sync_deadlines - INFO - sync_deadlines.py:92 - Синхронизация для пользователя 2 по нику: dinn
+2026-01-11 06:51:38,532 - scripts.sync_deadlines - INFO - sync_deadlines.py:96 - Запрос дедлайнов из Yonote для пользователя: dinn
+2026-01-11 06:51:39,331 - scripts.sync_deadlines - INFO - sync_deadlines.py:98 - Получено 3 дедлайнов из Yonote для пользователя 2
+2026-01-11 06:51:39,337 - scripts.sync_deadlines - INFO - sync_deadlines.py:195 - Синхронизировано дедлайнов для пользователя 2: создано 0, обновлено 0
+2026-01-11 06:51:39,415 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748120 is handled. Duration 886 ms by bot id=8358666814
+2026-01-11 06:51:42,643 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748121 is handled. Duration 89 ms by bot id=8358666814
+2026-01-11 06:51:46,025 - aiogram.event - INFO - dispatcher.py:178 - Update id=980748122 is handled. Duration 696 ms by bot id=8358666814
+2026-01-11 07:00:00,013 - apscheduler.executors.default - INFO - base.py:179 - Running job "Проверка уведомлений каждый час (trigger: cron[hour='*'], next run at: 2026-01-11 08:00:00 MSK)" (scheduled at 2026-01-11 07:00:00+03:00)
+2026-01-11 07:00:00,014 - deadline_bot - INFO - bot.py:2560 - Начало проверки уведомлений...
+2026-01-11 07:00:00,031 - notifications - INFO - notifications.py:463 - Проверка уведомлений завершена: пользователей уведомлено 0, отправлено уведомлений 0
+2026-01-11 07:00:00,031 - deadline_bot - INFO - bot.py:2562 - Проверка уведомлений завершена: пользователей уведомлено 0, отправлено уведомлений 0
+2026-01-11 07:00:00,032 - apscheduler.executors.default - INFO - base.py:203 - Job "Проверка уведомлений каждый час (trigger: cron[hour='*'], next run at: 2026-01-11 08:00:00 MSK)" executed successfully

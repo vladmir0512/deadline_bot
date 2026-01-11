@@ -46,6 +46,13 @@ jobs:
         YONOTE_API_KEY: ${{ secrets.YONOTE_API_KEY }}
         YONOTE_CALENDAR_ID: ${{ secrets.YONOTE_CALENDAR_ID }}
 
+    - name: Test migrations
+      run: |
+        echo "Testing migration system..."
+        PYTHONPATH=. python tests/unit/test_migrations.py
+      env:
+        DATABASE_URL: sqlite:///./test.db
+
     - name: Run integration tests
       run: |
         for file in tests/integration/*.py; do

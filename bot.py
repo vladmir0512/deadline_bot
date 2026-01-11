@@ -1204,9 +1204,6 @@ async def cmd_verify_deadlines(message: Message) -> None:
         for verification in verifications:
             deadline = verification.deadline
             user = verification.user
-            
-            if not deadline or not user:
-                continue
 
             # Экранируем пользовательские данные для безопасного использования в Markdown
             escaped_title = escape_markdown(deadline.title)
@@ -1450,22 +1447,26 @@ async def handle_verification_action(callback: CallbackQuery) -> None:
                 )
                 
                 # Отправляем уведомление пользователю
-                verification = None
+                user = None
+                deadline_title = None
                 from db import SessionLocal
                 from models import DeadlineVerification
                 session = SessionLocal()
                 try:
                     verification = session.query(DeadlineVerification).filter_by(id=verification_id).first()
+                    if verification:
+                        user = verification.user
+                        deadline_title = verification.deadline.title if verification.deadline else 'Дедлайн'
                 finally:
                     session.close()
-                
-                if verification and verification.user:
+
+                if user:
                     try:
                         await bot.send_message(
-                            chat_id=verification.user.telegram_id,
+                            chat_id=user.telegram_id,
                             text=(
                                 f"✅ *Ваш дедлайн одобрен*\n\n"
-                                f"📅 *{verification.deadline.title if verification.deadline else 'Дедлайн'}*\n\n"
+                                f"📅 *{deadline_title}*\n\n"
                                 f"Администратор подтвердил выполнение дедлайна."
                             ),
                             parse_mode="Markdown"
@@ -1486,22 +1487,26 @@ async def handle_verification_action(callback: CallbackQuery) -> None:
                 )
                 
                 # Отправляем уведомление пользователю
-                verification = None
+                user = None
+                deadline_title = None
                 from db import SessionLocal
                 from models import DeadlineVerification
                 session = SessionLocal()
                 try:
                     verification = session.query(DeadlineVerification).filter_by(id=verification_id).first()
+                    if verification:
+                        user = verification.user
+                        deadline_title = verification.deadline.title if verification.deadline else 'Дедлайн'
                 finally:
                     session.close()
-                
-                if verification and verification.user:
+
+                if user:
                     try:
                         await bot.send_message(
-                            chat_id=verification.user.telegram_id,
+                            chat_id=user.telegram_id,
                             text=(
                                 f"❌ *Ваш дедлайн отклонен*\n\n"
-                                f"📅 *{verification.deadline.title if verification.deadline else 'Дедлайн'}*\n\n"
+                                f"📅 *{deadline_title}*\n\n"
                                 f"Администратор отклонил выполнение дедлайна. "
                                 f"Пожалуйста, проверьте работу и отправьте запрос снова."
                             ),

@@ -10,7 +10,7 @@ from datetime import UTC, datetime
 from sqlalchemy.orm import Session
 
 from db import SessionLocal
-from models import Deadline, DeadlineStatus, User
+from models import Deadline, DeadlineStatus, User, DeadlineVerification
 from scripts.yonote_client import YonoteDeadline, fetch_user_deadlines
 
 logger = logging.getLogger(__name__)
@@ -114,6 +114,13 @@ async def sync_user_deadlines(user: User) -> tuple[int, int]:
         for existing_dl in existing_db_deadlines:
             if existing_dl.title not in yonote_titles:
                 logger.info(f"Удаляем дедлайн '{existing_dl.title}' - больше не назначен пользователю в Yonote")
+
+                # Удаляем связанные запросы на проверку
+                verifications_to_delete = session.query(DeadlineVerification).filter_by(deadline_id=existing_dl.id).all()
+                for verification in verifications_to_delete:
+                    session.delete(verification)
+                    logger.debug(f"Удалена связанная verification ID={verification.id}")
+
                 session.delete(existing_dl)
                 deleted_count += 1
 

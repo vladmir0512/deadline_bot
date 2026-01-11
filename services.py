@@ -414,17 +414,21 @@ def get_pending_verifications() -> list[DeadlineVerification]:
 
     Returns:
         Список DeadlineVerification со статусом "pending" с загруженными связанными объектами
+        Только verification с существующими deadline и user
     """
     session = SessionLocal()
     try:
         # Используем eager loading для загрузки связанных объектов deadline и user
+        # Используем inner join чтобы исключить verification с несуществующими deadline или user
         verifications = (
             session.query(DeadlineVerification)
+            .join(DeadlineVerification.deadline)
+            .join(DeadlineVerification.user)
             .options(
                 joinedload(DeadlineVerification.deadline),
                 joinedload(DeadlineVerification.user)
             )
-            .filter_by(status="pending")
+            .filter(DeadlineVerification.status == "pending")
             .order_by(DeadlineVerification.created_at.asc())
             .all()
         )
